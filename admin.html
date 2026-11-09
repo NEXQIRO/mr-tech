@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MR TECH — Private Admin CMS & Live Chat Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#040711">
+
+  <link rel="icon" type="image/jpeg" href="images/profile.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       AUTHENTICATION GATE OVERLAY (Strict Private Admin Verification)
+       ========================================================================== -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-card">
+      <div class="auth-logo-badge">&lt;/&gt;</div>
+      <h1 class="auth-title">MR TECH</h1>
+      <p class="auth-desc">Private Content Management System (CMS)</p>
+
+      <div class="security-warning-chip">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Restricted Area — Admin Authentication Required</span>
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="form-group" style="text-align: left;">
+          <label class="cms-label" for="loginEmail">Administrator Email</label>
+          <input type="email" id="loginEmail" class="cms-input" value="mstrumaah1999@gmail.com" required autocomplete="username">
+        </div>
+
+        <div class="form-group" style="text-align: left;">
+          <label class="cms-label" for="loginPassword">Master Password</label>
+          <input type="password" id="loginPassword" class="cms-input" placeholder="••••••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="loginSubmitBtn">
+          <i class="fa-solid fa-lock-open"></i>
+          <span>Authenticate & Access CMS</span>
+        </button>
+      </form>
+
+      <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8rem; color: var(--admin-text-muted);">
+        <p><i class="fa-solid fa-circle-info"></i> Protected by Firebase Authentication & Realtime Database Rules.</p>
+        <div style="margin-top: 0.75rem;">
+          <button type="button" class="btn btn-outline btn-sm" id="demoAdminBtn" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
+            <i class="fa-solid fa-user-check"></i>
+            <span>Preview Mode / Local Admin Bypass</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN ADMIN CMS WORKSPACE (Visible only when authenticated)
+       ========================================================================== -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-header">
+      <div class="logo-badge" style="width: 36px; height: 36px; font-size: 0.9rem;">&lt;/&gt;</div>
+      <div class="admin-sidebar-logo"><span class="brand-text">MR <span class="tech-pill-badge">TECH</span></span> CMS</div>
+      <button class="btn-icon" id="sidebarCloseBtn" style="display: none; margin-left: auto;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <ul class="admin-sidebar-nav">
+      <li class="admin-nav-item">
+        <button class="active" data-panel="dashboard">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="livechat">
+          <i class="fa-solid fa-comments"></i>
+          <span>Live Chat Console</span>
+          <span class="badge-count chat-active" id="liveChatBadge">0</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="profile">
+          <i class="fa-solid fa-id-card"></i>
+          <span>Profile & Hero Editor</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="projects">
+          <i class="fa-solid fa-cubes"></i>
+          <span>Projects CRUD</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="skills">
+          <i class="fa-solid fa-code"></i>
+          <span>Skills Management</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="services">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Services Management</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="experience">
+          <i class="fa-solid fa-route"></i>
+          <span>Timeline / Journey</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="resume">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>CV & Resume</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="inbox">
+          <i class="fa-solid fa-inbox"></i>
+          <span>Contact Submissions</span>
+          <span class="badge-count" id="inboxBadge">0</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="socials">
+          <i class="fa-solid fa-share-nodes"></i>
+          <span>Social Media Links</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="settings">
+          <i class="fa-solid fa-palette"></i>
+          <span>Colors, SEO & Chat</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-panel="firebase">
+          <i class="fa-solid fa-fire"></i>
+          <span>Firebase & Database</span>
+        </button>
+      </li>
+    </ul>
+
+    <div class="admin-sidebar-footer">
+      <div class="admin-user-card">
+        <img src="images/profile.jpg" alt="Mijanur Rahman" class="admin-user-avatar" id="sidebarAvatar">
+        <div class="admin-user-info">
+          <div class="admin-user-name" id="sidebarAdminName">Mijanur Rahman</div>
+          <div class="admin-user-role"><i class="fa-solid fa-circle-check"></i> Verified Admin</div>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-sm" style="width: 100%;" id="adminLogoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Sign Out CMS</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <main class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="btn-icon" id="sidebarToggleBtn" style="display: none;">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <h2 class="admin-topbar-title" id="topbarTitle">Dashboard Overview</h2>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <span class="status-badge" id="firebaseStatusBadge" style="margin-bottom: 0;">
+          <span class="pulse-dot"></span>
+          <span id="firebaseStatusText">Firebase Ready</span>
+        </span>
+
+        <a href="index.html" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>View Public Site</span>
+        </a>
+
+        <button class="btn btn-primary btn-sm" id="syncFirebaseBtn">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Publish All Changes</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="admin-content-area">
+
+      <!-- ====================================================================
+           1. DASHBOARD PANEL
+           ==================================================================== -->
+      <section class="cms-panel active" id="panel-dashboard">
+        <div class="metrics-row">
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-comments"></i></div>
+            <div>
+              <div class="metric-val" id="metricLiveChats">0</div>
+              <div class="metric-label">Active Live Chats</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-cubes"></i></div>
+            <div>
+              <div class="metric-val" id="metricProjects">6</div>
+              <div class="metric-label">Published Projects</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-code"></i></div>
+            <div>
+              <div class="metric-val" id="metricSkills">15</div>
+              <div class="metric-label">Technical Skills</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <div class="metric-val" id="metricMessages">0</div>
+              <div class="metric-label">Contact Form Inquiries</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Live Chat & Direct Inquiries</h3>
+            <button class="btn btn-gold btn-sm" id="quickOpenChatConsoleBtn">
+              <i class="fa-solid fa-comments"></i>
+              <span>Open Live Chat Console</span>
+            </button>
+          </div>
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Sender</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardRecentMessages">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Quick Administration Actions</h3>
+          </div>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" id="quickAddProjectBtn">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add New Project</span>
+            </button>
+            <button class="btn btn-outline btn-sm" id="quickAddSkillBtn">
+              <i class="fa-solid fa-code"></i>
+              <span>Add Technical Skill</span>
+            </button>
+            <button class="btn btn-outline btn-sm" id="quickEditProfileBtn">
+              <i class="fa-solid fa-user-pen"></i>
+              <span>Update Bio & Status</span>
+            </button>
+            <button class="btn btn-outline btn-sm" id="quickExportJsonBtn">
+              <i class="fa-solid fa-download"></i>
+              <span>Backup Database (JSON)</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           2. LIVE CHAT CONSOLE PANEL (Customer <-> Admin Realtime Chat)
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-livechat">
+        <div class="livechat-console-wrapper">
+          <!-- Left: Thread list -->
+          <div class="chat-threads-sidebar">
+            <div class="chat-threads-header">
+              <h4><i class="fa-solid fa-headset" style="color: var(--admin-accent-cyan);"></i> Customer Sessions</h4>
+              <span class="badge-count" id="activeChatCount">0</span>
+            </div>
+            <ul class="chat-threads-list" id="chatThreadsList">
+              <!-- Dynamically populated customer sessions -->
+            </ul>
+          </div>
+
+          <!-- Right: Active Conversation Window -->
+          <div class="chat-active-window" id="chatActiveWindow">
+            <div class="chat-window-header">
+              <div class="chat-visitor-meta">
+                <div class="chat-visitor-avatar" id="activeVisitorInitial">?</div>
+                <div>
+                  <h4 style="font-size: 1rem; font-weight: 700;" id="activeVisitorName">Select a Customer Chat</h4>
+                  <p style="font-size: 0.78rem; color: var(--admin-text-muted);" id="activeVisitorSessionId">No session selected</p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-outline btn-sm" id="resolveChatBtn" style="font-size: 0.78rem;">
+                  <i class="fa-solid fa-check-circle"></i>
+                  <span>Mark Resolved</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="chat-window-messages" id="adminChatMessages">
+              <div style="text-align: center; color: var(--admin-text-muted); margin-top: 3rem;">
+                <i class="fa-solid fa-comments" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--admin-accent-cyan);"></i>
+                <p>Select a customer conversation on the left to start live chatting.</p>
+              </div>
+            </div>
+
+            <!-- Quick Template Responses -->
+            <div class="chat-quick-templates" id="chatQuickTemplates">
+              <button class="template-chip" data-text="Hello! 👋 Thanks for reaching out. Yes, I am available to discuss your project.">👋 Greeting</button>
+              <button class="template-chip" data-text="Could you please share more details about your project requirements and expected timeline?">📋 Details</button>
+              <button class="template-chip" data-text="You can also connect with me directly on WhatsApp at +8801700000000 for faster discussion.">💬 WhatsApp</button>
+              <button class="template-chip" data-text="I can definitely build this! Would you like me to prepare a cost and milestone proposal?">💼 Proposal</button>
+            </div>
+
+            <!-- Reply Input Bar -->
+            <div class="chat-reply-bar">
+              <input type="text" id="adminReplyInput" placeholder="Type your reply to the customer as Mijanur Rahman..." autocomplete="off">
+              <button class="btn btn-primary btn-sm" id="adminSendReplyBtn">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Send Reply</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. PROFILE & HERO EDITOR PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-profile">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Personal & Professional Identity</h3>
+            <button class="btn btn-primary btn-sm" id="saveProfileBtn">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Save Profile & Hero</span>
+            </button>
+          </div>
+
+          <form id="profileForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="profName">Full Name *</label>
+                <input type="text" id="profName" class="cms-input" required>
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="profTitle">Professional Title *</label>
+                <input type="text" id="profTitle" class="cms-input" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="cms-label" for="profTagline">Hero Tagline</label>
+              <input type="text" id="profTagline" class="cms-input">
+            </div>
+
+            <div class="form-group">
+              <label class="cms-label" for="profBio">Professional Biography (About Me)</label>
+              <textarea id="profBio" class="cms-textarea" rows="4"></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="profLocation">Location</label>
+                <input type="text" id="profLocation" class="cms-input">
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="profAvailability">Availability Status Text</label>
+                <input type="text" id="profAvailability" class="cms-input">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="profEmail">Public Contact Email</label>
+                <input type="email" id="profEmail" class="cms-input">
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="profWhatsapp">WhatsApp Number</label>
+                <input type="text" id="profWhatsapp" class="cms-input">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="profAvatarUrl">Avatar Image Path / URL</label>
+                <input type="text" id="profAvatarUrl" class="cms-input" value="images/profile.jpg">
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="profResumeUrl">Resume Download URL</label>
+                <input type="text" id="profResumeUrl" class="cms-input">
+              </div>
+            </div>
+
+            <h4 style="margin: 1.5rem 0 1rem; color: var(--admin-accent-cyan);">Hero Banner Quick Stats</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="stat1Num">Stat 1 (e.g. 6+)</label>
+                <input type="text" id="stat1Num" class="cms-input" value="6+">
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="stat1Label">Stat 1 Label</label>
+                <input type="text" id="stat1Label" class="cms-input" value="Core Projects">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="stat2Num">Stat 2 (e.g. 4+)</label>
+                <input type="text" id="stat2Num" class="cms-input" value="4+">
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="stat2Label">Stat 2 Label</label>
+                <input type="text" id="stat2Label" class="cms-input" value="Years Experience">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="cms-label" for="stat3Num">Stat 3 (e.g. 100%)</label>
+                <input type="text" id="stat3Num" class="cms-input" value="100%">
+              </div>
+              <div class="form-group">
+                <label class="cms-label" for="stat3Label">Stat 3 Label</label>
+                <input type="text" id="stat3Label" class="cms-input" value="Client Satisfaction">
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           4. PROJECTS CRUD PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-projects">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <h3 class="cms-card-title">Projects Management</h3>
+              <p style="color: var(--admin-text-muted); font-size: 0.88rem; margin-top: 0.25rem;">
+                Manage genuine projects. Edit details, change publish status, or update demo links.
+              </p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="addNewProjectBtn">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add New Project</span>
+            </button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Thumbnail</th>
+                  <th>Project Name</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Published</th>
+                  <th>Demo / Repo</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           5. SKILLS MANAGEMENT PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-skills">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Skills & Technologies</h3>
+            <button class="btn btn-primary btn-sm" id="addNewSkillBtn">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add Skill</span>
+            </button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Icon</th>
+                  <th>Skill Name</th>
+                  <th>Category</th>
+                  <th>Proficiency Level</th>
+                  <th>Percentage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="skillsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           6. SERVICES MANAGEMENT PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-services">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Services Offerings</h3>
+            <button class="btn btn-primary btn-sm" id="addNewServiceBtn">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add Service</span>
+            </button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Icon</th>
+                  <th>Service Title</th>
+                  <th>Description</th>
+                  <th>Key Deliverables</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="servicesTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           7. EXPERIENCE TIMELINE PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-experience">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Career Milestones & Timeline</h3>
+            <button class="btn btn-primary btn-sm" id="addNewExpBtn">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add Timeline Item</span>
+            </button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th>Role</th>
+                  <th>Company / Context</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="experienceTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           8. RESUME & CV MANAGEMENT PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-resume">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Curriculum Vitae (CV) Settings</h3>
+            <button class="btn btn-primary btn-sm" id="saveCvSettingsBtn">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Save CV Link</span>
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="cvDownloadUrlInput">Current CV Download URL</label>
+            <input type="text" id="cvDownloadUrlInput" class="cms-input" value="database-schema.json">
+            <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 0.4rem;">
+              Can be a direct PDF link, Google Drive link, Firebase Storage URL, or local path.
+            </p>
+          </div>
+
+          <div style="padding: 1.5rem; background: var(--admin-input-bg); border-radius: 8px; border: 1px dashed var(--admin-card-border); margin-top: 1.5rem; text-align: center;">
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--admin-accent-cyan); margin-bottom: 0.75rem;"></i>
+            <h4>Upload New Resume File (PDF / DOC)</h4>
+            <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">
+              Upload to Firebase Cloud Storage or save as local document.
+            </p>
+            <input type="file" id="cvFileInput" accept=".pdf,.doc,.docx,.json" style="display: none;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('cvFileInput').click();">
+              <i class="fa-solid fa-folder-open"></i>
+              <span>Select File</span>
+            </button>
+            <span id="cvFileNameLabel" style="font-size: 0.85rem; margin-left: 0.75rem; color: var(--admin-accent-cyan);"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           9. MESSAGES INBOX PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-inbox">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Client Contact Form Inquiries</h3>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline btn-sm active" id="filterInboxAll">All</button>
+              <button class="btn btn-outline btn-sm" id="filterInboxUnread">Unread</button>
+            </div>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Sender Name</th>
+                  <th>Email Address</th>
+                  <th>Subject</th>
+                  <th>Message Body</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="inboxTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           10. SOCIAL LINKS PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-socials">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Social & Professional Networks</h3>
+            <button class="btn btn-primary btn-sm" id="saveSocialsBtn">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Save Social Links</span>
+            </button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="socialGithub"><i class="fa-brands fa-github"></i> GitHub Profile URL</label>
+              <input type="url" id="socialGithub" class="cms-input" value="https://github.com">
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="socialLinkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn Profile URL</label>
+              <input type="url" id="socialLinkedin" class="cms-input" value="https://linkedin.com">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="socialWhatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp Direct Link</label>
+              <input type="text" id="socialWhatsapp" class="cms-input" value="+8801700000000">
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="socialEmail"><i class="fa-solid fa-envelope"></i> Primary Email</label>
+              <input type="email" id="socialEmail" class="cms-input" value="mstrumaah1999@gmail.com">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           11. COLORS, SEO & LIVE CHAT SETTINGS PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-settings">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Live Chat & Theme Settings</h3>
+            <button class="btn btn-primary btn-sm" id="saveSettingsBtn">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Save Theme & Chat Settings</span>
+            </button>
+          </div>
+
+          <!-- Color Customizer -->
+          <h4 style="color: var(--admin-accent-cyan); margin-bottom: 1rem;"><i class="fa-solid fa-palette"></i> Premium Color Customizer</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="primaryAccentInput">Primary Electric Accent</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="color" id="primaryAccentInput" value="#00F0FF" style="width: 50px; height: 42px; padding: 2px;">
+                <input type="text" id="primaryAccentHex" class="cms-input" value="#00F0FF" style="width: 120px;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="secondaryAccentInput">Secondary Cyber Violet</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="color" id="secondaryAccentInput" value="#8B5CF6" style="width: 50px; height: 42px; padding: 2px;">
+                <input type="text" id="secondaryAccentHex" class="cms-input" value="#8B5CF6" style="width: 120px;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="goldAccentInput">Cyber Gold Highlight (Matches T-shirt)</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="color" id="goldAccentInput" value="#F59E0B" style="width: 50px; height: 42px; padding: 2px;">
+                <input type="text" id="goldAccentHex" class="cms-input" value="#F59E0B" style="width: 120px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Chat Settings -->
+          <h4 style="color: var(--admin-accent-gold); margin: 2rem 0 1rem;"><i class="fa-solid fa-comments"></i> Live Chat Widget Configuration</h4>
+          <div class="form-row">
+            <div class="form-group" style="display: flex; align-items: center; gap: 0.75rem; padding-top: 1.5rem;">
+              <input type="checkbox" id="chatEnabledToggle" checked style="width: 22px; height: 22px; accent-color: var(--admin-accent-cyan);">
+              <label class="cms-label" for="chatEnabledToggle" style="margin-bottom: 0; cursor: pointer;">Enable Customer Live Chat Widget</label>
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="chatStatusTextInput">Agent Online Status Text</label>
+              <input type="text" id="chatStatusTextInput" class="cms-input" value="Online • Typically replies in minutes">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="chatWelcomeMsgInput">Automated Welcome Greeting</label>
+            <textarea id="chatWelcomeMsgInput" class="cms-textarea" rows="2">Hello! 👋 I'm Mijanur Rahman. What kind of website or application are you looking to build?</textarea>
+          </div>
+
+          <!-- SEO Settings -->
+          <h4 style="color: var(--admin-accent-green); margin: 2rem 0 1rem;"><i class="fa-solid fa-magnifying-glass"></i> SEO & Meta Settings</h4>
+          <div class="form-group">
+            <label class="cms-label" for="seoSiteTitle">Page Title (Browser Title Tag)</label>
+            <input type="text" id="seoSiteTitle" class="cms-input" value="MR TECH | Mijanur Rahman — Web & App Developer">
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="seoMetaDesc">Meta Description (Search Engines & Social Previews)</label>
+            <textarea id="seoMetaDesc" class="cms-textarea" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="brandNameInput">Brand Display Name</label>
+            <input type="text" id="brandNameInput" class="cms-input" value="MR TECH">
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           12. FIREBASE STATUS & CONFIGURATION PANEL
+           ==================================================================== -->
+      <section class="cms-panel" id="panel-firebase">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <h3 class="cms-card-title">Firebase Cloud & Database Architecture</h3>
+          </div>
+
+          <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+            <h4 style="color: var(--admin-accent-cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-cloud-check"></i> Connection Diagnostics</h4>
+            <p style="font-size: 0.9rem; color: #CBD5E1;" id="firebaseDiagText">
+              Firebase Realtime Database & Authentication services active.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="adminUidInput">Authorized Master Admin UID</label>
+            <input type="text" id="adminUidInput" class="cms-input" placeholder="e.g. Firebase Auth UID for Mijanur Rahman">
+            <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 0.4rem;">
+              Set in database.rules.json or Realtime DB at <code>/admins/{uid} = true</code>.
+            </p>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.5rem;">
+            <label class="cms-label" for="firebaseConfigOverrideInput">Firebase Web App Config (JSON Override)</label>
+            <textarea id="firebaseConfigOverrideInput" class="cms-textarea" rows="6" placeholder='{ "apiKey": "...", "databaseURL": "...", "projectId": "..." }'></textarea>
+            <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 0.4rem;">
+              Paste your web app configuration from Firebase Console here to update credentials on the fly without rebuilding.
+            </p>
+            <button class="btn btn-outline btn-sm" id="saveFirebaseOverrideBtn" style="margin-top: 0.75rem;">
+              <i class="fa-solid fa-key"></i>
+              <span>Save & Apply Firebase Config</span>
+            </button>
+          </div>
+
+          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" id="exportFullBackupBtn">
+              <i class="fa-solid fa-file-arrow-down"></i>
+              <span>Download Full Backup (JSON)</span>
+            </button>
+            <button class="btn btn-outline btn-sm" id="resetToDefaultSeedBtn">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span>Reset to Default Seed Data</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       MODALS: ADD / EDIT PROJECT
+       ========================================================================== -->
+  <div class="cms-modal-backdrop" id="projectModal">
+    <div class="cms-modal">
+      <div class="cms-modal-header">
+        <h3 id="projectModalTitle">Add Project</h3>
+        <button class="btn-icon" onclick="closeProjectModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="projectModalForm">
+        <div class="cms-modal-body">
+          <input type="hidden" id="pmId">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="pmName">Project Name *</label>
+              <input type="text" id="pmName" class="cms-input" required>
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="pmCategory">Category *</label>
+              <select id="pmCategory" class="cms-select">
+                <option value="Full-Stack Web">Full-Stack Web</option>
+                <option value="Web Application">Web Application</option>
+                <option value="Dashboard & CMS">Dashboard & CMS</option>
+                <option value="Mobile & Web App">Mobile & Web App</option>
+                <option value="Game Engine & Logic">Game Engine & Logic</option>
+                <option value="App & Game Dev">App & Game Dev</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="pmStatus">Status Label *</label>
+              <input type="text" id="pmStatus" class="cms-input" placeholder="e.g. Production / Live Demo" required>
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="pmStatusType">Status Badge Theme</label>
+              <select id="pmStatusType" class="cms-select">
+                <option value="completed">Completed / Live (Green)</option>
+                <option value="production">Production (Cyan)</option>
+                <option value="enterprise">Enterprise (Purple)</option>
+                <option value="demo">Interactive Demo (Amber)</option>
+                <option value="development">In Development (Slate)</option>
+                <option value="active">Active (Indigo)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="pmDesc">Description *</label>
+            <textarea id="pmDesc" class="cms-textarea" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="cms-label" for="pmTechs">Technologies (comma-separated) *</label>
+            <input type="text" id="pmTechs" class="cms-input" placeholder="React, Node.js, Firebase, WebSocket" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="pmDemoUrl">Live Demo URL</label>
+              <input type="url" id="pmDemoUrl" class="cms-input" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="pmGithubUrl">GitHub Repository URL</label>
+              <input type="url" id="pmGithubUrl" class="cms-input" placeholder="https://github.com/...">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="pmImage">Image URL / Path</label>
+              <input type="text" id="pmImage" class="cms-input" value="images/project_showcase.jpg">
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; gap: 0.75rem; padding-top: 1.5rem;">
+              <input type="checkbox" id="pmPublished" checked style="width: 20px; height: 20px; accent-color: var(--admin-accent-cyan);">
+              <label class="cms-label" for="pmPublished" style="margin-bottom: 0; cursor: pointer;">Publish to Public Portfolio</label>
+            </div>
+          </div>
+        </div>
+        <div class="cms-modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeProjectModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT SKILL -->
+  <div class="cms-modal-backdrop" id="skillModal">
+    <div class="cms-modal" style="max-width: 480px;">
+      <div class="cms-modal-header">
+        <h3 id="skillModalTitle">Add Skill</h3>
+        <button class="btn-icon" onclick="closeSkillModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="skillModalForm">
+        <div class="cms-modal-body">
+          <input type="hidden" id="smId">
+          <div class="form-group">
+            <label class="cms-label" for="smName">Skill / Technology Name *</label>
+            <input type="text" id="smName" class="cms-input" required>
+          </div>
+          <div class="form-group">
+            <label class="cms-label" for="smCategory">Category *</label>
+            <select id="smCategory" class="cms-select">
+              <option value="frontend">Frontend</option>
+              <option value="backend">Backend & APIs</option>
+              <option value="mobile">Mobile & PWA</option>
+              <option value="database">Cloud & Database</option>
+              <option value="tools">Tools & DevOps</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cms-label" for="smLevel">Level Label</label>
+              <select id="smLevel" class="cms-select">
+                <option value="Expert">Expert</option>
+                <option value="Advanced">Advanced</option>
+                <option value="Proficient">Proficient</option>
+                <option value="Intermediate">Intermediate</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="cms-label" for="smPercent">Percentage (0-100)</label>
+              <input type="number" id="smPercent" class="cms-input" min="10" max="100" value="90">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cms-label" for="smIcon">FontAwesome Icon Class</label>
+            <input type="text" id="smIcon" class="cms-input" value="fa-solid fa-code">
+          </div>
+        </div>
+        <div class="cms-modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeSkillModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DESTRUCTIVE ACTION CONFIRMATION MODAL -->
+  <div class="cms-modal-backdrop" id="deleteConfirmModal">
+    <div class="cms-modal" style="max-width: 440px;">
+      <div class="cms-modal-header" style="border-bottom-color: rgba(239, 68, 68, 0.2);">
+        <h3 style="color: var(--admin-accent-red);"><i class="fa-solid fa-triangle-exclamation"></i> Confirm Delete</h3>
+        <button class="btn-icon" onclick="closeDeleteModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="cms-modal-body">
+        <p id="deleteModalText">Are you sure you want to permanently delete this item? This action cannot be undone.</p>
+      </div>
+      <div class="cms-modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-primary btn-sm" id="confirmDeleteBtn" style="background: var(--admin-accent-red);">
+          <i class="fa-solid fa-trash"></i>
+          <span>Delete Permanently</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Firebase v10 Compat SDK from official CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
+  <!-- Application Configuration & Logic -->
+  <script src="firebase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
