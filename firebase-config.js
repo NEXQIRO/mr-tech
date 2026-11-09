@@ -5,13 +5,14 @@
  */
 
 const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSy_YOUR_API_KEY_HERE",
-  authDomain: "mr-developer-portfolio.firebaseapp.com",
-  databaseURL: "https://mr-developer-portfolio-default-rtdb.firebaseio.com",
-  projectId: "mr-developer-portfolio",
-  storageBucket: "mr-developer-portfolio.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef1234567890"
+  apiKey: "AIzaSyC8hKqviJJzheFlEfL_q6AJnelNFk-6mTE",
+  authDomain: "mrtech-7e537.firebaseapp.com",
+  databaseURL: "https://mrtech-7e537-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mrtech-7e537",
+  storageBucket: "mrtech-7e537.firebasestorage.app",
+  messagingSenderId: "103240954590",
+  appId: "1:103240954590:web:56fcbcdffef47638a4c84f",
+  measurementId: "G-LG8TBFL24N"
 };
 
 // Check for runtime config override saved via Admin CMS Settings
