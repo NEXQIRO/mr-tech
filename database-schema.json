@@ -1,0 +1,229 @@
+{
+  "profile": {
+    "name": "Mijanur Rahman",
+    "title": "Web & App Developer",
+    "tagline": "Building Modern Websites, Web Applications & Digital Solutions.",
+    "bio": "I am a dedicated Full-Stack Web and Mobile Application Developer with a strong foundation in modern JavaScript ecosystems, responsive web architectures, and cloud databases. My mission is to build robust digital solutions that combine bulletproof backend stability with intuitive, fluid UI designs.",
+    "location": "Dhaka, Bangladesh (Available Worldwide)",
+    "availability": "Available for Freelance & Full-time Opportunities",
+    "isAvailable": true,
+    "email": "mstrumaah1999@gmail.com",
+    "whatsapp": "+8801700000000",
+    "phone": "+8801700000000",
+    "github": "https://github.com",
+    "linkedin": "https://linkedin.com",
+    "avatarUrl": "images/profile.jpg",
+    "resumeUrl": "database-schema.json",
+    "yearsExperience": 4,
+    "completedProjects": 18
+  },
+  "themeSettings": {
+    "primaryAccent": "#00F0FF",
+    "secondaryAccent": "#8B5CF6",
+    "goldAccent": "#F59E0B",
+    "bgDark": "#050811",
+    "bgCard": "#090E1D"
+  },
+  "heroSettings": {
+    "greeting": "Hello, world! I am",
+    "stat1Num": "6+",
+    "stat1Label": "Core Projects",
+    "stat2Num": "4+",
+    "stat2Label": "Years Experience",
+    "stat3Num": "100%",
+    "stat3Label": "Client Satisfaction"
+  },
+  "chatSettings": {
+    "enabled": true,
+    "welcomeMessage": "Hello! 👋 I'm Mijanur Rahman. What kind of website or application are you looking to build?",
+    "agentStatus": "Online • Typically replies in minutes",
+    "soundEnabled": true
+  },
+  "skills": {
+    "frontend": [
+      { "id": "sk_html_css", "name": "HTML5 / CSS3 / SCSS", "level": "Expert", "percent": 95, "icon": "fa-brands fa-html5" },
+      { "id": "sk_javascript", "name": "JavaScript (ES6+) / TypeScript", "level": "Expert", "percent": 92, "icon": "fa-brands fa-js" },
+      { "id": "sk_react", "name": "React.js / Next.js", "level": "Advanced", "percent": 90, "icon": "fa-brands fa-react" },
+      { "id": "sk_tailwind", "name": "Tailwind CSS / Bootstrap", "level": "Expert", "percent": 94, "icon": "fa-solid fa-wind" }
+    ],
+    "backend": [
+      { "id": "sk_node", "name": "Node.js & Express", "level": "Advanced", "percent": 88, "icon": "fa-brands fa-node-js" },
+      { "id": "sk_rest", "name": "RESTful APIs & WebSockets", "level": "Expert", "percent": 92, "icon": "fa-solid fa-network-wired" }
+    ],
+    "mobile": [
+      { "id": "sk_android", "name": "Android (Kotlin / Jetpack Compose)", "level": "Advanced", "percent": 86, "icon": "fa-brands fa-android" },
+      { "id": "sk_responsive", "name": "PWA & Responsive Web Design", "level": "Expert", "percent": 96, "icon": "fa-solid fa-mobile-screen-button" }
+    ],
+    "database": [
+      { "id": "sk_firebase_rtdb", "name": "Firebase Realtime Database", "level": "Expert", "percent": 92, "icon": "fa-solid fa-fire" },
+      { "id": "sk_firebase_auth", "name": "Firebase Auth & Security Rules", "level": "Expert", "percent": 90, "icon": "fa-solid fa-shield-halved" },
+      { "id": "sk_mongodb", "name": "MongoDB / MySQL", "level": "Proficient", "percent": 82, "icon": "fa-solid fa-database" }
+    ],
+    "tools": [
+      { "id": "sk_git", "name": "Git & GitHub Version Control", "level": "Advanced", "percent": 90, "icon": "fa-brands fa-git-alt" },
+      { "id": "sk_figma", "name": "UI/UX Prototyping & Figma", "level": "Proficient", "percent": 85, "icon": "fa-brands fa-figma" }
+    ]
+  },
+  "projects": [
+    {
+      "id": "proj_mostwin88",
+      "name": "MostWin88",
+      "category": "Full-Stack Web",
+      "status": "Live Demo Available",
+      "statusType": "completed",
+      "description": "High-throughput sports and interactive gaming platform with real-time odds updates, responsive user betting slips, dynamic wallet balance sync, and low-latency WebSocket integration.",
+      "technologies": ["React", "Node.js", "WebSocket", "Tailwind CSS", "REST APIs"],
+      "image": "images/project_showcase.jpg",
+      "demoUrl": "https://example.com/demo/mostwin88",
+      "githubUrl": "https://github.com",
+      "featured": true,
+      "published": true,
+      "order": 1
+    },
+    {
+      "id": "proj_nexqiro",
+      "name": "NEXQIRO",
+      "category": "Web Application",
+      "status": "Production",
+      "statusType": "production",
+      "description": "Sleek SaaS agency portal and client project management system featuring automated onboarding workflows, analytics telemetry, invoice status tracking, and secure client communication channels.",
+      "technologies": ["Next.js", "Tailwind CSS", "Firebase", "Node.js", "Chart.js"],
+      "image": "images/project_showcase.jpg",
+      "demoUrl": "https://example.com/demo/nexqiro",
+      "githubUrl": "https://github.com",
+      "featured": true,
+      "published": true,
+      "order": 2
+    },
+    {
+      "id": "proj_admin_panel",
+      "name": "User & Admin Panel",
+      "category": "Dashboard & CMS",
+      "status": "Enterprise",
+      "statusType": "enterprise",
+      "description": "Comprehensive role-based administration dashboard equipped with granular user permission access matrices, audit logs, real-time metrics graphs, and batch database management tools.",
+      "technologies": ["JavaScript (ES6+)", "Firebase Realtime DB", "Firebase Auth", "HTML5/CSS3"],
+      "image": "images/project_showcase.jpg",
+      "demoUrl": "https://example.com/demo/admin-panel",
+      "githubUrl": "https://github.com",
+      "featured": true,
+      "published": true,
+      "order": 3
+    },
+    {
+      "id": "proj_aviator",
+      "name": "Aviator",
+      "category": "Game Engine & Logic",
+      "status": "Interactive Demo",
+      "statusType": "demo",
+      "description": "Precision real-time crash game multiplier engine built with custom HTML5 Canvas rendering, provably fair mathematical curve algorithms, sound effects, and responsive mobile controls.",
+      "technologies": ["JavaScript", "HTML5 Canvas", "Audio API", "CSS Animations"],
+      "image": "images/project_showcase.jpg",
+      "demoUrl": "https://example.com/demo/aviator",
+      "githubUrl": "https://github.com",
+      "featured": true,
+      "published": true,
+      "order": 4
+    },
+    {
+      "id": "proj_ludo_carrom",
+      "name": "Ludo / Carrom",
+      "category": "App & Game Dev",
+      "status": "In Development",
+      "statusType": "development",
+      "description": "Classic South Asian board games recreated with interactive tactile board physics, multi-token collision detection, turn management state machines, and local/multiplayer pass-and-play logic.",
+      "technologies": ["Canvas API", "Physics Math", "JavaScript", "Touch Gestures"],
+      "image": "images/project_showcase.jpg",
+      "demoUrl": "https://example.com/demo/ludo-carrom",
+      "githubUrl": "https://github.com",
+      "featured": false,
+      "published": true,
+      "order": 5
+    },
+    {
+      "id": "proj_myhour",
+      "name": "MYHOUR",
+      "category": "Mobile & Web App",
+      "status": "Active",
+      "statusType": "active",
+      "description": "Minimalist time tracking and productivity management application for freelance engineers. Features automated Pomodoro cycles, project task tagging, exportable PDF reports, and cloud synchronization.",
+      "technologies": ["Kotlin / Compose", "Android", "Firebase RTDB", "Coroutines"],
+      "image": "images/project_showcase.jpg",
+      "demoUrl": "https://example.com/demo/myhour",
+      "githubUrl": "https://github.com",
+      "featured": true,
+      "published": true,
+      "order": 6
+    }
+  ],
+  "services": [
+    {
+      "id": "srv_website_dev",
+      "title": "Website Development",
+      "icon": "fa-solid fa-globe",
+      "description": "Handcrafted, ultra-fast landing pages and multi-page corporate websites optimized for search engines (SEO), conversion, and impeccable responsiveness across all screen sizes.",
+      "deliverables": ["Custom responsive HTML/CSS/JS", "Mobile & tablet first design", "SEO & Core Web Vitals optimization", "High-performance animations"]
+    },
+    {
+      "id": "srv_web_apps",
+      "title": "Web Applications & SaaS",
+      "icon": "fa-solid fa-laptop-code",
+      "description": "Dynamic, interactive web apps and single-page applications powered by modern JavaScript frameworks, stateful user sessions, and resilient APIs.",
+      "deliverables": ["Single Page Applications (SPA)", "API integrations & WebSockets", "Authentication & session management", "Scalable code architecture"]
+    },
+    {
+      "id": "srv_dashboards",
+      "title": "Custom Dashboards & CMS",
+      "icon": "fa-solid fa-chart-line",
+      "description": "Data-rich, intuitive administrative control centers that enable non-technical operators to manage database records, user permissions, analytics, and business content.",
+      "deliverables": ["Role-based access control", "Interactive data visualizations", "Real-time record editing (CRUD)", "CSV / PDF data export"]
+    },
+    {
+      "id": "srv_firebase_backend",
+      "title": "Firebase Integration & Backend",
+      "icon": "fa-solid fa-fire",
+      "description": "Complete cloud backend architecture setup utilizing Firebase Realtime Database, Cloud Firestore, Authentication, Storage, and production-grade zero-trust Security Rules.",
+      "deliverables": ["Realtime Database & Auth setup", "Zero-trust Security Rules auditing", "Cloud Storage for media & documents", "Real-time sync listeners"]
+    },
+    {
+      "id": "srv_mobile_dev",
+      "title": "App Development",
+      "icon": "fa-solid fa-mobile-screen",
+      "description": "Native Android applications developed with Kotlin and Jetpack Compose, as well as Progressive Web Apps (PWA) with offline caching and native app behavior.",
+      "deliverables": ["Native Android (Kotlin / Compose)", "Modern Material Design 3 UI", "Progressive Web App (PWA) packaging", "Hardware & sensor integrations"]
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp_1",
+      "period": "2023 - Present",
+      "role": "Lead Full-Stack Web & App Developer",
+      "context": "Independent Contractor & Freelance",
+      "description": "Delivering custom enterprise web applications, real-time dashboards, and Firebase backend architectures for international clients and modern startups."
+    },
+    {
+      "id": "exp_2",
+      "period": "2021 - 2023",
+      "role": "Frontend & Real-time Web Developer",
+      "context": "Digital Products & SaaS Solutions",
+      "description": "Engineered responsive user interfaces, integrated WebSocket real-time feeds, crafted interactive web games with HTML5 Canvas, and streamlined client CMS portals."
+    },
+    {
+      "id": "exp_3",
+      "period": "2020 - 2021",
+      "role": "Junior Web Developer",
+      "context": "Web Solutions Agency",
+      "description": "Developed cross-browser compatible corporate websites, implemented UI designs from Figma prototypes, and managed customer data integration."
+    }
+  ],
+  "settings": {
+    "siteTitle": "MR TECH | Mijanur Rahman — Web & App Developer",
+    "metaDescription": "Official portfolio of Mijanur Rahman (MR TECH). Professional Web & App Developer specializing in modern websites, web applications, dashboards, and digital solutions.",
+    "brandName": "MR TECH",
+    "developerName": "Mijanur Rahman",
+    "accentColor": "#00F0FF",
+    "secondaryAccent": "#8B5CF6",
+    "goldAccent": "#F59E0B",
+    "contactNotificationEmail": "mstrumaah1999@gmail.com"
+  }
+}
