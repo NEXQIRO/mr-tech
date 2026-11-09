@@ -269,7 +269,7 @@ function initAuthGate() {
 
           grantAdminAccess(cred.user.email);
         } else {
-          if (email.toLowerCase() === "mstrumaah1999@gmail.com") {
+          if (email.toLowerCase() === "mijanbabu2015@gmail.com") {
             grantAdminAccess(email);
           } else {
             throw new Error("Invalid admin email. Access permitted only to authorized developer credentials.");
@@ -287,7 +287,7 @@ function initAuthGate() {
 
   if (demoBtn) {
     demoBtn.addEventListener('click', () => {
-      grantAdminAccess("mstrumaah1999@gmail.com (Preview Session)");
+      grantAdminAccess("mijanbabu2015@gmail.com (Preview Session)");
     });
   }
 

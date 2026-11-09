@@ -73,7 +73,7 @@ window.MR_FIREBASE = {
    */
   async verifyAdminAccess(user) {
     if (!user) return false;
-    const PRIMARY_ADMIN_EMAIL = "mstrumaah1999@gmail.com";
+    const PRIMARY_ADMIN_EMAIL = "mijanbabu2015@gmail.com";
     if (user.email && user.email.toLowerCase() === PRIMARY_ADMIN_EMAIL.toLowerCase()) {
       return true;
     }

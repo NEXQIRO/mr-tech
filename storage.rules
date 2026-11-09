@@ -1,0 +1,24 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Public portfolio assets (developer avatar, project screenshots, CV)
+    match /portfolio/{allPaths=**} {
+      // Anyone can view portfolio images and documents
+      allow read: if true;
+      
+      // Only authenticated users with verified email or admin role can upload/edit/delete
+      allow write: if request.auth != null && 
+        (request.auth.token.email == 'mijanbabu2015@gmail.com' || 
+         request.auth.uid == 'ADMIN_UID_PLACEHOLDER') &&
+        request.resource.size < 15 * 1024 * 1024 && // Max 15MB file size
+        (request.resource.contentType.matches('image/.*') || 
+         request.resource.contentType == 'application/pdf');
+    }
+
+    // Default deny for all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
