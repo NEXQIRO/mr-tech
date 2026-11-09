@@ -1,1 +1,4245 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#080D1A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>MYHOUR - Work Hours & Salary Manager</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+/* ==========================================================================
+   MYHOUR - 3D LUXURY GLASSMORPHIC STYLING & FULL RESPONSIVE AUTO-ADJUST
+   ========================================================================== */
+:root {
+  --gold-1: #FFF7DA;
+  --gold-2: #F6D472;
+  --gold-3: #D4A33B;
+  --gold-4: #9A6F1C;
+  --gold: #D6AA54;
+  --gold-glow: rgba(214, 170, 84, 0.4);
+  --gold-border: rgba(214, 170, 84, 0.35);
 
+  --bg: #080D1A;
+  --bg-gradient: radial-gradient(120% 80% at 50% 0%, #121E36 0%, #080D1A 65%);
+  --sf: rgba(14, 22, 38, 0.92);
+  --cd: rgba(18, 29, 50, 0.76);
+  --el: rgba(24, 38, 66, 0.75);
+  --bd: rgba(255, 255, 255, 0.12);
+
+  --t1: #F8FAFD;
+  --t2: #94A3B8;
+  --t3: #64748B;
+
+  --ok: #10B981;
+  --ok-glow: rgba(16, 185, 129, 0.35);
+  --wn: #F59E0B;
+  --wn-glow: rgba(245, 158, 11, 0.35);
+  --dg: #EF4444;
+  --dg-glow: rgba(239, 68, 68, 0.35);
+  --cy: #06B6D4;
+  --cy-glow: rgba(6, 182, 212, 0.35);
+  --pr: #8B5CF6;
+
+  --font: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, system-ui, sans-serif;
+  --sidebar-w: 270px;
+}
+
+body.light {
+  --bg: #F4F7FC;
+  --bg-gradient: linear-gradient(180deg, #F9FBFF 0%, #EEF2F8 100%);
+  --sf: #FFFFFF;
+  --cd: #FFFFFF;
+  --el: #F1F5FA;
+  --bd: #E2E8F0;
+  --gold: #A87D22;
+  --gold-2: #946F1C;
+  --gold-glow: rgba(168, 125, 34, 0.2);
+  --gold-border: rgba(168, 125, 34, 0.35);
+  --t1: #0F172A;
+  --t2: #475569;
+  --t3: #64748B;
+  --ok: #059669;
+  --wn: #D97706;
+  --dg: #DC2626;
+  --cy: #0284C7;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  background: var(--bg-gradient) fixed;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(214, 170, 84, 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(214, 170, 84, 0.6); }
+
+/* Typography & metallic gradients */
+.gold-text {
+  background: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 48%, var(--gold-4) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45));
+}
+body.light .gold-text {
+  background: linear-gradient(180deg, #D4A33B 0%, #875F0E 75%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: none;
+}
+
+/* Buttons: 3D Glossy Luxury */
+button, .btn {
+  font-family: var(--font);
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 18px;
+  border: 1.5px solid var(--gold-border);
+  background: linear-gradient(180deg, #FFE89E 0%, #E6B94E 36%, #C08A27 70%, #DEB14B 100%);
+  color: #0A1220;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.75), inset 0 -2px 4px rgba(90,50,0,0.45), 0 6px 16px rgba(0,0,0,0.4), 0 0 12px var(--gold-glow);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+button:active, .btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 4px rgba(90,50,0,0.6), 0 2px 6px rgba(0,0,0,0.5);
+}
+button.s {
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 45%, rgba(0,0,0,0.35));
+  border: 1.5px solid var(--bd);
+  color: var(--t1);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.35), 0 4px 12px rgba(0,0,0,0.35);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+body.light button.s {
+  background: linear-gradient(180deg, #FFFFFF, #EEF2F7);
+  border-color: var(--bd);
+  color: var(--t1);
+  box-shadow: inset 0 1.5px 0 #FFF, 0 4px 10px rgba(15,27,45,0.12);
+  text-shadow: none;
+}
+button.x {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--dg);
+  padding: 6px 8px;
+  font-size: 13px;
+  text-shadow: none;
+}
+button.x.ed { color: var(--gold); }
+
+/* Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: 11px 14px;
+  margin: 4px 0 8px;
+  font-family: var(--font);
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.42);
+  border: 1.5px solid var(--bd);
+  border-radius: 12px;
+  color: var(--t1);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+body.light input, body.light select, body.light textarea {
+  background: #EEF2F8;
+  border-color: #CBD5E1;
+  color: var(--t1);
+  box-shadow: inset 0 1px 3px rgba(15,27,45,0.12);
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.55), 0 0 14px var(--gold-glow);
+}
+
+/* 3D Glass Cards */
+.card {
+  position: relative;
+  background: linear-gradient(150deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 40%, rgba(4,8,18,0.6) 100%), var(--cd);
+  border: 1.5px solid var(--bd);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 14px;
+  width: 100%;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.35), inset 0 -3px 8px rgba(0,0,0,0.55), 0 10px 26px rgba(0,0,0,0.55), 0 0 0 1px var(--gold-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+body.light .card {
+  background: linear-gradient(150deg, #FFFFFF, #F6F9FC);
+  border-color: #E2E8F0;
+  box-shadow: inset 0 1.5px 0 #FFF, 0 10px 24px rgba(15,27,45,0.08), 0 0 0 1px rgba(168,125,34,0.22);
+}
+.card:hover {
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.45), 0 14px 34px rgba(0,0,0,0.65), 0 0 18px var(--gold-glow);
+}
+.card h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.3px;
+  margin-bottom: 10px;
+}
+
+/* Stats Cards (Balanced Single-Line Safe) */
+.sc {
+  padding: 13px 12px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sc .k {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--t2);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc .v {
+  font-size: clamp(15px, 1.25vw, 21px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc .sub {
+  font-size: 11px;
+  color: var(--t3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Glow Themes for Stats Cards */
+.sc-earn .v {
+  background: linear-gradient(180deg, #FFF7D9, #F5CE66 50%, #C48E28);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+.sc-rec {
+  background: linear-gradient(150deg, rgba(16,185,129,0.18), rgba(255,255,255,0.02) 40%, rgba(3,25,18,0.7)), var(--cd) !important;
+  border-color: rgba(16,185,129,0.45) !important;
+}
+.sc-rec .v {
+  background: linear-gradient(180deg, #E6FFFA, #34D399 50%, #059669);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--ok-glow));
+}
+.sc-rec .k { color: #6EE7B7; }
+
+.sc-due {
+  background: linear-gradient(150deg, rgba(245,158,11,0.18), rgba(255,255,255,0.02) 40%, rgba(30,18,4,0.7)), var(--cd) !important;
+  border-color: rgba(245,158,11,0.45) !important;
+}
+.sc-due .v {
+  background: linear-gradient(180deg, #FFFBEB, #FBBF24 50%, #D97706);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--wn-glow));
+}
+.sc-due .k { color: #FCD34D; }
+
+.sc-rem {
+  background: linear-gradient(150deg, rgba(6,182,212,0.18), rgba(255,255,255,0.02) 40%, rgba(4,22,32,0.7)), var(--cd) !important;
+  border-color: rgba(6,182,212,0.45) !important;
+}
+.sc-rem .v {
+  background: linear-gradient(180deg, #ECFEFF, #38BDF8 50%, #0284C7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--cy-glow));
+}
+.sc-rem .k { color: #7DD3FC; }
+
+.sc-exp {
+  background: linear-gradient(150deg, rgba(239,68,68,0.18), rgba(255,255,255,0.02) 40%, rgba(35,6,12,0.7)), var(--cd) !important;
+  border-color: rgba(239,68,68,0.45) !important;
+}
+.sc-exp .v {
+  background: linear-gradient(180deg, #FEF2F2, #F87171 50%, #DC2626);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--dg-glow));
+}
+.sc-exp .k { color: #FCA5A5; }
+
+.sc-net {
+  background: linear-gradient(150deg, rgba(139,92,246,0.18), rgba(255,255,255,0.02) 40%, rgba(20,10,38,0.7)), var(--cd) !important;
+  border-color: rgba(139,92,246,0.45) !important;
+}
+.sc-net .v {
+  background: linear-gradient(180deg, #F5F3FF, #A78BFA 50%, #7C3AED);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sc-net .k { color: #C4B5FD; }
+
+body.light .sc .k { color: var(--t2) !important; }
+body.light .sc .v { filter: none !important; }
+
+/* ==========================================================================
+   STRICT SINGLE-LINE 5 KPI CARDS ON DESKTOP (NEVER DROPS DOWN)
+   ========================================================================== */
+.kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.kpi-row .card.sc {
+  padding: 12px 10px !important;
+  min-width: 0 !important;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.kpi-row .card.sc .k {
+  font-size: clamp(10px, 0.76vw, 13px) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kpi-row .card.sc .v {
+  font-size: clamp(13px, 1.1vw, 19px) !important;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.2px;
+}
+.kpi-row .card.sc .sub {
+  font-size: clamp(9px, 0.65vw, 11px) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 959px) {
+  .kpi-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+}
+@media (max-width: 580px) {
+  .kpi-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px;
+  }
+}
+
+/* 4-Column Balanced Grid for Duty & Salary headers */
+.kpi-row-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+@media (max-width: 959px) {
+  .kpi-row-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+/* Month Cards Grid (Balanced 2-Columns on desktop, auto-expands with companion analytics card) */
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .month-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Two-column responsive split on PC */
+.pc-split {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+.pc-col-main {
+  flex: 1.35;
+  min-width: 0;
+  width: 100%;
+}
+.pc-col-side {
+  flex: 1;
+  min-width: 320px;
+  max-width: 480px;
+  width: 100%;
+}
+@media (max-width: 959px) {
+  .pc-split {
+    flex-direction: column;
+  }
+  .pc-col-side {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+/* Quick Action row */
+.qa {
+  display: flex;
+  gap: 10px;
+  margin: 6px 0 14px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.qa button {
+  flex: 1;
+  min-width: 130px;
+  padding: 13px 8px;
+  font-size: 14px;
+  border-radius: 14px;
+}
+
+/* Row items in cards */
+.r {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bd);
+}
+.r:last-child { border-bottom: none; }
+.r .k { font-size: 12px; color: var(--t2); margin-top: 2px; }
+
+/* List container */
+.lst {
+  background: var(--cd);
+  border: 1.5px solid var(--bd);
+  border-radius: 18px;
+  padding: 4px 16px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+.lst:empty { display: none; }
+
+/* Pill badge & selectors */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tx {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1.5px solid var(--gold-border);
+  background: rgba(14, 22, 38, 0.85);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 2px 6px rgba(0,0,0,0.4);
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+body.light .tx {
+  background: #FFF;
+  border-color: #CBD5E1;
+  color: var(--gold);
+}
+.tx:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* ==========================================================================
+   TOP PWA INSTALL NOTIFICATION BANNER
+   ========================================================================== */
+.pwa-banner {
+  position: fixed;
+  top: max(8px, env(safe-area-inset-top));
+  left: 50%;
+  right: auto;
+  width: min(560px, calc(100% - 24px));
+  min-height: 58px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, rgba(20, 32, 54, 0.98) 0%, rgba(8, 14, 26, 0.98) 100%);
+  border: 1px solid rgba(232, 184, 79, 0.75);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38), 0 0 14px var(--gold-glow);
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -145%);
+  transition: transform 0.35s ease, opacity 0.3s ease;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.pwa-banner.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.pwa-banner .pwa-banner-icon img {
+  width: 30px !important;
+  height: 30px !important;
+}
+.pwa-banner .pwa-banner-text #pwa-desc {
+  font-size: 11px !important;
+  line-height: 1.25;
+}
+.pwa-banner .pwa-install-btn {
+  padding: 7px 10px;
+  font-size: 11px;
+}
+.pwa-banner .pwa-dismiss-btn {
+  padding: 5px 8px;
+  min-width: 28px;
+}
+.pwa-banner.show {
+  transform: translateY(0);
+}
+.pwa-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.pwa-banner-text {
+  min-width: 0;
+}
+.pwa-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.pwa-install-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   DESKTOP (PC) LAYOUT VS MOBILE APP LAYOUT
+   ========================================================================== */
+#app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 1. DESKTOP SIDEBAR */
+#sidebar {
+  width: var(--sidebar-w);
+  height: 100%;
+  background: linear-gradient(180deg, rgba(18,28,48,0.95) 0%, rgba(8,13,24,0.98) 100%);
+  border-right: 1.5px solid var(--gold-border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px;
+  box-shadow: 6px 0 24px rgba(0,0,0,0.55);
+  z-index: 40;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+body.light #sidebar {
+  background: #FFFFFF;
+  border-right-color: #E2E8F0;
+  box-shadow: 4px 0 20px rgba(15,27,45,0.06);
+}
+
+.brand-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 18px;
+  border-bottom: 1.5px solid var(--bd);
+  margin-bottom: 16px;
+}
+.brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.8), inset 0 -3px 4px rgba(90,50,0,0.5), 0 4px 12px var(--gold-glow);
+  flex-shrink: 0;
+}
+.brand-icon svg { width: 26px; height: 26px; stroke: #0A1220; }
+.brand-title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.1;
+}
+.brand-tag {
+  font-size: 11px;
+  color: var(--t2);
+  letter-spacing: 0.4px;
+}
+
+.user-brief {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+body.light .user-brief { background: #F1F5FA; }
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #0A1220;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+.user-meta { flex: 1; min-width: 0; }
+.user-name { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-prof { font-size: 11px; color: var(--t2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.s-nav-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--t3);
+  padding: 8px 10px 4px;
+  font-weight: 700;
+}
+.s-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  margin: 3px 0;
+  border-radius: 12px;
+  color: var(--t2);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+.s-item:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--t1);
+  transform: translateX(3px);
+}
+body.light .s-item:hover { background: #EEF2F7; }
+.s-item.on {
+  background: linear-gradient(90deg, rgba(214,170,84,0.24) 0%, rgba(214,170,84,0.08) 100%);
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 8px rgba(0,0,0,0.3);
+}
+body.light .s-item.on {
+  background: #FEF8E7;
+  border-color: rgba(168,125,34,0.35);
+}
+.s-item .em { font-size: 20px; line-height: 1; }
+
+.vault-status {
+  margin-top: auto;
+  background: rgba(16,185,129,0.12);
+  border: 1px solid rgba(16,185,129,0.35);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #6EE7B7;
+}
+body.light .vault-status { color: #047857; background: #ECFDF5; border-color: #A7F3D0; }
+.vault-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+
+/* 2. MAIN CONTENT STAGE */
+#stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+header {
+  height: 64px;
+  background: rgba(14, 22, 38, 0.92);
+  border-bottom: 1.5px solid var(--bd);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px;
+  flex-shrink: 0;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 30;
+  width: 100%;
+}
+body.light header {
+  background: #FFFFFF;
+  border-bottom-color: #E2E8F0;
+  box-shadow: 0 2px 10px rgba(15,27,45,0.04);
+}
+header b {
+  font-size: 20px;
+  letter-spacing: 1.5px;
+}
+
+.bars {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+}
+.bars i {
+  width: 24px;
+  height: 2.5px;
+  background: linear-gradient(90deg, #FFE89E, #D4A33B);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.bkb {
+  display: none;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--sf);
+  border: 1.5px solid var(--gold-border);
+  color: var(--gold);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.bkb svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+[dir="rtl"] .bkb svg { transform: scaleX(-1); }
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 24px;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+#content-root {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* 3. MOBILE BOTTOM NAVIGATION (Hidden on PC) */
+nav#nv {
+  display: none;
+  background: var(--sf);
+  border-top: 1.5px solid var(--gold-border);
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.45);
+  z-index: 35;
+  flex-shrink: 0;
+  width: 100%;
+}
+nav#nv div {
+  flex: 1;
+  text-align: center;
+  padding: 8px 2px 10px;
+  font-size: 11px;
+  color: var(--t2);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+nav#nv div.on {
+  color: var(--gold);
+  font-weight: 800;
+}
+nav#nv .em {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 2px;
+}
+nav#nv div:nth-child(3) .em {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
+  border: 2px solid #FFF1C5;
+  box-shadow: inset 0 2px 3px #FFF, 0 4px 14px var(--gold-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -16px auto 2px;
+  color: #0A1220;
+}
+
+/* 4. MODALS & BOTTOM SHEETS */
+#md {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+#md.show { display: flex; }
+
+.mb {
+  width: 100%;
+  max-width: 580px;
+  background: linear-gradient(150deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 40%, rgba(4,8,18,0.7)), #111A2C;
+  border: 1.5px solid var(--gold-border);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.4), 0 20px 50px rgba(0,0,0,0.8), 0 0 24px var(--gold-glow);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+body.light .mb {
+  background: #FFFFFF;
+  border-color: #E2E8F0;
+  box-shadow: 0 20px 40px rgba(15,27,45,0.2);
+}
+.fl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin-top: 10px;
+}
+.fl .wide { grid-column: 1 / -1; }
+
+/* 5. MOBILE DRAWER */
+#dr {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  z-index: 90;
+}
+#dr.show { display: block; }
+#dr > div {
+  width: 310px;
+  height: 100%;
+  background: linear-gradient(180deg, #121B2F 0%, #070B14 100%);
+  border-right: 1.5px solid var(--gold-border);
+  overflow-y: auto;
+  box-shadow: 10px 0 30px rgba(0,0,0,0.7);
+  padding-bottom: 24px;
+}
+body.light #dr > div {
+  background: #FFFFFF;
+  border-right-color: #CBD5E1;
+}
+.dh {
+  background: #0A1220;
+  padding: 24px 20px;
+  border-bottom: 1.5px solid var(--gold-border);
+}
+.di {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 20px;
+  margin: 3px 10px;
+  border-radius: 14px;
+  color: var(--t1);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.di:hover { background: rgba(255,255,255,0.06); }
+.di.on {
+  background: rgba(214, 170, 84, 0.2);
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+}
+.di .em { font-size: 20px; }
+
+/* 6. TOAST */
+#tst {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translate(-50%, 30px);
+  background: var(--ok);
+  color: #FFF;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 300;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+#tst.show { opacity: 1; transform: translate(-50%, 0); }
+#tst.del { background: var(--dg); }
+
+/* ==========================================================================
+   7. AUTH OVERLAY (NORMAL COMPACT SIZE + LANGUAGE SELECTOR)
+   ========================================================================== */
+#au {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: var(--bg-gradient);
+  overflow-y: auto;
+}
+#au.show { display: flex; animation: auFadeIn 0.25s ease both; }
+@keyframes auFadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+#au .box {
+  width: 100%;
+  max-width: 390px;
+  margin: auto;
+}
+
+#au .au-lang-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+#au .au-lang-btn {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--bd);
+  color: var(--t2);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+#au .au-lang-btn.active {
+  background: var(--gold);
+  color: #0A1220;
+  border-color: var(--gold);
+  font-weight: 800;
+  box-shadow: 0 0 6px var(--gold-glow);
+}
+
+#au .lgo {
+  text-align: center;
+  margin-bottom: 14px;
+}
+#au .lgo .brand-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+}
+#au .lgo .brand-icon svg {
+  width: 32px;
+  height: 32px;
+}
+#au .lgo b {
+  display: block;
+  font-size: 26px;
+  letter-spacing: 3px;
+}
+#au .lgo span {
+  font-size: 12px;
+  color: var(--t2);
+}
+
+#au .tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 14px;
+  gap: 4px;
+  border: 1px solid var(--bd);
+}
+#au .tabs button {
+  flex: 1;
+  background: none;
+  color: var(--t2);
+  box-shadow: none;
+  border: 0;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 9px;
+  transition: all 0.2s ease;
+}
+#au .tabs button.on {
+  background: var(--gold);
+  color: #0A1220;
+  font-weight: 800;
+}
+
+#au input {
+  font-size: 14px;
+  padding: 12px 14px;
+  margin: 6px 0 10px;
+  user-select: text;
+  -webkit-user-select: text;
+  width: 100%;
+  box-sizing: border-box;
+}
+#au button.big {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  margin-top: 6px;
+  cursor: pointer;
+}
+#au .er {
+  color: var(--dg);
+  font-size: 13px;
+  min-height: 18px;
+  text-align: center;
+  margin: 4px 0;
+}
+#au .lk {
+  display: block;
+  text-align: center;
+  color: var(--t2);
+  font-size: 12px;
+  margin-top: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+#au .nt {
+  font-size: 12px;
+  color: var(--t2);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   8. ULTRA-PREMIUM 3D EXECUTIVE SPLASH INTRO
+   ========================================================================== */
+#sp {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: radial-gradient(ellipse 90% 70% at 50% 32%, rgba(214, 170, 84, 0.18) 0%, rgba(15, 25, 46, 0.98) 45%, #060913 90%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: spOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@keyframes spOut {
+  0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(1.04); filter: blur(6px); visibility: hidden; pointer-events: none; }
+}
+
+#sp .lo-wrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sp .lo {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #2A3C63 0%, #101B30 65%, #0A1220 100%);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 45px var(--gold-glow), 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 2px 6px rgba(255, 247, 218, 0.6), inset 0 -4px 10px rgba(0, 0, 0, 0.8);
+  animation: spPop 0.9s cubic-bezier(.16, 1.3, .3, 1) both;
+}
+@keyframes spPop {
+  from { transform: scale(0.3) rotate(-90deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Concentric luxury golden orbital rings */
+#sp .sp-orbit-1, #sp .sp-orbit-2 {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px dashed var(--gold);
+  opacity: 0.35;
+  pointer-events: none;
+}
+#sp .sp-orbit-1 {
+  inset: -14px;
+  animation: spSpin 16s linear infinite;
+}
+#sp .sp-orbit-2 {
+  inset: -26px;
+  border-style: dotted;
+  opacity: 0.22;
+  animation: spSpinRev 22s linear infinite;
+}
+@keyframes spSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes spSpinRev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+#sp svg {
+  width: 104px;
+  height: 104px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+}
+
+#sp .mh {
+  transform-origin: 55px 55px;
+  animation: spMin 1.6s cubic-bezier(.4, 0, .2, 1) 0.3s both;
+}
+#sp .hh {
+  transform-origin: 55px 55px;
+  animation: spHr 1.6s cubic-bezier(.4, 0, .2, 1) 0.3s both;
+}
+@keyframes spMin { from { transform: rotate(-360deg); } to { transform: rotate(0deg); } }
+@keyframes spHr { from { transform: rotate(-140deg); } to { transform: rotate(0deg); } }
+
+/* Luxury Metallic Gold Typography */
+#sp .tt-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
+#sp .sp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: rgba(214, 170, 84, 0.12);
+  border: 1px solid rgba(214, 170, 84, 0.35);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-2);
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: spFadeUp 0.6s ease 0.6s forwards;
+}
+#sp .tt {
+  display: flex;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  background: linear-gradient(135deg, #FFF7DA 0%, #F6D472 35%, #D4A33B 70%, #9A6F1C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 18px rgba(214, 170, 84, 0.45));
+}
+#sp .tt i {
+  font-style: normal;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: spLet 0.5s ease forwards;
+}
+#sp .tt i:nth-child(1) { animation-delay: 0.7s; }
+#sp .tt i:nth-child(2) { animation-delay: 0.8s; }
+#sp .tt i:nth-child(3) { animation-delay: 0.9s; }
+#sp .tt i:nth-child(4) { animation-delay: 1.0s; }
+#sp .tt i:nth-child(5) { animation-delay: 1.1s; }
+#sp .tt i:nth-child(6) { animation-delay: 1.2s; }
+@keyframes spLet { to { opacity: 1; transform: translateY(0); } }
+@keyframes spFadeUp { to { opacity: 1; transform: translateY(0); } }
+
+#sp .tg {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--t2);
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: spFadeUp 0.6s ease 1.3s forwards;
+  text-align: center;
+}
+#sp .tg-bn {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--gold-2);
+  opacity: 0;
+  animation: spFadeUp 0.6s ease 1.5s forwards;
+}
+
+/* Micro-Progress Laser Bar */
+#sp .sp-bar-container {
+  width: 220px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: spFadeUp 0.5s ease 1.0s forwards;
+}
+#sp .sp-bar {
+  width: 100%;
+  height: 3px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+#sp .sp-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #D4A33B, #FFF7DA, #10B981);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(214, 170, 84, 0.8);
+  animation: spProgress 1.4s ease 1.1s forwards;
+}
+@keyframes spProgress {
+  0% { width: 0%; }
+  60% { width: 75%; }
+  100% { width: 100%; }
+}
+#sp .sp-status {
+  font-size: 11px;
+  color: var(--t3);
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+
+#sp .sp-skip {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 14px;
+  background: rgba(214, 170, 84, 0.08);
+  border: 1px solid rgba(214, 170, 84, 0.2);
+  transition: all 0.2s ease;
+  opacity: 0;
+  animation: spFadeUp 0.5s ease 1.6s forwards;
+}
+#sp .sp-skip:hover {
+  background: rgba(214, 170, 84, 0.2);
+  border-color: var(--gold);
+}
+
+/* ==========================================================================
+   DASHBOARD EXECUTIVE WELCOME HERO CARD
+   ========================================================================== */
+.dash-hero {
+  background: linear-gradient(135deg, rgba(22, 36, 62, 0.85) 0%, rgba(10, 18, 32, 0.92) 100%);
+  border: 1.5px solid rgba(214, 170, 84, 0.35);
+  border-radius: 18px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.dash-hero::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(214, 170, 84, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.dash-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--gold-2);
+  background: rgba(214, 170, 84, 0.1);
+  border: 1px solid rgba(214, 170, 84, 0.25);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+.dash-hero-pill .live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok-glow);
+  display: inline-block;
+}
+.dash-hero-title {
+  margin: 0 0 6px;
+  font-size: clamp(18px, 1.8vw, 24px);
+  color: var(--t1);
+  font-weight: 800;
+}
+.dash-hero-sub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.5;
+  max-width: 620px;
+}
+.dash-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.dash-hero-stat-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  padding: 10px 14px;
+  text-align: center;
+}
+.dash-hero-stat-k {
+  font-size: 11px;
+  color: var(--t3);
+  margin-bottom: 2px;
+}
+.dash-hero-stat-v {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.dash-hero-tour-btn {
+  background: linear-gradient(135deg, rgba(214, 170, 84, 0.2) 0%, rgba(214, 170, 84, 0.08) 100%);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 0 12px var(--gold-glow);
+  transition: all 0.25s ease;
+}
+.dash-hero-tour-btn:hover {
+  background: linear-gradient(135deg, #F6D472 0%, #D4A33B 100%);
+  color: #0A1220;
+  box-shadow: 0 0 20px rgba(214, 170, 84, 0.6);
+}
+@media (max-width: 959px) {
+  .dash-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 18px;
+    gap: 14px;
+  }
+  .dash-hero-stats {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .dash-hero-stat-box {
+    flex: 1;
+    min-width: 110px;
+  }
+  .dash-hero-tour-btn {
+    width: 100%;
+    margin-top: 4px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 959px) {
+  #sidebar { display: none; }
+  .bars { display: flex; }
+  nav#nv { display: flex; }
+  header {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    height: calc(60px + env(safe-area-inset-top, 0px));
+  }
+  nav#nv {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  #md {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .mb {
+    border-radius: 24px 24px 0 0;
+    max-width: none;
+    border-bottom: none;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    animation: slideUp 0.25s ease-out;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+}
+
+/* Force PC or Mobile modes when explicitly toggled */
+body.mode-pc #sidebar { display: flex !important; }
+body.mode-pc .bars { display: none !important; }
+body.mode-pc nav#nv { display: none !important; }
+body.mode-pc .pc-split { flex-direction: row !important; }
+body.mode-pc #md { align-items: center !important; padding: 16px !important; }
+body.mode-pc .mb { border-radius: 24px !important; max-width: 580px !important; animation: none !important; }
+
+body.mode-mobile #sidebar { display: none !important; }
+body.mode-mobile .bars { display: flex !important; }
+body.mode-mobile nav#nv { display: flex !important; }
+body.mode-mobile .pc-split { flex-direction: column !important; }
+body.mode-mobile #md { align-items: flex-end !important; padding: 0 !important; }
+body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none !important; }
+
+.empty {
+  border: 1.5px dashed var(--gold);
+  background: var(--sf);
+  text-align: center;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+.empty .em { font-size: 44px; display: block; margin-bottom: 8px; }
+.empty h3 { color: var(--gold); font-size: 19px; margin-bottom: 6px; }
+.empty p { color: var(--t2); font-size: 14px; margin-bottom: 16px; line-height: 1.5; }
+
+.rh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  width: 100%;
+}
+.rh h3 { margin: 0; }
+.rh a { color: var(--gold); font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: none; }
+
+.pv {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.5;
+}
+.pv .em { font-size: 30px; }
+</style>
+</head>
+<body>
+
+<!-- Top PWA Install Notification Banner (Sliding down from top) -->
+<div id="pwa-install-banner" class="pwa-banner">
+  <div class="pwa-banner-content">
+    <div class="pwa-banner-icon">
+      <img src="./icon-192.png" alt="MYHOUR" width="36" height="36" style="border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.5); display:block;">
+    </div>
+    <div class="pwa-banner-text">
+      <b class="gold-text" style="font-size:14px; letter-spacing:0.5px;" id="pwa-title">MYHOUR অ্যাপ ইনস্টল করুন</b>
+      <div style="font-size:12px; color:var(--t2);" id="pwa-desc">মোবাইল বা পিসিতে ফুল অ্যাপের মতো ব্যবহার করুন — অফলাইনেও চলবে!</div>
+    </div>
+  </div>
+  <div class="pwa-banner-actions">
+    <button class="btn pwa-install-btn" onclick="triggerPwaInstall()">
+      📥 ইনস্টল করুন
+    </button>
+    <button class="x pwa-dismiss-btn" onclick="dismissPwaBanner()" title="Close">
+      ✕
+    </button>
+  </div>
+</div>
+
+<!-- Ultra-Premium 3D Executive Splash Screen -->
+<div id="sp">
+  <div class="lo-wrapper">
+    <div class="sp-orbit-1"></div>
+    <div class="sp-orbit-2"></div>
+    <div class="lo">
+      <svg viewBox="0 0 110 110">
+        <defs>
+          <radialGradient id="spGoldDial" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#FFF7DA"/>
+            <stop offset="35%" stop-color="#F6D472"/>
+            <stop offset="70%" stop-color="#D4A33B"/>
+            <stop offset="100%" stop-color="#7C5712"/>
+          </radialGradient>
+          <linearGradient id="spGoldMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF7DA"/>
+            <stop offset="50%" stop-color="#D4A33B"/>
+            <stop offset="100%" stop-color="#805615"/>
+          </linearGradient>
+          <filter id="spGoldShine" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+            <feOffset in="blur" dx="0" dy="2" result="offset"/>
+            <feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer Ring with Fine Roman/Modern Tick Marks -->
+        <circle cx="55" cy="55" r="50" fill="url(#spGoldDial)" filter="url(#spGoldShine)"/>
+        <circle cx="55" cy="55" r="43" fill="#0A1220" stroke="url(#spGoldMetallic)" stroke-width="2.5"/>
+
+        <!-- 12 Dial Index Markers -->
+        <g stroke="#D4A33B" stroke-width="2.8" stroke-linecap="round" opacity="0.9">
+          <!-- 12, 3, 6, 9 Cardinal Markers (Thicker) -->
+          <path d="M55 15v8M55 87v8M15 55h8M87 55h8" stroke-width="3.5" stroke="#FFF7DA"/>
+          <!-- Minor Markers -->
+          <path d="M75 20.3l-4 6.9M35 82.8l-4 6.9M89.7 35l-6.9 4M20.3 75l6.9-4M89.7 75l-6.9-4M20.3 35l6.9 4M75 89.7l-4-6.9M35 27.2l-4-6.9" opacity="0.6"/>
+        </g>
+
+        <!-- Subtle Inner Pattern -->
+        <circle cx="55" cy="55" r="32" fill="none" stroke="rgba(214,170,84,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- 3D Luxury Watch Hands -->
+        <g stroke-linecap="round">
+          <!-- Hour Hand with Diamond Tip -->
+          <path class="hh" d="M55 55L55 33" stroke="url(#spGoldMetallic)" stroke-width="4.2"/>
+          <!-- Minute Hand with Needle Tip -->
+          <path class="mh" d="M55 55L55 20" stroke="#FFF7DA" stroke-width="2.8"/>
+        </g>
+
+        <!-- Center Golden Bevel Pivot Cap -->
+        <circle cx="55" cy="55" r="6" fill="url(#spGoldDial)" stroke="#0A1220" stroke-width="1.8"/>
+        <circle cx="55" cy="55" r="2.2" fill="#0A1220"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="tt-wrap">
+    <div class="sp-pill">✦ ENTERPRISE FINANCIAL SUITE ✦</div>
+    <div class="tt"><i>M</i><i>Y</i><i>H</i><i>O</i><i>U</i><i>R</i></div>
+    <div class="tg" id="sptg">Work Hours · Overtime · Salary Manager</div>
+    <div class="tg-bn">আপনার সময়ের সঠিক মূল্যায়ন ও প্রিমিয়াম স্যালারি ভল্ট</div>
+  </div>
+
+  <div class="sp-bar-container">
+    <div class="sp-bar">
+      <div class="sp-bar-fill"></div>
+    </div>
+    <div class="sp-status" id="sp-status-text">🔒 Encrypted Local Vault Initializing...</div>
+  </div>
+
+  <div class="sp-skip" onclick="dismissSplash()">
+    সরাসরি প্রবেশ করুন ➔
+  </div>
+</div>
+
+<!-- Main App Layout Container -->
+<div id="app-container">
+
+  <!-- Desktop Sidebar -->
+  <aside id="sidebar">
+    <div class="brand-box">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title gold-text">MYHOUR</div>
+        <div class="brand-tag">Work & Salary Manager</div>
+      </div>
+    </div>
+
+    <div class="user-brief" id="sb-user">
+      <div class="user-avatar" id="sb-av">M</div>
+      <div class="user-meta">
+        <div class="user-name" id="sb-name">Mijanur Rahman</div>
+        <div class="user-prof" id="sb-prof">Site Technician</div>
+      </div>
+    </div>
+
+    <div class="s-nav-title" id="sb-menu-title">Main Navigation</div>
+    <div id="sidebar-links"></div>
+
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
+      <button class="s" style="width:100%; padding:9px 12px; font-size:12px; border-radius:10px;" onclick="downloadBackup()">
+        💾 ব্যাকআপ (JSON)
+      </button>
+      <div class="vault-status" id="vault-badge" title="IndexedDB + LocalStorage + Device Vault Active">
+        <span class="vault-dot"></span>
+        <span id="vault-text">100% Private & Auto-Synced</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content Stage -->
+  <div id="stage">
+    <!-- Top Header -->
+    <header>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span id="bkb" class="bkb" onclick="goBack(1)" aria-label="Back">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        </span>
+        <span class="bars" onclick="openDrawer()">
+          <i></i><i></i><i></i>
+        </span>
+        <b class="gold-text">MYHOUR</b>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span id="view-mode-pill" class="tx" onclick="cycleViewMode()" title="Toggle View Mode">⚡ Auto View</span>
+        <span id="lang-pill" class="tx" onclick="cycleLang()">বাংলা</span>
+        <span id="theme-pill" class="tx" onclick="toggleTheme()">🌙</span>
+      </div>
+    </header>
+
+    <!-- Scrollable Main Viewport -->
+    <main id="main-viewport">
+      <div id="content-root"></div>
+    </main>
+
+    <!-- Floating Mobile Bottom Nav -->
+    <nav id="nv"></nav>
+  </div>
+</div>
+
+<!-- Modal Dialog / Bottom Sheet Container -->
+<div id="md" onclick="if(event.target===this)closeModal()"></div>
+
+<!-- Slide-in Mobile Drawer -->
+<div id="dr" onclick="if(event.target===this)closeDrawer()">
+  <div id="drawer-inner">
+    <div class="dh">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+        <div class="brand-icon" style="width:40px; height:40px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
+          </svg>
+        </div>
+        <div>
+          <b class="gold-text" style="font-size:20px; letter-spacing:2px;">MYHOUR</b>
+          <div style="font-size:11px; color:var(--t2);">Your Time. Your Earnings.</div>
+        </div>
+      </div>
+      <div id="dr-user-info" style="font-size:13px; color:var(--t1); margin-top:8px;"></div>
+    </div>
+    <div id="dr-links" style="padding:10px 0;"></div>
+  </div>
+</div>
+
+<!-- Toast Popup -->
+<div id="tst"></div>
+
+<!-- Authentication Overlay (PIN / Password Screen) -->
+<div id="au"></div>
+
+<!-- Scripts -->
+<script>
+/* ==========================================================================
+   TRANSLATION DICTIONARY (Bengali, English, Arabic)
+   ========================================================================== */
+const TR = {
+  nav_developer: { en: "Developer", bn: "ডেভেলপার", ar: "المطور" },
+  app_name: { en: "MYHOUR", bn: "MYHOUR", ar: "ماي آور" },
+  tagline: { en: "Your Time. Your Work. Your Earnings.", bn: "আপনার সময়। আপনার কাজ। আপনার উপার্জন।", ar: "وقتك. عملك. أرباحك." },
+  nav_dashboard: { en: "Dashboard", bn: "ড্যাশবোর্ড", ar: "لوحة التحكم" },
+  nav_profile: { en: "My Profile", bn: "আমার প্রোফাইল", ar: "ملفي الشخصي" },
+  nav_employment: { en: "My Employment", bn: "চাকরি ও কোম্পানি", ar: "وظائفي وعقودي" },
+  nav_duty: { en: "Daily Duty", bn: "দৈনিক ডিউটি", ar: "الدوام اليومي" },
+  nav_schedule: { en: "Monthly Schedule", bn: "টাইম শিডিউল", ar: "جدول الساعات الشهري" },
+  nav_salary: { en: "Salary & Payments", bn: "বেতন ও পেমেন্ট", ar: "الرواتب والمدفوعات" },
+  nav_history: { en: "Employment History", bn: "কাজের পূর্ব ইতিহাস", ar: "سجل العمل السابق" },
+  nav_reports: { en: "Reports & Analytics", bn: "রিপোর্ট ও হিসাব", ar: "التقارير والإحصائيات" },
+  nav_remittance: { en: "Home Remittance", bn: "দেশে রেমিট্যান্স", ar: "الحوالات المالية" },
+  nav_advance_loan: { en: "Advance & Loan", bn: "অ্যাডভান্স ও ঋণ", ar: "السلف والقروض" },
+  nav_expenses: { en: "Personal Expenses", bn: "ব্যক্তিগত খরচ", ar: "المصاريف الشخصية" },
+  nav_backup: { en: "Backup & Cloud Data", bn: "ব্যাকআপ ও ডেটা ভল্ট", ar: "النسخ الاحتياطي والبيانات" },
+  nav_settings: { en: "Settings & Security", bn: "সেটিংস ও নিরাপত্তা", ar: "الإعدادات والأمان" },
+  total_earnings: { en: "Total Earned", bn: "মোট অর্জিত বেতন", ar: "إجمالي الأرباح" },
+  total_received: { en: "Received Salary", bn: "নগদ প্রাপ্ত বেতন", ar: "المبالغ المستلمة" },
+  outstanding_salary: { en: "Outstanding Due", bn: "বকেয়া বেতন পাওনা", ar: "المستحقات المتبقية" },
+  total_duty_hours: { en: "Total Work Hours", bn: "মোট কাজের ঘণ্টা", ar: "ساعات العمل الإجمالية" },
+  total_ot_hours: { en: "Overtime Hours", bn: "ওভারটাইম ঘণ্টা", ar: "ساعات الإضافي (OT)" },
+  active_employment: { en: "Active Employment", bn: "বর্তমান সক্রিয় কাজ", ar: "العمل الحالي" },
+  net_savings: { en: "Net Balance In Hand", bn: "হাতে সঞ্চিত ব্যালেন্স", ar: "الرصيد المتبقي الصافي" },
+  btn_add_duty: { en: "Log Today's Duty", bn: "নতুন ডিউটি এন্ট্রি", ar: "تسجيل دوام جديد" },
+  btn_add_employment: { en: "Add Employment", bn: "নতুন কাজ যোগ করুন", ar: "إضافة عمل جديد" },
+  btn_add_payment: { en: "Record Salary Payment", bn: "বেতন রিসিভ রেকর্ড", ar: "تسجيل استلام راتب" },
+  btn_add_remittance: { en: "Send Remittance", bn: "রেমিট্যান্স এন্ট্রি", ar: "تسجيل حوالة جديدة" },
+  btn_add_expense: { en: "Add Expense", bn: "খরচ যোগ করুন", ar: "إضافة مصروف" },
+  btn_save: { en: "Save Record", bn: "সংরক্ষণ করুন", ar: "حفظ البيانات" },
+  btn_cancel: { en: "Cancel", bn: "বাতিল", ar: "إلغاء" },
+  btn_download_backup: { en: "Download JSON Backup", bn: "ব্যাকআপ ফাইল ডাউনলোড (JSON)", ar: "تحميل نسخة احتياطية" },
+  btn_restore_backup: { en: "Restore from Backup", bn: "ব্যাকআপ রিস্টোর করুন", ar: "استعادة النسخة الاحتياطية" },
+  btn_export_csv: { en: "Export CSV Report", bn: "CSV রিপোর্ট এক্সপোর্ট", ar: "تصدير تقرير CSV" },
+  field_company: { en: "Company Name", bn: "কোম্পানির নাম", ar: "اسم الشركة" },
+  field_supply: { en: "Supply Name (If Supply Worker)", bn: "সাপ্লাই নাম (সাপ্লাই কর্মী হলে)", ar: "اسم مؤسسة التوريد" },
+  field_project: { en: "Project Name", bn: "প্রজেক্টের নাম", ar: "اسم المشروع" },
+  field_profession: { en: "Profession / Trade", bn: "পেশা / কাজের ধরন", ar: "المهنة / التخصص" },
+  field_hourly_rate: { en: "Regular Hourly Rate", bn: "সাধারণ প্রতি ঘণ্টা রেট", ar: "أجر الساعة العادية" },
+  field_ot_rate: { en: "Overtime (OT) Hourly Rate", bn: "ওভারটাইম প্রতি ঘণ্টা রেট", ar: "أجر ساعة الإضافي (OT)" },
+  field_date: { en: "Date", bn: "তারিখ", ar: "التاريخ" },
+  field_total_hours: { en: "Total Work Hours", bn: "মোট ডিউটি ঘণ্টা", ar: "إجمالي ساعات الدوام" },
+  field_notes: { en: "Notes / Details", bn: "মন্তব্য / বিবরণ", ar: "ملاحظات وتفاصيل" },
+  emp_type_company: { en: "Company Employee", bn: "কোম্পানি কর্মী (Company Employee)", ar: "موظف شركة نظامي" },
+  emp_type_supply: { en: "Independent / Supply Worker", bn: "সাপ্লাই / স্বাধীন কর্মী (Supply Worker)", ar: "عامل توريد / مستقل" },
+  privacy_guarantee: { en: "Strict Personal Privacy: Your records are 100% private to you. Stored securely on your device.", bn: "কঠোর ব্যক্তিগত গোপনীয়তা: আপনার হিসাব কেবল আপনারই। সম্পূর্ণ সুরক্ষিতভাবে আপনার ডিভাইসে সংরক্ষিত।", ar: "خصوصية تامة: بياناتك وأرباحك خاصة بك فقط ومحفوظة بأمان على جهازك." }
+};
+
+/* ==========================================================================
+   DEFAULT STATE & MULTI-TIER DATA PERSISTENCE ENGINE (ZERO DATA LOSS)
+   ========================================================================== */
+const D0 = {
+  profile: {
+    name: "Mijanur Rahman",
+    email: "",
+    contact: "+01700000000",
+    profession: "Electrician / Site Technician",
+    rate: 32.5,
+    lang: "bn",
+    dark: true,
+    viewMode: "auto",
+    iqama: "",
+    passport: ""
+  },
+  emp: [],
+  duty: [],
+  sched: [],
+  pay: [],
+  rem: [],
+  loan: [],
+  exp: [],
+  seq: 1,
+  auth: null,
+  logged: 1
+};
+
+let S = null;
+
+const openIDB = () => new Promise((resolve) => {
+  try {
+    const req = indexedDB.open("myhour_vault_v2", 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains("state")) {
+        db.createObjectStore("state");
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => resolve(null);
+  } catch (e) { resolve(null); }
+});
+
+const idbGet = async () => {
+  try {
+    const db = await openIDB();
+    if (!db) return null;
+    return new Promise((resolve) => {
+      const tx = db.transaction("state", "readonly");
+      const req = tx.objectStore("state").get("current");
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => resolve(null);
+    });
+  } catch (e) { return null; }
+};
+
+const idbPut = async (val) => {
+  try {
+    const db = await openIDB();
+    if (!db) return;
+    const tx = db.transaction("state", "readwrite");
+    tx.objectStore("state").put(val, "current");
+  } catch (e) {}
+};
+
+function save() {
+  if (!S) return;
+  const json = JSON.stringify(S);
+  try { localStorage.setItem("myhour", json); } catch (e) {}
+  idbPut(json);
+  try {
+    if (window.AndroidBridge && typeof window.AndroidBridge.saveToNative === "function") {
+      window.AndroidBridge.saveToNative(json);
+    }
+  } catch (e) {}
+}
+
+try {
+  const localStr = localStorage.getItem("myhour");
+  if (localStr) S = JSON.parse(localStr);
+} catch (e) { S = null; }
+
+if (!S) {
+  try {
+    if (window.AndroidBridge && typeof window.AndroidBridge.loadFromNative === "function") {
+      const nativeStr = window.AndroidBridge.loadFromNative();
+      if (nativeStr) S = JSON.parse(nativeStr);
+    }
+  } catch (e) {}
+}
+
+S = S || JSON.parse(JSON.stringify(D0));
+
+idbGet().then((savedStr) => {
+  if (savedStr) {
+    try {
+      const parsed = JSON.parse(savedStr);
+      if (parsed && parsed.seq > (S ? S.seq : 0)) {
+        S = parsed;
+        importDemoDataIfNeeded();
+        save();
+        render();
+        gate();
+      }
+    } catch (e) {}
+  }
+});
+
+window.addEventListener("pagehide", () => save());
+window.addEventListener("beforeunload", () => save());
+document.addEventListener("visibilitychange", () => { if (document.hidden) save(); });
+
+window.checkNativeRestore = function() {
+  try {
+    if (window.AndroidBridge && typeof window.AndroidBridge.loadFromNative === "function") {
+      const nativeStr = window.AndroidBridge.loadFromNative();
+      if (nativeStr && (!S || S.duty.length === 0)) {
+        S = JSON.parse(nativeStr);
+        save();
+        render();
+      }
+    }
+  } catch (e) {}
+};
+
+/* ==========================================================================
+   HELPERS & LOCALIZATION
+   ========================================================================== */
+const L = () => (S && S.profile && (S.profile.lang === "en" || S.profile.lang === "bn") ? S.profile.lang : "bn");
+const t = (k) => (TR[k] || {})[L()] || (TR[k] || {}).en || k;
+const T3 = (bn, en, ar) => L() === "bn" ? bn : (L() === "ar" ? (ar || en) : en);
+const N = (x) => (+x || 0);
+const f = (x) => N(x).toLocaleString(undefined, { maximumFractionDigits: 2 });
+const today = () => new Date().toISOString().slice(0, 10);
+const val = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
+
+const IC = {
+  dev: "👨‍💻", home: "🏠", dashboard: "📊", date_range: "⏱️", payments: "💵",
+  send: "📤", menu_book: "📖", work: "💼", calendar_month: "📅",
+  trending_up: "📈", cloud_done: "☁️", person: "👤"
+};
+
+const BN = [
+  ["duty", "nav_duty", "date_range"],
+  ["employment", "nav_employment", "work"],
+  ["dashboard", "nav_dashboard", "home"],
+  ["salary", "nav_salary", "payments"],
+  ["finance", "nav_remittance", "send"]
+];
+
+const DR = [
+  ["dashboard", "nav_dashboard", "dashboard"],
+  ["duty", "nav_duty", "date_range"],
+  ["employment", "nav_employment", "work"],
+  ["schedule", "nav_schedule", "calendar_month"],
+  ["salary", "nav_salary", "payments"],
+  ["finance", "nav_remittance", "send"],
+  ["reports", "nav_reports", "trending_up"],
+  ["backup", "nav_backup", "cloud_done"],
+  ["profile", "nav_profile", "person"],
+  ["developer", "nav_developer", "dev"]
+];
+
+let cur = "dashboard";
+const ST = [];
+let IGN = 0;
+
+function empName(id) {
+  const e = S.emp.find(e => e.id == id);
+  return e ? `${e.company} - ${e.project}` : "-";
+}
+
+function empSel(id) {
+  if (!S.emp.length) return `<select id="${id}"><option value="">${T3("কোনো কাজ নেই, নতুন যোগ করুন", "No job added yet", "لا يوجد عمل")}</option></select>`;
+  return `<select id="${id}">${S.emp.map(e => `<option value="${e.id}">${e.company} - ${e.project}</option>`).join("")}</select>`;
+}
+
+function sum() {
+  const e = S.duty.reduce((a, d) => a + N(d.sal), 0);
+  const p = S.pay.reduce((a, d) => a + N(d.amt), 0);
+  const rs = S.rem.reduce((a, d) => a + N(d.sar), 0);
+  const rb = S.rem.reduce((a, d) => a + N(d.bdt), 0);
+  const ex = S.exp.reduce((a, d) => a + N(d.amt), 0);
+  const h = S.duty.reduce((a, d) => a + N(d.tot), 0);
+  const ot = S.duty.reduce((a, d) => a + N(d.ot), 0);
+  const ln = S.loan.filter(l => l.type !== "Loan Given").reduce((a, l) => a + Math.max(0, N(l.amt) - N(l.rep)), 0);
+  const net = p - rs - ex;
+  return { e, p, o: Math.max(0, e - p), h, ot, rs, rb, ex, ln, net };
+}
+
+function toast(m, type) {
+  try {
+    if (window.AndroidBridge && typeof window.AndroidBridge.vibrate === "function") {
+      window.AndroidBridge.vibrate(25);
+    } else if (navigator.vibrate) {
+      navigator.vibrate(25);
+    }
+  } catch (e) {}
+
+  const el = document.getElementById("tst");
+  if (!el) return;
+  el.textContent = m;
+  el.className = "show " + (type || "");
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => { el.className = ""; }, 2400);
+}
+
+function add(key, obj) {
+  obj.id = S.seq++;
+  S[key].push(obj);
+  save();
+  render();
+  toast(T3("✅ সফলভাবে সংরক্ষিত হয়েছে", "✅ Successfully Saved", "✅ تم الحفظ بنجاح"));
+}
+
+function del(k, i) {
+  const msg = L() === "bn" ? "এটি স্থায়ীভাবে মুছে ফেলতে চান?" : (L() === "ar" ? "هل تريد حذف هذا السجل نهائياً؟" : "Permanently remove this record?");
+  if (!confirm(msg)) return;
+  S[k].splice(i, 1);
+  save();
+  render();
+  toast(T3("🗑 মুছে ফেলা হয়েছে", "🗑 Record Removed", "🗑 تم الحذف"), "del");
+}
+
+/* ==========================================================================
+   PWA INSTALLATION PROMPT CONTROLLER (SLIDES DOWN FROM TOP)
+   ========================================================================== */
+let deferredPwaPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPwaPrompt = e;
+  setTimeout(() => {
+    showPwaBanner();
+  }, 2600);
+});
+
+let pwaBannerHideTimer = null;
+let pwaBannerShownThisSession = false;
+
+function showPwaBanner() {
+  if (window.AndroidBridge) return;
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
+  if (sessionStorage.getItem('pwa_dismissed') || pwaBannerShownThisSession) return;
+
+  const banner = document.getElementById('pwa-install-banner');
+  if (!banner) return;
+
+  pwaBannerShownThisSession = true;
+  banner.classList.add('show');
+
+  if (pwaBannerHideTimer) clearTimeout(pwaBannerHideTimer);
+  pwaBannerHideTimer = setTimeout(() => {
+    banner.classList.remove('show');
+  }, 5000);
+}
+
+function dismissPwaBanner() {
+  const banner = document.getElementById('pwa-install-banner');
+  if (banner) banner.classList.remove('show');
+  if (pwaBannerHideTimer) clearTimeout(pwaBannerHideTimer);
+  sessionStorage.setItem('pwa_dismissed', '1');
+}
+
+async function triggerPwaInstall() {
+  if (deferredPwaPrompt) {
+    deferredPwaPrompt.prompt();
+    const choice = await deferredPwaPrompt.userChoice;
+    if (choice && choice.outcome === 'accepted') {
+      toast(T3('✅ অ্যাপ ইনস্টল সম্পন্ন হচ্ছে...', '✅ Installing App...', '✅ جاري التثبيت...'));
+    }
+    deferredPwaPrompt = null;
+    dismissPwaBanner();
+  } else {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+      alert(T3("iOS-এ ইনস্টল করতে: Safari-এর Share বাটনে ক্লিক করে 'Add to Home Screen' বেছে নিন।",
+               "To install on iOS: Tap Share in Safari and select 'Add to Home Screen'.",
+               "للتثبيت على iOS: اضغط على زر المشاركة ثم اختر 'إضافة إلى الصفحة الرئيسية'"));
+    } else {
+      alert(T3("ব্রাউজারের ৩ ডট মেনু (⋮) থেকে 'Install App' বা 'Add to Home screen' বেছে নিন।",
+               "Tap the browser menu (⋮) and select 'Install app' or 'Add to Home screen'.",
+               "افتح قائمة المتصفح (⋮) واختر 'تثبيت التطبيق'"));
+    }
+    dismissPwaBanner();
+  }
+}
+
+function initSplashStatus() {
+  const el = document.getElementById("sp-status-text");
+  if (!el) return;
+  setTimeout(() => { if (el) el.innerText = "⏱️ Time & Overtime Engine Ready..."; }, 600);
+  setTimeout(() => { if (el) el.innerText = "📊 Salary Intelligence Synced..."; }, 1300);
+  setTimeout(() => { if (el) el.innerText = "✨ Welcome, " + (S && S.profile && S.profile.name ? S.profile.name : "Mijanur Rahman"); }, 1900);
+}
+
+function dismissSplash() {
+  const sp = document.getElementById("sp");
+  if (!sp) return;
+  sp.style.transition = "opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease";
+  sp.style.opacity = "0";
+  sp.style.transform = "scale(1.04)";
+  sp.style.filter = "blur(6px)";
+  sp.style.pointerEvents = "none";
+  setTimeout(() => { sp.style.display = "none"; }, 400);
+}
+
+function openTourModal() {
+  openModal(`
+    <div style="padding:10px 4px;">
+      <div class="rh">
+        <h3 class="gold-text" style="font-size:20px; margin:0;">✨ MYHOUR প্রিমিয়াম সার্ভিস পরিচিতি</h3>
+      </div>
+      <p class="k" style="font-size:13px; margin:8px 0 16px; line-height:1.6;">
+        MYHOUR হলো প্রবাসী কর্মী, সাইট টেকনিশিয়ান ও পেশাদারদের জন্য তৈরি একটি সম্পূর্ণ ব্যক্তিগত ও স্বয়ংক্রিয় ওয়ার্ক অ্যান্ড স্যালারি ম্যানেজমেন্ট সিস্টেম।
+      </p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px;">
+        <div class="card" style="margin:0; padding:14px; background:rgba(214,170,84,0.08); border:1px solid rgba(214,170,84,0.25);">
+          <div style="font-size:14px; font-weight:700; color:var(--gold); margin-bottom:4px;">⏱️ স্মার্ট কর্মঘণ্টা ও ওটি</div>
+          <div style="font-size:12px; color:var(--t2); line-height:1.4;">স্বাভাবিক ডিউটি ও অতিরিক্ত ওভারটাইম অটো-ডিটেকশন ও ঘণ্টা রেট হিসাব।</div>
+        </div>
+        <div class="card" style="margin:0; padding:14px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25);">
+          <div style="font-size:14px; font-weight:700; color:var(--ok); margin-bottom:4px;">💵 বকেয়া ও নগদ পেমেন্ট</div>
+          <div style="font-size:12px; color:var(--t2); line-height:1.4;">কোম্পানি থেকে কত টাকা পাওনা এবং কত পাওয়া গেছে তার নিখুঁত হিসাব।</div>
+        </div>
+        <div class="card" style="margin:0; padding:14px; background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.25);">
+          <div style="font-size:14px; font-weight:700; color:var(--cy); margin-bottom:4px;">📄 অফিসিয়াল A4 PDF</div>
+          <div style="font-size:12px; color:var(--t2); line-height:1.4;">ইকামা, প্রজেক্ট নাম, কর্মঘণ্টা ও সিগনেচার স্পেস সহ অফিশিয়াল টাইমশিট।</div>
+        </div>
+        <div class="card" style="margin:0; padding:14px; background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.25);">
+          <div style="font-size:14px; font-weight:700; color:var(--pr); margin-bottom:4px;">🔒 ১০০% অফলাইন ভল্ট</div>
+          <div style="font-size:12px; color:var(--t2); line-height:1.4;">কোনো ডেটা সার্ভারে যায় না, আপনার ডিভাইসেই সুরক্ষিত ব্যাকআপ থাকে।</div>
+        </div>
+      </div>
+      <button class="btn" style="width:100%; padding:12px;" onclick="closeModal()">
+        🚀 বুঝেছি, কাজ শুরু করুন
+      </button>
+    </div>
+  `);
+}
+
+window.addEventListener('load', () => {
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+  initSplashStatus();
+  setTimeout(() => {
+    showPwaBanner();
+  }, 1200);
+});
+
+/* ==========================================================================
+   VIEW MODE TOGGLE: AUTO / PC WEB / MOBILE APP
+   ========================================================================== */
+function applyViewMode() {
+  const mode = S.profile.viewMode || "auto";
+  document.body.classList.remove("mode-pc", "mode-mobile");
+  if (mode === "pc") {
+    document.body.classList.add("mode-pc");
+  } else if (mode === "mobile") {
+    document.body.classList.add("mode-mobile");
+  }
+
+  const pill = document.getElementById("view-mode-pill");
+  if (pill) {
+    if (mode === "pc") pill.textContent = "💻 PC Web";
+    else if (mode === "mobile") pill.textContent = "📱 Mobile";
+    else pill.textContent = "⚡ Auto View";
+  }
+}
+
+function cycleViewMode() {
+  const modes = ["auto", "pc", "mobile"];
+  const curMode = S.profile.viewMode || "auto";
+  const nextMode = modes[(modes.indexOf(curMode) + 1) % modes.length];
+  S.profile.viewMode = nextMode;
+  save();
+  applyViewMode();
+  toast(T3("মোড: " + (nextMode === "pc" ? "PC Full Web" : nextMode === "mobile" ? "Mobile App" : "Auto Responsive"),
+           "View Mode: " + (nextMode === "pc" ? "PC Full Web" : nextMode === "mobile" ? "Mobile App" : "Auto Responsive"),
+           "الوضع: " + nextMode));
+}
+
+function cycleLang() {
+  if (!S) S = JSON.parse(JSON.stringify(D0));
+  if (!S.profile) S.profile = {};
+  S.profile.lang = L() === "bn" ? "en" : "bn";
+  save();
+  if (S.auth && S.logged) render();
+  else gate();
+}
+
+function toggleTheme() {
+  S.profile.dark = !S.profile.dark;
+  save();
+  applyTheme();
+}
+
+function applyTheme() {
+  document.body.className = S.profile.dark ? "" : "light";
+  applyViewMode();
+  document.documentElement.dir = "ltr";
+  const pill = document.getElementById("theme-pill");
+  if (pill) pill.textContent = S.profile.dark ? "🌙" : "☀️";
+  const lPill = document.getElementById("lang-pill");
+  if (lPill) lPill.textContent = L() === "bn" ? "বাংলা" : "English";
+}
+
+/* ==========================================================================
+   MODAL DIALOG CONTROLLER
+   ========================================================================== */
+let FM = [];
+function form(title, fields, onsave) {
+  FM.push([title, fields, onsave]);
+  return `<button class="btn" style="width:100%; margin-bottom:12px; padding:13px;" onclick="openModal(${FM.length - 1})">➕ ${title}</button>`;
+}
+
+function openModal(index) {
+  const [title, fields, onsave] = FM[index];
+  const md = document.getElementById("md");
+  md.innerHTML = `
+    <div class="mb">
+      <div class="rh">
+        <h3 class="gold-text" style="font-size:18px;">${title}</h3>
+        <button class="x" onclick="closeModal()">✕</button>
+      </div>
+      <div class="fl">${fields}</div>
+      <div class="qa" style="margin-top:16px;">
+        <button class="s" onclick="closeModal()">${t("btn_cancel")}</button>
+        <button onclick="${onsave}">${t("btn_save")}</button>
+      </div>
+    </div>`;
+  md.className = "show";
+}
+
+function closeModal() {
+  const md = document.getElementById("md");
+  md.className = "";
+  md.innerHTML = "";
+}
+
+function openDrawer() { document.getElementById("dr").classList.add("show"); }
+function closeDrawer() { document.getElementById("dr").classList.remove("show"); }
+
+function go(route, isBack) {
+  if (!isBack && route !== cur) {
+    ST.push(cur);
+    if (ST.length > 30) ST.shift();
+  }
+  cur = route;
+  closeDrawer();
+  closeModal();
+
+  const isSub = cur !== "dashboard";
+  const bkb = document.getElementById("bkb");
+  const bars = document.querySelector(".bars");
+  if (bkb) bkb.style.display = isSub ? "flex" : "none";
+  if (bars) bars.style.display = isSub ? "none" : "flex";
+
+  render();
+}
+
+function goBack(ui) {
+  const md = document.getElementById("md");
+  if (md && md.classList.contains("show")) {
+    closeModal();
+    return;
+  }
+  const dr = document.getElementById("dr");
+  if (dr && dr.classList.contains("show")) {
+    closeDrawer();
+    return;
+  }
+  const prev = ST.pop() || "dashboard";
+  go(prev, true);
+}
+
+/* ==========================================================================
+   VIEWS IMPLEMENTATION (STRICT SINGLE-LINE 6 CARDS + FULL AUTO-ADJUST)
+   ========================================================================== */
+const V = {
+  dashboard() {
+    const s = sum();
+    const hasActive = S.emp.some(e => e.status === "Active");
+    const pv = t("privacy_guarantee");
+
+    // All 5 KPI cards in .kpi-row: EXACTLY ONE LINE on Desktop/PC!
+    const statCards = `
+      <div class="kpi-row">
+        <div class="card sc sc-earn">
+          <div class="k">${t("total_earnings")}</div>
+          <div class="v">SAR ${s.e.toFixed(2)}</div>
+          <div class="sub">${f(s.h)}h (${f(s.ot)}h OT)</div>
+        </div>
+        <div class="card sc sc-rec">
+          <div class="k">${t("total_received")}</div>
+          <div class="v">SAR ${s.p.toFixed(2)}</div>
+          <div class="sub">${T3("নগদ ও ব্যাংকে গৃহীত", "Received", "المستلم")}</div>
+        </div>
+        <div class="card sc sc-due">
+          <div class="k">${t("outstanding_salary")}</div>
+          <div class="v">SAR ${s.o.toFixed(2)}</div>
+          <div class="sub">${T3("কোম্পানির নিকট বাকি", "Due from company", "المستحق")}</div>
+        </div>
+        <div class="card sc sc-rem">
+          <div class="k">${T3("দেশে রেমিট্যান্স", "Home Remittance", "الحوالات")}</div>
+          <div class="v">SAR ${s.rs.toFixed(2)}</div>
+          <div class="sub">BDT ${f(s.rb)}</div>
+        </div>
+        <div class="card sc sc-exp">
+          <div class="k">${T3("ব্যক্তিগত খরচ", "Personal Expenses", "المصاريف")}</div>
+          <div class="v">SAR ${s.ex.toFixed(2)}</div>
+          <div class="sub">${s.ex > 0 ? f(S.exp.length) + " " + T3("টি এন্ট্রি", "entries") : T3("কোনো খরচ নেই", "No expense")}</div>
+        </div>
+      </div>`;
+
+    const emptyJobBanner = hasActive ? "" : `
+      <div class="empty">
+        <span class="em">💼</span>
+        <h3>${T3("কোনো সক্রিয় চাকরি যুক্ত করা নেই", "No active job or company yet", "لا يوجد عمل مسجل")}</h3>
+        <p>${T3("আপনার কাজের নির্ভুল হিসাবের জন্য প্রথমে নিজের কোম্পানি, প্রজেক্ট ও ঘণ্টা রেট যুক্ত করুন।", "Add your company, project and hourly rate first to start tracking your time.", "أضف شركتك ومشروعك وأجرك أولاً")}</p>
+        <button onclick="go('employment')">➕ ${t("btn_add_employment")}</button>
+      </div>`;
+
+    const quickActions = `
+      <div class="qa">
+        <button onclick="go('duty')">➕ ${t("btn_add_duty")}</button>
+        <button class="s" onclick="go('salary')">💵 ${t("btn_add_payment")}</button>
+        <button class="s" onclick="go('finance')">📤 ${t("btn_add_remittance")}</button>
+        <button class="s" onclick="pd()">📄 ${T3("PDF টাইমশিট", "Timesheet PDF", "كشف PDF")}</button>
+        <button class="s" onclick="downloadBackup()">💾 ${T3("ব্যাকআপ ডাউনলোড", "Backup JSON", "نسخة احتياطية")}</button>
+      </div>`;
+
+    const recentDuties = S.duty.length
+      ? S.duty.slice(-6).reverse().map(d => `
+        <div class="r">
+          <div>
+            <b>${d.date} · ${d.tot}h ${d.ot > 0 ? `<span style="color:var(--wn)">(OT ${d.ot}h)</span>` : ""}</b>
+            <div class="k">${empName(d.emp)} ${d.notes ? "· " + d.notes : ""}</div>
+          </div>
+          <div style="text-align:right;">
+            <b style="font-size:16px; color:var(--gold);">${f(d.sal)} SAR</b>
+          </div>
+        </div>`).join("")
+      : `<p class="k" style="text-align:center; padding:20px 0;">${T3("কোনো ডিউটি রেকর্ড নেই। নতুন এন্ট্রি দিন।", "No duty records yet. Add a new entry.", "لا يوجد سجلات")}</p>`;
+
+    const heroBanner = `
+      <div class="dash-hero">
+        <div class="dash-hero-content">
+          <div class="dash-hero-pill">
+            <span class="live-dot"></span>
+            <span class="dash-hero-edition">PREMIUM SERVICE SUITE</span>
+            <span class="dash-hero-sep">·</span>
+            <span class="dash-hero-secure">🔒 100% PRIVATE VAULT</span>
+          </div>
+          <h2 class="dash-hero-title">
+            স্বাগতম, <span class="gold-text">${S.profile.name || "মিজানুর রহমান"}</span> 👋
+          </h2>
+          <p class="dash-hero-sub">
+            ${T3("আপনার কাজের নির্ভুল সময়, ওভারটাইম হিসাব ও স্যালারি ট্র্যাকিং সম্পূর্ণ প্রস্তুত।", 
+                 "Your intelligent work hours, overtime calculation and salary manager is fully ready.", 
+                 "نظام تتبع ساعات العمل والأجور الخاص بك جاهز بالكامل")}
+          </p>
+        </div>
+        <div class="dash-hero-stats">
+          <div class="dash-hero-stat-box">
+            <div class="dash-hero-stat-k">${T3("আজকের তারিখ", "Today's Date")}</div>
+            <div class="dash-hero-stat-v">${new Date().toLocaleDateString(L() === "bn" ? "bn-BD" : "en-GB", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}</div>
+          </div>
+          <div class="dash-hero-stat-box">
+            <div class="dash-hero-stat-k">${T3("সিস্টেম স্ট্যাটাস", "System Status")}</div>
+            <div class="dash-hero-stat-v" style="color:var(--ok);">● ${T3("সক্রিয় ও সুরক্ষিত", "Active & Secured", "نشط")}</div>
+          </div>
+          <button class="dash-hero-tour-btn" onclick="openTourModal()">
+            ✨ ${T3("সার্ভিস ওভারভিউ", "Service Tour", "جولة الميزات")}
+          </button>
+        </div>
+      </div>`;
+
+    return `
+      ${heroBanner}
+      ${emptyJobBanner}
+      ${newMonthBanner("go('duty')")}
+      ${statCards}
+      ${quickActions}
+
+      <div class="pc-split">
+        <div class="pc-col-main">
+          <div class="card">
+            <div class="rh">
+              <h3>${T3("সাম্প্রতিক ডিউটি রেকর্ডস", "Recent Duty Records", "سجلات الدوام الأخيرة")}</h3>
+              <a onclick="go('duty')">${T3("সব দেখুন >", "View All >", "عرض الكل")}</a>
+            </div>
+            ${recentDuties}
+          </div>
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <h3>⚡ ${T3("কুইক ডিউটি এন্ট্রি", "Quick Duty Logger", "تسجيل سريع")}</h3>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>${empSel("qd_emp")}</div>
+              <input id="qd_date" type="date" value="${today()}">
+              <input id="qd_hrs" type="number" step="0.5" placeholder="${t("field_total_hours")} (e.g. 10 or 12)">
+              <input id="qd_notes" placeholder="${t("field_notes")}">
+              <button onclick="quickAddDuty()">${t("btn_save")}</button>
+            </div>
+          </div>
+
+          <div class="card pv">
+            <span class="em">🔒</span>
+            <div>${pv}</div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  employment() {
+    const list = S.emp.map((e, i) => `
+      <div class="card" style="padding:16px 18px; margin-bottom:12px;">
+        <div class="rh">
+          <div>
+            <b style="font-size:17px; color:var(--gold);">${e.company}</b>
+            <div class="k" style="font-size:13px; margin-top:2px;">${e.project} · <span style="color:${e.status === 'Active' ? 'var(--ok)' : 'var(--t2)'}; font-weight:700;">${e.status}</span></div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="x ed" onclick="ed('emp', ${i})">✏️ ${T3("এডিট", "Edit", "تعديل")}</button>
+            <button class="x" onclick="del('emp', ${i})">🗑 ${T3("মুছুন", "Delete", "حذف")}</button>
+          </div>
+        </div>
+        <div style="display:flex; gap:16px; margin-top:10px; font-size:13px; color:var(--t2); flex-wrap:wrap;">
+          <div>${T3("রেগুলার রেট", "Rate")}: <b style="color:var(--t1);">${e.rate} SAR/h</b></div>
+          <div>${T3("ওভারটাইম রেট", "OT Rate")}: <b style="color:var(--wn);">${e.otr} SAR/h</b></div>
+          <div>${T3("দৈনিক স্বাভাবিক শিফট", "Regular Shift")}: <b style="color:var(--t1);">${e.thr}h</b></div>
+        </div>
+      </div>`).join("");
+
+    return `
+      <div class="pc-split">
+        <div class="pc-col-main">
+          <div class="rh" style="margin-bottom:12px;">
+            <h3 class="gold-text" style="font-size:18px; margin:0;">💼 ${t("nav_employment")}</h3>
+            <span class="k">${S.emp.length} ${T3("টি কোম্পানি/কাজ", "jobs")}</span>
+          </div>
+          ${list || `<div class="card"><p class="k" style="text-align:center; padding:20px;">${T3("কোনো চাকরি যুক্ত নেই", "No job added yet", "لا يوجد أعمال")}</p></div>`}
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <h3>➕ ${t("btn_add_employment")}</h3>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <select id="a1"><option>${t("emp_type_company")}</option><option>${t("emp_type_supply")}</option></select>
+              <input id="a2" placeholder="${t("field_company")}">
+              <input id="a3" placeholder="${t("field_project")}">
+              <input id="a4" placeholder="${t("field_profession")}" value="${S.profile.profession}">
+              <input id="a5" type="date" value="${today()}">
+              <input id="a6" type="number" placeholder="${t("field_hourly_rate")}" value="12">
+              <input id="a7" type="number" placeholder="${t("field_ot_rate")}" value="18">
+              <input id="a8" type="number" placeholder="${T3("নিয়মিত ঘণ্টা", "Regular hours")}" value="10">
+              <button onclick="addEmp()">${t("btn_save")}</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  duty() {
+    const s = sum();
+    return `
+      ${newMonthBanner("openModal(0)")}
+      
+      <!-- Top 4 Single-Line Balanced Cards -->
+      <div class="kpi-row-4">
+        <div class="card sc sc-earn">
+          <div class="k">${T3("মোট কাজের ঘণ্টা", "Total Hours")}</div>
+          <div class="v">${f(s.h)}h</div>
+          <div class="sub">${T3("সকল ডিউটি এন্ট্রি", "All duties")}</div>
+        </div>
+        <div class="card sc sc-rec">
+          <div class="k">${T3("ওভারটাইম ঘণ্টা (OT)", "Overtime Hours")}</div>
+          <div class="v">${f(s.ot)}h</div>
+          <div class="sub">${T3("বাড়তি অর্জিত কাজ", "Extra OT hours")}</div>
+        </div>
+        <div class="card sc sc-due">
+          <div class="k">${T3("ডিউটি থেকে মোট বেতন", "Total Duty Salary")}</div>
+          <div class="v">SAR ${f(s.e)}</div>
+          <div class="sub">${T3("রেগুলার + ওটি উপার্জন", "Regular + OT pay")}</div>
+        </div>
+        <div class="card sc sc-net">
+          <div class="k">${T3("মোট ডিউটি দিন", "Total Duty Days")}</div>
+          <div class="v">${S.duty.length} ${T3("দিন", "Days")}</div>
+          <div class="sub">${T3("লগকৃত কর্মদিবস", "Logged days")}</div>
+        </div>
+      </div>
+
+      <div class="pc-split">
+        <div class="pc-col-main">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 class="gold-text" style="font-size:18px; margin:0;">⏱️ ${T3("মাসভিত্তিক ডিউটি শিডিউল", "Monthly Duty Records")}</h3>
+            <button class="s" onclick="pd()">📄 ${T3("PDF টাইমশিট", "PDF Timesheet")}</button>
+          </div>
+          ${dutyMonths()}
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <h3>➕ ${t("btn_add_duty")}</h3>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>${empSel("a1")}</div>
+              <input id="a2" type="date" value="${today()}">
+              <input id="a3" type="number" step="0.5" placeholder="${t("field_total_hours")} (e.g. 10 or 12)">
+              <input id="a4" placeholder="${t("field_notes")}">
+              <button onclick="addDuty()">${t("btn_save")}</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>📄 ${T3("A4 PDF টাইমশিট জেনারেটর", "Timesheet PDF Generator")}</h3>
+            <p class="k" style="font-size:13px; margin-bottom:12px; line-height:1.5;">
+              ${T3("কোম্পানি, প্রজেক্ট, ইকামা ও পাসপোর্ট নম্বর সহ যেকোনো মাসের ফুল A4 PDF তৈরি করুন।", "Generate full official A4 PDF timesheet with signatures for any month.")}
+            </p>
+            <button class="btn" style="width:100%;" onclick="pd()">📄 ${T3("PDF তৈরি ও শেয়ার করুন", "Generate & Share PDF")}</button>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  schedule() {
+    const list = S.sched.map((x, i) => row(`${x.month} · ${x.title}`, `${empName(x.emp)} · ${x.hrs}h`, "sched", i)).join("");
+    return `
+      <div class="pc-split">
+        <div class="pc-col-main">
+          <div class="card">
+            <div class="rh">
+              <h3>📅 ${t("nav_schedule")}</h3>
+            </div>
+            <div class="lst">${list || `<p class="k" style="text-align:center; padding:12px;">${T3("কোনো শিডিউল যুক্ত নেই", "No schedule added")}</p>`}</div>
+          </div>
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <h3>➕ ${T3("নতুন শিডিউল যোগ করুন", "Add Schedule")}</h3>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>${empSel("a1")}</div>
+              <input id="a2" type="month" value="${today().slice(0, 7)}">
+              <input id="a3" placeholder="${T3("শিরোনাম", "Title")}">
+              <input id="a4" type="number" placeholder="${T3("অনুমোদিত ঘণ্টা", "Approved hours")}">
+              <button onclick="addSched()">${t("btn_save")}</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  salary() {
+    const s = sum();
+    const paymentsList = S.pay.map((p, i) =>
+      row(`${mlabel(p.month)} ${T3("মাসের বেতন", "salary", "راتب")} · ${f(p.amt)} SAR`,
+          `${p.date} · ${p.method} · ${empName(p.emp)}`, "pay", i)).join("");
+
+    const pct = s.e > 0 ? Math.min(100, Math.round((s.p / s.e) * 100)) : 100;
+
+    return `
+      <!-- Top 4 Single-Line Balanced Cards (Zero empty space) -->
+      <div class="kpi-row-4">
+        <div class="card sc sc-due">
+          <div class="k">${t("outstanding_salary")}</div>
+          <div class="v">SAR ${f(s.o)}</div>
+          <div class="sub">${T3("কোম্পানির নিকট বাকি পাওনা", "Pending from employer", "المتبقي")}</div>
+        </div>
+        <div class="card sc sc-rec">
+          <div class="k">${t("total_received")}</div>
+          <div class="v">SAR ${f(s.p)}</div>
+          <div class="sub">${T3("পরিশোধিত মোট বেতন", "Total received salary", "المستلم")}</div>
+        </div>
+        <div class="card sc sc-earn">
+          <div class="k">${t("total_earnings")}</div>
+          <div class="v">SAR ${f(s.e)}</div>
+          <div class="sub">${T3("মোট কাজ ও ডিউটি আয়", "Total earned from work", "إجمالي الأرباح")}</div>
+        </div>
+        <div class="card sc sc-net">
+          <div class="k">${T3("পরিশোধের হার", "Payment Rate", "نسبة السداد")}</div>
+          <div class="v">${pct}%</div>
+          <div class="sub">${pct >= 100 ? "✅ " + T3("সম্পূর্ণ পরিশোধিত", "Fully Paid") : T3("বকেয়া সমন্বয় বাকি", "Pending Dues")}</div>
+        </div>
+      </div>
+
+      <!-- Main Desktop 2-Column Split Layout -->
+      <div class="pc-split">
+        <div class="pc-col-main">
+          ${monthCards()}
+
+          <div class="card" style="margin-top:16px;">
+            <div class="rh">
+              <h3>📜 ${T3("বেতন প্রাপ্তির পূর্ব রেকর্ডস", "Salary Payment History", "سجل استلام الرواتب")}</h3>
+              <span class="k">${S.pay.length} ${T3("টি পেমেন্ট", "payments")}</span>
+            </div>
+            <div class="lst" style="border:0; padding:0; background:none;">
+              ${paymentsList || `
+                <div style="text-align:center; padding:24px 12px;">
+                  <p class="k" style="font-size:14px; margin-bottom:8px;">${T3("এখনো কোনো পেমেন্ট রেকর্ড নেই।", "No payment recorded yet.", "لا توجد دفعات مسجلة")}</p>
+                  <p class="k" style="font-size:12px;">${T3("কোম্পানি বা নিয়োগকর্তার কাছ থেকে বেতন পেলে পাশের ফর্ম থেকে এন্ট্রি দিন।", "Record received payments from the form on the side.")}</p>
+                </div>`}
+            </div>
+          </div>
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <h3>💵 ${t("btn_add_payment")}</h3>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>
+                <div class="k" style="margin-bottom:4px;">${T3("চাকরি / কোম্পানি", "Job / Employer")}</div>
+                ${empSel("a1")}
+              </div>
+              <div>
+                <div class="k" style="margin-bottom:4px;">${T3("কোন মাসের বেতন", "Salary Month")}</div>
+                <input id="a2" type="month" value="${payDefM()}" onchange="payFill()">
+              </div>
+              <div>
+                <div class="k" style="margin-bottom:4px;">${T3("পরিমাণ (SAR)", "Amount in SAR")}</div>
+                <input id="a3" type="number" step="any" inputmode="decimal" placeholder="Amount (SAR)" value="${payDue(S.emp[0] && S.emp[0].id, payDefM()) || ""}">
+              </div>
+              <div>
+                <div class="k" style="margin-bottom:4px;">${T3("প্রাপ্তির তারিখ", "Payment Date")}</div>
+                <input id="a4" type="date" value="${today()}">
+              </div>
+              <div>
+                <div class="k" style="margin-bottom:4px;">${T3("পেমেন্ট মাধ্যম", "Payment Method")}</div>
+                <select id="a5">
+                  <option>Cash</option>
+                  <option>Bank</option>
+                  <option>STC Pay</option>
+                  <option>Urpay</option>
+                  <option>Check</option>
+                </select>
+              </div>
+              <button class="btn" style="width:100%; margin-top:8px;" onclick="savePay()">${t("btn_save")}</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>⚡ ${T3("দ্রুত অ্যাকশন", "Quick Actions")}</h3>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <button class="s" style="width:100%; justify-content:flex-start;" onclick="pd()">
+                📄 ${T3("A4 PDF টাইমশিট ডাউনলোড", "Download PDF Timesheet")}
+              </button>
+              <button class="s" style="width:100%; justify-content:flex-start;" onclick="downloadBackup()">
+                💾 ${T3("ব্যাকআপ ডাউনলোড (BACKUP_" + today() + ".json)", "Download Backup JSON")}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  finance() {
+    const remList = S.rem.map((x, i) =>
+      row(`${x.to} (${x.rel}) · ${f(x.sar)} SAR → ${f(x.bdt)} BDT`, `${x.date} · ${x.method}`, "rem", i)).join("");
+    const expList = S.exp.map((x, i) =>
+      row(`${x.cat} · ${f(x.amt)} SAR`, x.date, "exp", i)).join("");
+    const loanList = S.loan.map((x, i) =>
+      row(`${x.who} · ${f(x.amt)} (Repaid: ${f(x.rep)})`, `${x.type} · ${x.date || ""}`, "loan", i)).join("");
+
+    return `
+      <div class="pc-split">
+        <div class="pc-col-main">
+          <div class="card">
+            <div class="rh">
+              <h3>📤 ${t("nav_remittance")}</h3>
+              <span class="k">${S.rem.length} ${T3("টি রেমিট্যান্স", "remittances")}</span>
+            </div>
+            ${form(t("btn_add_remittance"), `
+              <input id="a1" placeholder="${T3("প্রাপকের নাম", "Receiver name")}">
+              <select id="a2"><option>Father</option><option>Mother</option><option>Wife</option><option>Brother</option><option>Son</option><option>Daughter</option><option>Other</option></select>
+              <input id="a3" type="number" placeholder="SAR Amount">
+              <input id="a4" type="number" step="0.01" value="${S.profile.rate || 32.5}" placeholder="Rate (e.g. 32.5)">
+              <input id="a5" type="date" value="${today()}">
+              <select id="a6"><option>bKash</option><option>Bank</option><option>Western Union</option><option>Alinma</option><option>STC Pay</option></select>`,
+              "addRem()")}
+            <div class="lst">${remList || `<p class="k" style="text-align:center; padding:12px;">${T3("কোনো রেমিট্যান্স রেকর্ড নেই", "No remittance record", "لا توجد حوالات")}</p>`}</div>
+          </div>
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <div class="rh">
+              <h3>💳 ${t("nav_expenses")}</h3>
+            </div>
+            ${form(t("btn_add_expense"), `
+              <select id="b1" class="wide" onchange="document.getElementById('b4').style.display=this.value=='Other'?'block':'none'">
+                <option>Food</option><option>Accommodation</option><option>Transport</option><option>Mobile</option><option>Medical</option><option>Other</option>
+              </select>
+              <input id="b4" class="wide" placeholder="${T3("কী খরচ লিখুন", "Write expense details")}" style="display:none;">
+              <input id="b2" type="number" placeholder="Amount (SAR)">
+              <input id="b3" type="date" value="${today()}">`,
+              "addExp()")}
+            <div class="lst">${expList || `<p class="k" style="text-align:center; padding:12px;">${T3("কোনো খরচ এন্ট্রি নেই", "No expense entry", "لا توجد مصاريف")}</p>`}</div>
+          </div>
+
+          <div class="card">
+            <div class="rh">
+              <h3>🤝 ${t("nav_advance_loan")}</h3>
+            </div>
+            ${form("Advance / Loan", `
+              <select id="c1" class="wide"><option>Company Advance</option><option>Personal Loan Taken</option><option>Loan Given</option></select>
+              <input id="c2" placeholder="${T3("ব্যক্তি / কোম্পানি", "Person / Company")}">
+              <input id="c3" type="number" placeholder="Amount">
+              <input id="c4" type="number" placeholder="Repaid" value="0">`,
+              "addLoan()")}
+            <div class="lst">${loanList || `<p class="k" style="text-align:center; padding:12px;">${T3("কোনো ঋণ বা অগ্রিম নেই", "No loans recorded", "لا توجد سلف")}</p>`}</div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  reports() {
+    const s = sum();
+    const months = {};
+    S.duty.forEach(d => {
+      const k = d.date.slice(0, 7);
+      months[k] = months[k] || { h: 0, s: 0, ot: 0 };
+      months[k].h += N(d.tot);
+      months[k].s += N(d.sal);
+      months[k].ot += N(d.ot);
+    });
+
+    const rows = Object.keys(months).sort().reverse().map(k => `
+      <div class="r">
+        <div>
+          <b>${mlabel(k)}</b>
+          <div class="k">${f(months[k].h)}h · OT: ${f(months[k].ot)}h</div>
+        </div>
+        <b style="color:var(--gold); font-size:16px;">${f(months[k].s)} SAR</b>
+      </div>`).join("");
+
+    return `
+      <div class="card">
+        <h3>📊 ${t("nav_reports")}</h3>
+        <div class="kpi-row" style="margin-bottom:16px;">
+          <div class="card sc sc-earn"><div class="k">${t("total_earnings")}</div><div class="v">${f(s.e)} SAR</div></div>
+          <div class="card sc sc-rec"><div class="k">${t("total_received")}</div><div class="v">${f(s.p)} SAR</div></div>
+          <div class="card sc sc-due"><div class="k">${t("outstanding_salary")}</div><div class="v">${f(s.o)} SAR</div></div>
+        </div>
+        ${rows}
+        <button class="btn" style="width:100%; margin-top:14px;" onclick="csv()">${t("btn_export_csv")}</button>
+      </div>`;
+  },
+
+  backup() {
+    const fn = getBackupFilename();
+    return `
+      <div class="card" style="padding:24px;">
+        <div class="rh">
+          <h3 class="gold-text" style="font-size:22px; margin:0;">💾 ${t("nav_backup")}</h3>
+          <span class="vault-status" style="margin:0;"><span class="vault-dot"></span> 100% Protected</span>
+        </div>
+        <p class="k" style="font-size:14px; margin:10px 0 20px; line-height:1.6;">
+          ${T3("আপনার ফোনের সকল ডিউটি, স্যালারি, রেমিট্যান্স, খরচ ও প্রোফাইল ডেটা সুরক্ষিত ব্যাকআপ ফাইলে সংরক্ষণ করুন। এটি যেকোনো ফোন বা পিসিতে আবার ফিরিয়ে আনা যায়।",
+               "Download a safe offline JSON backup file of all your records, or restore from an existing backup anytime.")}
+        </p>
+
+        <div class="pc-split" style="margin-bottom:18px;">
+          <div class="card" style="border:1.5px solid var(--gold); background:rgba(214,170,84,0.08); padding:20px;">
+            <div style="font-size:18px; font-weight:800; color:var(--gold); margin-bottom:6px;">
+              📥 ব্যাকআপ ডাউনলোড (Download)
+            </div>
+            <div class="k" style="font-size:13px; margin-bottom:14px;">
+              ফাইল ফরম্যাট: <b style="color:var(--t1);">${fn}</b>
+            </div>
+            <button class="btn" style="width:100%; padding:14px; font-size:15px;" onclick="downloadBackup()">
+              💾 ডাউনলোড করুন (${fn})
+            </button>
+          </div>
+
+          <div class="card" style="border:1.5px solid var(--cy); background:rgba(6,182,212,0.08); padding:20px;">
+            <div style="font-size:18px; font-weight:800; color:var(--cy); margin-bottom:6px;">
+              📤 ব্যাকআপ আপলোড ও রিস্টোর (Upload)
+            </div>
+            <div class="k" style="font-size:13px; margin-bottom:14px;">
+              আপনার পূর্বের <b>BACKUP_*.json</b> ফাইল নির্বাচন করুন:
+            </div>
+            <input type="file" id="bk_file_input" accept=".json" onchange="uploadBackup(this)" style="display:none;">
+            <button class="s" style="width:100%; padding:14px; font-size:15px; border-color:var(--cy); color:var(--cy);" onclick="document.getElementById('bk_file_input').click()">
+              📁 ফাইল আপলোড করুন (.json)
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="s" style="flex:1;" onclick="csv()">📄 ${t("btn_export_csv")}</button>
+          <button class="x" style="color:var(--dg); padding:8px 14px;" onclick="resetAccount()">⚠️ ${T3("সব ডেটা রিসেট", "Reset All Data")}</button>
+        </div>
+      </div>`;
+  },
+
+  profile() {
+    const p = S.profile;
+    return `
+      <div class="card" style="max-width:680px; margin:auto;">
+        <h3>👤 ${t("nav_profile")}</h3>
+        <div class="fl">
+          <div class="wide">
+            <div class="k">${T3("আপনার নাম", "Your Name")}</div>
+            <input id="p1" value="${p.name || ''}">
+          </div>
+          <div>
+            <div class="k">${T3("ইকামা নম্বর (PDF টাইমশিটের জন্য)", "Iqama No. (for timesheet PDF)")}</div>
+            <input id="p_iq" value="${p.iqama || ''}" placeholder="2xxxxxxxxx">
+          </div>
+          <div>
+            <div class="k">${T3("পাসপোর্ট নম্বর", "Passport No.")}</div>
+            <input id="p_pp" value="${p.passport || ''}" placeholder="E0xxxxxxx">
+          </div>
+          <div>
+            <div class="k">${T3("ইমেইল", "Email")}</div>
+            <input id="p2" value="${p.email || ''}">
+          </div>
+          <div>
+            <div class="k">${T3("মোবাইল নম্বর", "Contact Phone")}</div>
+            <input id="p3" value="${p.contact || ''}">
+          </div>
+          <div class="wide">
+            <div class="k">${T3("পেশা / পদবী", "Profession")}</div>
+            <input id="p4" value="${p.profession || ''}">
+          </div>
+          <div>
+            <div class="k">${T3("ডিফল্ট রেমিট্যান্স রেট (SAR → BDT)", "Default Remittance Rate")}</div>
+            <input id="p5" type="number" step="0.01" value="${p.rate || 32.5}">
+          </div>
+          <div>
+            <div class="k">${T3("অ্যাপের ভাষা", "App Language")}</div>
+            <select id="p6">
+              <option value="bn" ${p.lang === 'bn' ? 'selected' : ''}>বাংলা (Bengali)</option>
+              <option value="en" ${p.lang === 'en' ? 'selected' : ''}>English</option>
+            </select>
+          </div>
+          <div>
+            <div class="k">${T3("থিম মোড", "Theme Mode")}</div>
+            <select id="p7">
+              <option value="1" ${p.dark ? 'selected' : ''}>🌙 Dark Luxury 3D Gold</option>
+              <option value="0" ${!p.dark ? 'selected' : ''}>☀️ Light Executive Pearl</option>
+            </select>
+          </div>
+          <div>
+            <div class="k">${T3("ডিসপ্লে লেআউট মোড", "Display Layout Mode")}</div>
+            <select id="p8">
+              <option value="auto" ${p.viewMode === 'auto' ? 'selected' : ''}>⚡ Auto (PC / Mobile Responsive)</option>
+              <option value="pc" ${p.viewMode === 'pc' ? 'selected' : ''}>💻 Full PC Web View</option>
+              <option value="mobile" ${p.viewMode === 'mobile' ? 'selected' : ''}>📱 Mobile App View</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" style="width:100%; margin-top:16px;" onclick="sp()">${t("btn_save")}</button>
+      </div>`;
+  },
+
+  developer() {
+    return `
+      <div class="card" style="text-align:center; max-width:540px; margin:auto; padding:32px 20px;">
+        <div style="font-size:56px; margin-bottom:12px;">👨‍💻</div>
+        <h3 class="gold-text" style="font-size:24px;">Md Mijanur Rahman</h3>
+        <div class="k" style="font-size:16px; margin:6px 0;">Developer & Electrical / Site Specialist</div>
+        <div class="k" style="font-size:14px;">Bangladesh · </div>
+        <div style="margin-top:18px;">
+          <a href="tel:+966536105242" style="color:var(--gold); font-size:20px; font-weight:800; text-decoration:none; display:inline-block; padding:10px 20px; border:1.5px solid var(--gold-border); border-radius:30px; background:rgba(0,0,0,0.3);">
+            📞 +966 53 610 5242
+          </a>
+        </div>
+        <div style="margin-top:20px; font-size:13px; color:var(--t2);">
+          MYHOUR - Created with pride for hard-working technicians, engineers & expatriates worldwide.
+        </div>
+      </div>`;
+  }
+};
+
+/* ==========================================================================
+   FORM ACTION HANDLERS
+   ========================================================================== */
+function addEmp() {
+  const company = val("a2").trim();
+  if (!company) return alert(T3("কোম্পানির নাম লিখুন", "Enter company name", "أدخل اسم الشركة"));
+  add("emp", {
+    type: val("a1"),
+    company,
+    project: val("a3").trim() || "Main Project",
+    prof: val("a4").trim() || S.profile.profession,
+    join: val("a5") || today(),
+    rate: N(val("a6")) || 12,
+    otr: N(val("a7")) || 18,
+    thr: N(val("a8")) || 10,
+    status: "Active"
+  });
+  closeModal();
+}
+
+function addDuty() {
+  const empId = val("a1");
+  const e = S.emp.find(e => e.id == empId);
+  if (!e) return alert(T3("আগে চাকরি যোগ করুন", "Add employment first", "أضف عملاً أولاً"));
+  const tot = N(val("a3"));
+  if (!(tot > 0)) return alert(T3("ডিউটি ঘণ্টা লিখুন", "Enter valid duty hours", "أدخل ساعات العمل"));
+  const nor = Math.min(tot, e.thr);
+  const ot = Math.max(0, tot - e.thr);
+  const sal = nor * e.rate + ot * e.otr;
+  add("duty", {
+    emp: e.id,
+    date: val("a2") || today(),
+    tot,
+    nor,
+    ot,
+    sal,
+    notes: val("a4").trim()
+  });
+  closeModal();
+}
+
+function quickAddDuty() {
+  const empId = val("qd_emp");
+  const e = S.emp.find(e => e.id == empId);
+  if (!e) return alert(T3("আগে চাকরি যোগ করুন", "Add employment first", "أضف عملاً أولاً"));
+  const tot = N(val("qd_hrs"));
+  if (!(tot > 0)) return alert(T3("ডিউটি ঘণ্টা লিখুন", "Enter valid duty hours", "أدخل ساعات العمل"));
+  const nor = Math.min(tot, e.thr);
+  const ot = Math.max(0, tot - e.thr);
+  const sal = nor * e.rate + ot * e.otr;
+  add("duty", {
+    emp: e.id,
+    date: val("qd_date") || today(),
+    tot,
+    nor,
+    ot,
+    sal,
+    notes: val("qd_notes").trim()
+  });
+  const qh = document.getElementById("qd_hrs");
+  if (qh) qh.value = "";
+  const qn = document.getElementById("qd_notes");
+  if (qn) qn.value = "";
+}
+
+function addSched() {
+  add("sched", {
+    emp: val("a1"),
+    month: val("a2"),
+    title: val("a3").trim(),
+    hrs: N(val("a4"))
+  });
+  closeModal();
+}
+
+function addRem() {
+  const to = val("a1").trim();
+  const sar = N(val("a3"));
+  const rate = N(val("a4")) || S.profile.rate || 32.5;
+  if (!to || !(sar > 0)) return alert(T3("প্রাপকের নাম ও SAR পরিমাণ লিখুন", "Enter receiver and SAR amount"));
+  add("rem", {
+    to,
+    rel: val("a2"),
+    sar,
+    rate,
+    bdt: sar * rate,
+    date: val("a5") || today(),
+    method: val("a6")
+  });
+  closeModal();
+}
+
+function addExp() {
+  const catSel = val("b1");
+  const otherVal = val("b4").trim();
+  const cat = (catSel === "Other" && otherVal) ? otherVal : catSel;
+  const amt = N(val("b2"));
+  if (!(amt > 0)) return alert(T3("খরচের পরিমাণ লিখুন", "Enter amount"));
+  add("exp", { cat, amt, date: val("b3") || today() });
+  closeModal();
+}
+
+function addLoan() {
+  add("loan", {
+    type: val("c1"),
+    who: val("c2").trim(),
+    amt: N(val("c3")),
+    rep: N(val("c4")),
+    date: today()
+  });
+  closeModal();
+}
+
+function sp() {
+  Object.assign(S.profile, {
+    name: val("p1").trim() || S.profile.name,
+    iqama: val("p_iq").trim(),
+    passport: val("p_pp").trim(),
+    email: val("p2").trim(),
+    contact: val("p3").trim(),
+    profession: val("p4").trim(),
+    rate: N(val("p5")) || 32.5,
+    lang: val("p6"),
+    dark: val("p7") === "1",
+    viewMode: val("p8") || "auto"
+  });
+  save();
+  applyTheme();
+  render();
+  toast(T3("✅ প্রোফাইল সংরক্ষিত হয়েছে", "✅ Profile Saved", "✅ تم حفظ الملف"));
+}
+
+/* ==========================================================================
+   MONTHLY SALARY CALCULATION & MONTH CARDS (ZERO EMPTY SPACE)
+   ========================================================================== */
+const rd = v => Math.round(v * 100) / 100;
+
+function monthStats() {
+  const M = {};
+  const g = k => M[k] = M[k] || { h: 0, e: 0, p: 0, ot: 0 };
+  S.duty.forEach(d => {
+    const o = g(String(d.date).slice(0, 7));
+    o.h += N(d.tot);
+    o.e += N(d.sal);
+    o.ot += N(d.ot);
+  });
+  S.pay.forEach(p => {
+    const o = g(p.month || String(p.date).slice(0, 7));
+    o.p += N(p.amt);
+  });
+  return M;
+}
+
+function payDue(empId, month) {
+  if (!empId || !month) return 0;
+  const earned = S.duty
+    .filter(d => d.emp == empId && String(d.date).slice(0, 7) === month)
+    .reduce((a, d) => a + N(d.sal), 0);
+  const paid = S.pay
+    .filter(p => p.emp == empId && p.month === month)
+    .reduce((a, p) => a + N(p.amt), 0);
+  return Math.max(0, rd(earned - paid));
+}
+
+function payDefM() {
+  const M = monthStats();
+  const ks = Object.keys(M).filter(k => rd(M[k].e - M[k].p) > 0).sort();
+  return ks.length ? ks[ks.length - 1] : today().slice(0, 7);
+}
+
+function payFill() {
+  const empEl = document.getElementById("a1");
+  const monthEl = document.getElementById("a2");
+  if (!empEl || !monthEl) return;
+  const v = payDue(empEl.value, monthEl.value);
+  const amtEl = document.getElementById("a3");
+  if (amtEl) amtEl.value = v || "";
+}
+
+function savePay() {
+  const amt = N(val("a3"));
+  const m = val("a2");
+  if (!(amt > 0) || !m) return alert(T3("মাস ও পরিমাণ দিন", "Enter month and amount", "أدخل الشهر والمبلغ"));
+  add("pay", {
+    emp: val("a1"),
+    month: m,
+    amt,
+    date: val("a4") || today(),
+    method: val("a5")
+  });
+  closeModal();
+}
+
+function payFor(k) {
+  const empId = S.emp[0] ? S.emp[0].id : "";
+  const due = payDue(empId, k);
+  const mEl = document.getElementById("a2");
+  const aEl = document.getElementById("a3");
+  if (mEl && aEl) {
+    mEl.value = k;
+    aEl.value = due || "";
+    aEl.focus();
+  } else {
+    openModal(0);
+    const mEl2 = document.getElementById("a2");
+    if (mEl2) {
+      mEl2.value = k;
+      payFill();
+    }
+  }
+}
+
+const MN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const DN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+function mlabel(k) {
+  if (!/^\d{4}-\d{2}$/.test(k || "")) return k || "-";
+  const [y, m] = k.split("-");
+  return `${MN[+m - 1]} ${y}`;
+}
+
+function monthCards() {
+  const M = monthStats();
+  const ks = Object.keys(M).sort().reverse();
+  if (!ks.length) {
+    return `
+      <div class="card" style="padding:24px; text-align:center;">
+        <span style="font-size:32px; display:block; margin-bottom:10px;">📅</span>
+        <h4 style="color:var(--gold); margin:0 0 6px;">${T3("কোনো মাসের কাজের রেকর্ড নেই", "No monthly records yet", "لا توجد سجلات شهرية")}</h4>
+        <p class="k" style="font-size:13px; margin:0 0 14px;">${T3("প্রথমে দৈনিক ডিউটি এন্ট্রি দিন, প্রতি মাসের বেতন ও টাইমশিট স্বয়ংক্রিয়ভাবে তৈরি হবে।", "Log your daily duty first to automatically generate monthly salary statements.")}</p>
+        <button class="btn" onclick="go('duty')">➕ ${t("btn_add_duty")}</button>
+      </div>`;
+  }
+
+  // When only 1 month exists (e.g. September 2026):
+  // Render the Month Payment Card AND a companion Work Breakdown & Analytics Card side-by-side!
+  // This completely eliminates any empty void on desktop and wraps gracefully on mobile.
+  if (ks.length === 1) {
+    const k = ks[0];
+    const o = M[k];
+    const due = rd(o.e - o.p);
+    const status = due <= 0
+      ? ["✅ " + T3("পরিশোধিত", "Paid", "مدفوع"), "var(--ok)"]
+      : (o.p > 0
+        ? ["⏳ " + T3("আংশিক", "Partial", "جزئي"), "var(--wn)"]
+        : ["❗ " + T3("বাকি", "Due", "مستحق"), "var(--dg)"]);
+    const pct = o.e > 0 ? Math.min(100, Math.round((o.p / o.e) * 100)) : 100;
+
+    const monthDuties = S.duty.filter(d => String(d.date).startsWith(k));
+    const daysCount = monthDuties.length;
+    const avgHours = daysCount > 0 ? (o.h / daysCount).toFixed(1) : "0";
+    const avgDailySAR = daysCount > 0 ? (o.e / daysCount).toFixed(1) : "0";
+    const otHours = monthDuties.reduce((acc, d) => acc + (d.ot || 0), 0);
+
+    return `
+      <div class="rh" style="margin:6px 2px 10px;">
+        <h3 class="gold-text">📅 ${T3("মাসভিত্তিক বেতন ওভারভিউ", "Monthly Salary Overview", "نظرة عامة على الرواتب الشهرية")}</h3>
+        <span class="k">1 ${T3("টি মাস", "month")}</span>
+      </div>
+      <div class="month-grid">
+        <!-- Card 1: Month Salary & Payment Status -->
+        <div class="card" style="padding:16px 18px; margin-bottom:0;">
+          <div class="rh">
+            <h3 style="margin:0; font-size:17px; color:var(--gold);">${mlabel(k)}</h3>
+            <b style="font-size:13px; color:${status[1]};">${status[0]}</b>
+          </div>
+
+          <!-- Visual Progress Bar -->
+          <div style="background:rgba(255,255,255,0.08); border-radius:10px; height:8px; overflow:hidden; margin:10px 0 12px;">
+            <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, #10B981, #059669); border-radius:10px;"></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+            <div class="k">
+              ${T3("ঘণ্টা", "Hours")}<div class="v" style="font-size:16px; color:var(--t1); margin-top:2px;">${f(o.h)}h</div>
+            </div>
+            <div class="k">
+              ${T3("মোট বেতন", "Earned")}<div class="v" style="font-size:16px; color:var(--gold); margin-top:2px;">${f(o.e)} SAR</div>
+            </div>
+            <div class="k">
+              ${T3("পেয়েছি", "Received")}<div class="v" style="font-size:16px; color:var(--ok); margin-top:2px;">${f(o.p)} SAR</div>
+            </div>
+            <div class="k">
+              ${T3("বাকি পাওনা", "Due")}<div class="v" style="font-size:16px; color:${due > 0 ? 'var(--dg)' : 'var(--ok)'}; margin-top:2px;">${f(Math.max(0, due))} SAR</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px; padding-top:8px; border-top:1px solid var(--bd);">
+            ${due > 0 ? `<button class="btn" style="flex:1; padding:8px 10px; font-size:13px;" onclick="payFor('${k}')">💵 ${T3("পেমেন্ট দিন", "Pay Now")}</button>` : ""}
+            <button class="s" style="flex:1; padding:8px 10px; font-size:13px;" onclick="pm('${k}')">📄 ${T3("PDF টাইমশিট", "PDF")}</button>
+          </div>
+        </div>
+
+        <!-- Card 2: Companion Work & Earnings Analysis (Fills the desktop space!) -->
+        <div class="card" style="padding:16px 18px; margin-bottom:0; background:linear-gradient(135deg, rgba(214,170,84,0.1) 0%, rgba(14,22,38,0.85) 100%); border:1px solid rgba(214,170,84,0.35);">
+          <div class="rh">
+            <h3 style="margin:0; font-size:16px; color:var(--gold);">📊 ${mlabel(k)} ${T3("কাজের সারসংক্ষেপ", "Work Breakdown", "ملخص العمل")}</h3>
+            <span class="tag tag-gold">${daysCount} ${T3("দিন কাজ", "days")}</span>
+          </div>
+          <div style="font-size:12px; color:var(--t2); margin:6px 0 12px;">
+            ${T3("মাসিক কাজের সময় ও উপার্জনের সম্পূর্ণ বিশ্লেষণ", "Comprehensive monthly duty & earnings breakdown")}
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+            <div class="k">
+              ${T3("মোট কর্মদিবস", "Duty Days")}<div class="v" style="font-size:16px; color:var(--t1); margin-top:2px;">${daysCount} ${T3("দিন", "days")}</div>
+            </div>
+            <div class="k">
+              ${T3("দৈনিক গড় ডিউটি", "Daily Avg Hours")}<div class="v" style="font-size:16px; color:var(--cy); margin-top:2px;">${avgHours}h</div>
+            </div>
+            <div class="k">
+              ${T3("ওভারটাইম (OT)", "Overtime Hours")}<div class="v" style="font-size:16px; color:var(--wn); margin-top:2px;">${f(otHours)}h</div>
+            </div>
+            <div class="k">
+              ${T3("দৈনিক গড় উপার্জন", "Daily Avg Earn")}<div class="v" style="font-size:16px; color:var(--gold); margin-top:2px;">SAR ${avgDailySAR}</div>
+            </div>
+          </div>
+
+          <div style="padding-top:8px; border-top:1px solid var(--bd); font-size:12px; color:var(--t2); display:flex; justify-content:space-between; align-items:center;">
+            <span>${due > 0 ? "⚠️ " + T3("বাকি SAR " + f(due) + " আদায় করুন", "Clear remaining dues") : "✨ " + T3("সকল বেতন প্রাপ্ত", "All salary cleared")}</span>
+            <button class="s" style="padding:6px 10px; font-size:12px;" onclick="pm('${k}')">📄 ${T3("ফুল টাইমশিট", "Timesheet")}</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // If 2 or more months:
+  return `
+    <div class="rh" style="margin:6px 2px 10px;">
+      <h3 class="gold-text">📅 ${T3("মাসভিত্তিক বেতন ওভারভিউ", "Monthly Salary Overview", "نظرة عامة على الرواتب الشهرية")}</h3>
+      <span class="k">${ks.length} ${T3("টি মাস", "months")}</span>
+    </div>
+    <div class="month-grid">
+      ${ks.map(k => {
+        const o = M[k];
+        const due = rd(o.e - o.p);
+        const status = due <= 0
+          ? ["✅ " + T3("পরিশোধিত", "Paid", "مدفوع"), "var(--ok)"]
+          : (o.p > 0
+            ? ["⏳ " + T3("আংশিক", "Partial", "جزئي"), "var(--wn)"]
+            : ["❗ " + T3("বাকি", "Due", "مستحق"), "var(--dg)"]);
+
+        const pct = o.e > 0 ? Math.min(100, Math.round((o.p / o.e) * 100)) : 100;
+
+        return `
+          <div class="card" style="padding:16px 18px; margin-bottom:0;">
+            <div class="rh">
+              <h3 style="margin:0; font-size:17px; color:var(--gold);">${mlabel(k)}</h3>
+              <b style="font-size:13px; color:${status[1]};">${status[0]}</b>
+            </div>
+
+            <!-- Visual Progress Bar -->
+            <div style="background:rgba(255,255,255,0.08); border-radius:10px; height:8px; overflow:hidden; margin:10px 0 12px;">
+              <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, #10B981, #059669); border-radius:10px;"></div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+              <div class="k">
+                ${T3("ঘণ্টা", "Hours")}<div class="v" style="font-size:16px; color:var(--t1); margin-top:2px;">${f(o.h)}h</div>
+              </div>
+              <div class="k">
+                ${T3("মোট বেতন", "Earned")}<div class="v" style="font-size:16px; color:var(--gold); margin-top:2px;">${f(o.e)} SAR</div>
+              </div>
+              <div class="k">
+                ${T3("পেয়েছি", "Received")}<div class="v" style="font-size:16px; color:var(--ok); margin-top:2px;">${f(o.p)} SAR</div>
+              </div>
+              <div class="k">
+                ${T3("বাকি পাওনা", "Due")}<div class="v" style="font-size:16px; color:${due > 0 ? 'var(--dg)' : 'var(--ok)'}; margin-top:2px;">${f(Math.max(0, due))} SAR</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; padding-top:8px; border-top:1px solid var(--bd);">
+              ${due > 0 ? `<button class="btn" style="flex:1; padding:8px 10px; font-size:13px;" onclick="payFor('${k}')">💵 ${T3("পেমেন্ট দিন", "Pay Now")}</button>` : ""}
+              <button class="s" style="flex:1; padding:8px 10px; font-size:13px;" onclick="pm('${k}')">📄 ${T3("PDF টাইমশিট", "PDF")}</button>
+            </div>
+          </div>`;
+      }).join("")}
+    </div>`;
+}
+
+function newMonthBanner(action) {
+  const now = today().slice(0, 7);
+  const ms = S.duty.map(d => String(d.date).slice(0, 7)).sort();
+  const last = ms[ms.length - 1];
+  if (!last || last >= now) return "";
+  const M = monthStats()[last] || { h: 0, e: 0, p: 0 };
+  const due = rd(M.e - M.p);
+
+  return `
+    <div class="card" style="border:1.5px solid var(--gold); padding:16px; margin-bottom:16px;">
+      <div style="font-size:16px; font-weight:800; color:var(--gold);">
+        📅 ${T3(mlabel(now) + " শুরু করুন", "Start " + mlabel(now), "ابدأ " + mlabel(now))}
+      </div>
+      <div class="k" style="font-size:13px; margin:6px 0 10px; line-height:1.5;">
+        ${mlabel(last)}: ${f(M.h)} ${T3("ঘণ্টা", "hours")} · ${f(M.e)} SAR
+        ${due > 0
+          ? ` · <b style="color:var(--dg)">${T3("বাকি", "Due")} ${f(due)} SAR</b>`
+          : ` · <b style="color:var(--ok)">✅ ${T3("সম্পূর্ণ পরিশোধিত", "Fully Paid")}</b>`}
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn" onclick="${action}" style="flex:1;">➕ ${T3("নতুন এন্ট্রি দিন", "Log Duty")}</button>
+        ${due > 0 ? `<button class="s" onclick="go('salary')" style="flex:1;">💵 ${T3("বকেয়া বেতন", "Settle Dues")}</button>` : ""}
+      </div>
+    </div>`;
+}
+
+function tm(m) {
+  const el = document.getElementById("mr_" + m);
+  const btn = document.getElementById("tg_" + m);
+  if (!el) return;
+  const isHidden = el.style.display === "none";
+  el.style.display = isHidden ? "block" : "none";
+  window.MO = window.MO || {};
+  window.MO[m] = isHidden;
+  if (btn) btn.textContent = isHidden ? "▴" : "▾";
+}
+
+function dutyMonths() {
+  if (!S.duty.length) {
+    return `<div class="card"><p class="k" style="text-align:center; padding:20px;">${T3("কোনো ডিউটি রেকর্ড নেই। নতুন এন্ট্রি দিন।", "No duty records yet. Add a new entry.")}</p></div>`;
+  }
+
+  const groups = {};
+  S.duty.forEach(d => {
+    const m = String(d.date).slice(0, 7);
+    (groups[m] = groups[m] || []).push(d);
+  });
+
+  const months = Object.keys(groups).sort().reverse();
+  window.MO = window.MO || {};
+
+  return months.map(m => {
+    const isOpen = window.MO[m] !== undefined ? window.MO[m] : (m === months[0]);
+    const duties = groups[m].slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    const totalHours = duties.reduce((acc, d) => acc + N(d.tot), 0);
+    const totalSalary = duties.reduce((acc, d) => acc + N(d.sal), 0);
+
+    const rows = duties.map(d => {
+      let dayName = "";
+      try {
+        const dt = new Date(d.date + "T00:00:00");
+        dayName = DN[dt.getDay()];
+      } catch (e) {}
+
+      const subtitle = [d.notes, N(d.ot) > 0 ? "OT " + d.ot + "h" : ""].filter(Boolean).join(" · ") || empName(d.emp);
+      return `
+        <div class="r">
+          <div>
+            <b>${String(d.date).slice(8, 10)}/${String(d.date).slice(5, 7)} · ${dayName}</b>
+            <div class="k">${subtitle}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="text-align:right;">
+              <b style="font-size:16px; color:var(--t1);">${d.tot}h</b>
+              <div class="k">${f(d.sal)} SAR</div>
+            </div>
+            <button class="x ed" onclick="ed('duty', ${S.duty.indexOf(d)})">✏️</button>
+            <button class="x" onclick="del('duty', ${S.duty.indexOf(d)})">🗑</button>
+          </div>
+        </div>`;
+    }).join("");
+
+    return `
+      <div class="card" style="padding:14px 18px; margin-bottom:14px;">
+        <div class="rh">
+          <h3 style="margin:0; cursor:pointer;" onclick="pm('${m}')">${mlabel(m)} ▾</h3>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="k" style="font-size:13px;">${duties.length} ${T3("দিন", "days")}</span>
+            <button class="x ed" id="tg_${m}" style="border:1.5px solid var(--gold-border); border-radius:8px; padding:3px 10px; font-size:16px;" onclick="tm('${m}')">
+              ${isOpen ? "▴" : "▾"}
+            </button>
+            <button class="x ed" style="border:1.5px solid var(--gold-border); border-radius:8px; padding:4px 10px;" onclick="pm('${m}')">
+              📄 PDF
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:16px; margin:10px 0 6px;">
+          <div class="k" style="flex:1;">
+            ${T3("মোট ঘণ্টা", "Total Hours")}
+            <div class="v" style="font-size:20px; color:var(--t1);">${f(totalHours)}</div>
+          </div>
+          <div class="k" style="flex:1; text-align:right;">
+            ${T3("মোট বেতন", "Total Salary")}
+            <div class="v" style="font-size:20px; color:var(--gold);">${f(totalSalary)} SAR</div>
+          </div>
+        </div>
+
+        <div id="mr_${m}" style="display:${isOpen ? 'block' : 'none'}; border-top:1px solid var(--bd); margin-top:8px; padding-top:4px;">
+          ${rows}
+        </div>
+      </div>`;
+  }).join("");
+}
+
+/* ==========================================================================
+   EDIT RECORD SYSTEM
+   ========================================================================== */
+const ES = {
+  emp: () => [
+    ["type", T3("ধরন", "Type"), "sel", [t("emp_type_company"), t("emp_type_supply")]],
+    ["status", T3("অবস্থা", "Status"), "sel", ["Active", "Inactive", "Completed"]],
+    ["company", T3("কোম্পানি", "Company"), "text", 0, 1],
+    ["project", T3("প্রজেক্ট", "Project"), "text", 0, 1],
+    ["prof", T3("পেশা", "Profession"), "text", 0, 1],
+    ["join", T3("যোগদানের তারিখ", "Joined"), "date", 0, 1],
+    ["rate", T3("ঘণ্টা রেট", "Hourly rate"), "number"],
+    ["otr", T3("ওটি রেট", "OT rate"), "number"],
+    ["thr", T3("নিয়মিত ঘণ্টা", "Regular hours"), "number"]
+  ],
+  duty: () => [
+    ["emp", T3("চাকরি", "Job"), "emp", 0, 1],
+    ["date", T3("তারিখ", "Date"), "date"],
+    ["tot", T3("মোট ঘণ্টা", "Total hours"), "number"],
+    ["notes", T3("মন্তব্য", "Notes"), "text", 0, 1]
+  ],
+  sched: () => [
+    ["emp", T3("চাকরি", "Job"), "emp", 0, 1],
+    ["month", T3("মাস", "Month"), "month"],
+    ["hrs", T3("অনুমোদিত ঘণ্টা", "Approved hours"), "number"],
+    ["title", T3("শিরোনাম", "Title"), "text", 0, 1]
+  ],
+  pay: () => [
+    ["emp", T3("চাকরি", "Job"), "emp", 0, 1],
+    ["month", T3("মাস", "Month"), "month"],
+    ["date", T3("তারিখ", "Date"), "date"],
+    ["amt", T3("পরিমাণ (SAR)", "Amount (SAR)"), "number"],
+    ["method", T3("পদ্ধতি", "Method"), "sel", ["Cash", "Bank", "STC Pay", "Urpay", "Check"]]
+  ],
+  rem: () => [
+    ["to", T3("প্রাপক", "Receiver"), "text", 0, 1],
+    ["rel", T3("সম্পর্ক", "Relation"), "sel", ["Father", "Mother", "Wife", "Brother", "Son", "Daughter", "Other"]],
+    ["method", T3("পদ্ধতি", "Method"), "sel", ["bKash", "Bank", "Western Union", "Alinma", "STC Pay"]],
+    ["sar", T3("SAR পরিমাণ", "SAR amount"), "number"],
+    ["rate", T3("রেট", "Rate"), "number"],
+    ["date", T3("তারিখ", "Date"), "date", 0, 1]
+  ],
+  exp: () => [
+    ["cat", T3("ধরন", "Category"), "sel", ["Food", "Accommodation", "Transport", "Mobile", "Medical", "Other"], 1],
+    ["_o", T3("অন্যান্য হলে লিখুন", "If Other, write purpose"), "text", 0, 1],
+    ["amt", T3("পরিমাণ", "Amount"), "number"],
+    ["date", T3("তারিখ", "Date"), "date"]
+  ],
+  loan: () => [
+    ["type", T3("ধরন", "Type"), "sel", ["Company Advance", "Personal Loan Taken", "Loan Given"], 1],
+    ["who", T3("ব্যক্তি / কোম্পানি", "Person / Company"), "text", 0, 1],
+    ["amt", T3("পরিমাণ", "Amount"), "number"],
+    ["rep", T3("পরিশোধ", "Repaid"), "number"]
+  ]
+};
+
+function ed(k, i) {
+  const obj = S[k] && S[k][i];
+  if (!obj) return;
+  const fields = ES[k]();
+
+  const html = fields.map(([key, label, type, options, wide], idx) => {
+    const curr = obj[key] == null ? "" : obj[key];
+    let control = "";
+    if (type === "emp") {
+      control = `<select id="e${idx}">${S.emp.map(e => `<option value="${e.id}" ${e.id == curr ? 'selected' : ''}>${e.company} - ${e.project}</option>`).join("")}</select>`;
+    } else if (type === "sel") {
+      const allOpts = options.includes(curr) ? options : [curr, ...options];
+      control = `<select id="e${idx}">${allOpts.map(opt => `<option ${opt == curr ? 'selected' : ''}>${opt}</option>`).join("")}</select>`;
+    } else {
+      control = `<input id="e${idx}" type="${type}" ${type === 'number' ? 'step="any" inputmode="decimal"' : ''} value="${String(curr).replace(/"/g, '&quot;')}">`;
+    }
+    return `
+      <div style="${wide ? 'grid-column:1/-1' : ''}">
+        <div class="k" style="margin-top:4px;">${label}</div>
+        ${control}
+      </div>`;
+  }).join("");
+
+  const md = document.getElementById("md");
+  md.innerHTML = `
+    <div class="mb">
+      <div class="rh">
+        <h3 class="gold-text">✏️ ${T3("এডিট রেকর্ড", "Edit Record", "تعديل")}</h3>
+        <button class="x" onclick="closeModal()">✕</button>
+      </div>
+      <div class="fl">${html}</div>
+      <div class="qa" style="margin-top:16px;">
+        <button class="s" onclick="closeModal()">${t("btn_cancel")}</button>
+        <button onclick="saveEdit('${k}', ${i})">${t("btn_save")}</button>
+      </div>
+    </div>`;
+  md.className = "show";
+}
+
+function saveEdit(k, i) {
+  const target = S[k][i];
+  const fields = ES[k]();
+  const next = {};
+
+  fields.forEach(([key, , type], j) => {
+    const v = val("e" + j);
+    next[key] = type === "number" ? N(v) : (type === "emp" ? +v : v.trim());
+  });
+
+  if (k === "exp") {
+    if (next.cat === "Other" && next._o) next.cat = next._o;
+    delete next._o;
+  }
+  if (k === "duty") {
+    const e = S.emp.find(e => e.id == next.emp);
+    if (!e || !(next.tot > 0) || !next.date) return alert(T3("তারিখ ও ঘণ্টা সঠিক দিন", "Enter valid date and hours"));
+    next.nor = Math.min(next.tot, e.thr);
+    next.ot = Math.max(0, next.tot - e.thr);
+    next.sal = next.nor * e.rate + next.ot * e.otr;
+  }
+  if (k === "rem") {
+    next.bdt = next.sar * next.rate;
+  }
+
+  Object.assign(target, next);
+  save();
+  closeModal();
+  render();
+  toast(T3("✅ সফলভাবে আপডেট হয়েছে", "✅ Successfully Updated", "✅ تم التحديث"));
+}
+
+/* ==========================================================================
+   A4 TIMESHEET PDF ENGINE & INSTANT SHARING
+   ========================================================================== */
+function pdfFrom(jpg, w, h) {
+  const enc = new TextEncoder(), parts = [], offs = [];
+  let len = 0;
+  const push = u => { parts.push(u); len += u.length; };
+  const ps = q => push(enc.encode(q));
+
+  // Every indirect PDF object MUST include both object number and generation number.
+  const obj = (n, body) => {
+    offs[n] = len;
+    ps(n + " 0 obj\n" + body + "\nendobj\n");
+  };
+
+  ps("%PDF-1.4\n");
+  obj(1, "<</Type/Catalog/Pages 2 0 R>>");
+  obj(2, "<</Type/Pages/Kids[3 0 R]/Count 1>>");
+  obj(3, "<</Type/Page/Parent 2 0 R/MediaBox[0 0 595.28 841.89]/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>");
+
+  offs[4] = len;
+  ps(`4 0 obj\n<</Type/XObject/Subtype/Image/Width ${w}/Height ${h}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${jpg.length}>>\nstream\n`);
+  push(jpg);
+  ps("\nendstream\nendobj\n");
+
+  const content = "q 595.28 0 0 841.89 0 0 cm /Im0 Do Q";
+  obj(5, `<</Length ${enc.encode(content).length}>>\nstream\n${content}\nendstream`);
+
+  const xrefOffset = len;
+  ps("xref\n0 6\n0000000000 65535 f \n");
+  for (let i = 1; i <= 5; i++) {
+    ps(String(offs[i]).padStart(10, "0") + " 00000 n \n");
+  }
+  ps(`trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n${xrefOffset}\n%%EOF`);
+
+  const totalBytes = new Uint8Array(len);
+  let cursor = 0;
+  for (const part of parts) {
+    totalBytes.set(part, cursor);
+    cursor += part.length;
+  }
+
+  // AndroidBridge must receive the BASE64 OF THE PDF, not the source JPEG image.
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < totalBytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...totalBytes.subarray(i, i + chunkSize));
+  }
+  return {
+    blob: new Blob([totalBytes], { type: "application/pdf" }),
+    base64: btoa(binary)
+  };
+}
+
+function tsPdf(o) {
+  const W = 1654, H = 2339, M = 88;
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const g = cv.getContext("2d");
+  const FF = '"Segoe UI", Roboto, "Noto Sans Bengali", Arial, sans-serif';
+  const navy = "#101A2D", navy2 = "#172944", gold = "#E8B84F";
+  const ink = "#17243A", muted = "#64748B", line = "#DCE4EF";
+  const TW = W - 2 * M;
+
+  const roundRect = (x, y, w, h, r, fill, stroke) => {
+    g.beginPath();
+    g.roundRect(x, y, w, h, r);
+    if (fill) { g.fillStyle = fill; g.fill(); }
+    if (stroke) { g.strokeStyle = stroke; g.lineWidth = 2; g.stroke(); }
+  };
+  const fit2 = (q, mw) => {
+    q = String(q == null ? "-" : q);
+    if (g.measureText(q).width <= mw) return q;
+    while (q.length > 1 && g.measureText(q + "…").width > mw) q = q.slice(0, -1);
+    return q + "…";
+  };
+  const label = (txt, x, y, color = muted, size = 25) => {
+    g.fillStyle = color; g.font = `600 ${size}px ${FF}`;
+    g.textAlign = "left"; g.fillText(txt, x, y);
+  };
+  const value = (txt, x, y, color = ink, size = 31, align = "left") => {
+    g.fillStyle = color; g.font = `700 ${size}px ${FF}`;
+    g.textAlign = align; g.fillText(txt, x, y);
+  };
+
+  // Clean premium paper background.
+  g.fillStyle = "#F4F7FC";
+  g.fillRect(0, 0, W, H);
+
+  // Brand header with navy/gold premium gradient.
+  const hg = g.createLinearGradient(0, 0, W, 360);
+  hg.addColorStop(0, "#0B1425");
+  hg.addColorStop(0.58, "#172B49");
+  hg.addColorStop(1, "#203D60");
+  g.fillStyle = hg;
+  g.fillRect(0, 0, W, 365);
+
+  // Decorative color accents.
+  g.fillStyle = "rgba(232,184,79,0.10)";
+  g.beginPath(); g.arc(W - 70, 25, 270, 0, Math.PI * 2); g.fill();
+  g.fillStyle = "rgba(49,130,206,0.13)";
+  g.beginPath(); g.arc(W - 5, 320, 205, 0, Math.PI * 2); g.fill();
+
+  // MYHOUR clock logo, drawn as vector artwork for reliable PDF embedding.
+  const lx = M + 78, ly = 112;
+  const lg = g.createRadialGradient(lx - 15, ly - 18, 8, lx, ly, 66);
+  lg.addColorStop(0, "#FFF3C4");
+  lg.addColorStop(0.55, "#E8B84F");
+  lg.addColorStop(1, "#A66D18");
+  g.shadowColor = "rgba(232,184,79,0.38)";
+  g.shadowBlur = 24;
+  g.fillStyle = lg; g.beginPath(); g.arc(lx, ly, 62, 0, Math.PI * 2); g.fill();
+  g.shadowBlur = 0;
+  g.strokeStyle = "#FFF7DE"; g.lineWidth = 7;
+  g.beginPath(); g.arc(lx, ly, 43, 0, Math.PI * 2); g.stroke();
+  g.lineCap = "round"; g.lineWidth = 8;
+  g.beginPath(); g.moveTo(lx, ly - 23); g.lineTo(lx, ly + 2); g.lineTo(lx + 19, ly + 14); g.stroke();
+
+  g.textAlign = "left";
+  g.fillStyle = "#FFF4D4";
+  g.font = `900 76px ${FF}`;
+  g.fillText("MYHOUR", M + 170, 105);
+  g.fillStyle = "#D8E4F3";
+  g.font = `500 29px ${FF}`;
+  g.fillText("WORK HOURS & SALARY MANAGER", M + 174, 151);
+
+  // Marketing / brand message.
+  g.fillStyle = gold;
+  g.font = `700 23px ${FF}`;
+  g.fillText("SMART ATTENDANCE  •  ACCURATE WORK HOURS  •  CLEAR SALARY RECORDS", M + 174, 198);
+
+  // Document title and period.
+  g.fillStyle = "#FFFFFF";
+  g.font = `800 48px ${FF}`;
+  g.fillText("OFFICIAL MONTHLY TIMESHEET", M, 286);
+  g.textAlign = "right";
+  g.fillStyle = "#F6D98E";
+  g.font = `700 31px ${FF}`;
+  g.fillText(o.monthLabel || "", W - M, 286);
+
+  // Company / employee information panel.
+  const infoY = 405, infoH = 225;
+  roundRect(M, infoY, TW, infoH, 24, "#FFFFFF", "#E1E8F0");
+  const half = TW / 2;
+  const fields = [
+    ["COMPANY / PROJECT", `${o.company || "-"} / ${o.project || "-"}`, M + 32, infoY + 48, half - 55],
+    ["EMPLOYEE NAME", o.name || "-", M + 32, infoY + 137, half - 55],
+    ["IQAMA NUMBER", o.iqama || "-", M + half + 28, infoY + 48, half - 55],
+    ["PASSPORT NUMBER", o.passport || "-", M + half + 28, infoY + 137, half - 55]
+  ];
+  fields.forEach(([k, v, x, y, maxW]) => {
+    label(k, x, y, "#8190A5", 21);
+    g.font = `700 29px ${FF}`;
+    g.fillStyle = ink;
+    g.textAlign = "left";
+    g.fillText(fit2(v, maxW), x, y + 43);
+  });
+  g.strokeStyle = "#E8EDF4"; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(M + half, infoY + 24); g.lineTo(M + half, infoY + infoH - 24); g.stroke();
+
+  // Attendance table.
+  const top = 675;
+  const headerH = 66;
+  const summaryRows = 3;
+  const rowCount = o.days.length + summaryRows;
+  const footerReserve = 285;
+  const available = H - top - footerReserve - headerH;
+  const rh = Math.min(49, available / rowCount);
+  const cols = [275, 300, 190, TW - 275 - 300 - 190];
+  const xs = [M, M + cols[0], M + cols[0] + cols[1], M + cols[0] + cols[1] + cols[2], M + TW];
+
+  roundRect(M, top, TW, headerH, 13, "#172B49", null);
+  const headers = ["DATE", "DAY", "HOURS", "COMMENT / NOTES"];
+  g.font = `800 23px ${FF}`;
+  g.fillStyle = "#FFFFFF";
+  headers.forEach((t, i) => {
+    g.textAlign = i === 2 ? "center" : "left";
+    g.fillText(t, i === 2 ? xs[i] + cols[i] / 2 : xs[i] + 18, top + headerH / 2 + 1);
+  });
+
+  const drawTableRow = (y, cells, opts = {}) => {
+    g.fillStyle = opts.fill || "#FFFFFF";
+    g.fillRect(M, y, TW, rh);
+    g.strokeStyle = line; g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(M, y + rh); g.lineTo(M + TW, y + rh); g.stroke();
+    if (opts.topLine) {
+      g.strokeStyle = "#D5A63D"; g.lineWidth = 3;
+      g.beginPath(); g.moveTo(M, y); g.lineTo(M + TW, y); g.stroke();
+    }
+    g.font = `${opts.bold ? "800" : "500"} ${Math.round(Math.min(25, rh * 0.48))}px ${FF}`;
+    g.fillStyle = opts.color || ink;
+    cells.forEach((txt, i) => {
+      if (txt == null) return;
+      g.textAlign = i === 2 ? "center" : "left";
+      const x = i === 2 ? xs[i] + cols[i] / 2 : xs[i] + 18;
+      const max = cols[i] - 34;
+      g.fillText(fit2(txt, max), x, y + rh / 2 + 1);
+    });
+  };
+
+  o.days.forEach((d, i) => {
+    const isFriday = d.day === "Friday";
+    const fill = isFriday ? "#FFF8E8" : (i % 2 ? "#F5F8FC" : "#FFFFFF");
+    drawTableRow(top + headerH + i * rh,
+      [d.date, d.day, d.h ? f(d.h) : "-", d.note || (isFriday && !d.h ? "Weekly off" : "")],
+      { fill, color: d.h ? ink : "#9AA7B8" });
+  });
+
+  const sy = top + headerH + o.days.length * rh;
+  drawTableRow(sy, ["TOTAL WORKING HOURS", "", f(o.total), "HOURS"], {
+    fill: "#EAF2FF", bold: true, color: "#173B69", topLine: true
+  });
+  drawTableRow(sy + rh, ["HOURLY RATE", "", f(o.rate), "SAR / HOUR"], {
+    fill: "#F0F7F5", bold: true, color: "#166B5B"
+  });
+  drawTableRow(sy + 2 * rh, ["TOTAL MONTHLY SALARY", "", f(o.salary), "SAR"], {
+    fill: "#FFF2CF", bold: true, color: "#8A5A08"
+  });
+
+  // Signatures and premium footer.
+  const sigY = H - 190;
+  g.strokeStyle = "#7C8CA3"; g.lineWidth = 2;
+  g.beginPath();
+  g.moveTo(M + 20, sigY); g.lineTo(M + 510, sigY);
+  g.moveTo(W - M - 510, sigY); g.lineTo(W - M - 20, sigY);
+  g.stroke();
+  label("EMPLOYEE SIGNATURE", M + 20, sigY + 34, "#52647B", 22);
+  g.textAlign = "right";
+  g.fillStyle = "#52647B"; g.font = `600 22px ${FF}`;
+  g.fillText("SUPERVISOR / APPROVED BY", W - M - 20, sigY + 34);
+
+  const fy = H - 88;
+  const fg = g.createLinearGradient(M, fy - 25, W - M, fy + 30);
+  fg.addColorStop(0, "#101A2D"); fg.addColorStop(1, "#203D60");
+  roundRect(M, fy - 24, TW, 54, 14, fg, null);
+  g.textAlign = "center";
+  g.fillStyle = "#F6D98E";
+  g.font = `700 21px ${FF}`;
+  g.fillText("MYHOUR  |  WORK SMARTER. TRACK CLEARER. GET PAID RIGHT.", W / 2, fy + 3);
+
+  const dataUrl = cv.toDataURL("image/jpeg", 0.94);
+  const jpegBase64 = dataUrl.split(",")[1];
+  const jpegBinary = atob(jpegBase64);
+  const jpegBytes = new Uint8Array(jpegBinary.length);
+  for (let i = 0; i < jpegBinary.length; i++) jpegBytes[i] = jpegBinary.charCodeAt(i);
+  return pdfFrom(jpegBytes, W, H);
+}
+function pd(month) {
+  if (!S.duty.length) return alert(T3("আগে ডিউটি এন্ট্রি দিন", "Add duty entries first"));
+  const months = [...new Set(S.duty.map(d => String(d.date).slice(0, 7)))].sort().reverse();
+  const m0 = month || months[0];
+  const e0 = S.emp.find(e => S.duty.some(d => d.emp == e.id && String(d.date).slice(0, 7) == m0)) || S.emp[0] || {};
+  const P = S.profile;
+
+  const monthOptions = months.map(k => `<option value="${k}" ${k === m0 ? 'selected' : ''}>${mlabel(k)}</option>`).join("");
+  const jobOptions = S.emp.map(e => `<option value="${e.id}" ${e.id == e0.id ? 'selected' : ''}>${e.company} - ${e.project}</option>`).join("");
+
+  const md = document.getElementById("md");
+  md.innerHTML = `
+    <div class="mb">
+      <div class="rh">
+        <h3 class="gold-text">📄 ${T3("A4 PDF টাইমশিট জেনারেটর", "Generate A4 PDF Timesheet", "كشف الدوام PDF")}</h3>
+        <button class="x" onclick="closeModal()">✕</button>
+      </div>
+      <div class="fl">
+        <div><div class="k">${T3("মাস", "Month")}</div><select id="q1">${monthOptions}</select></div>
+        <div><div class="k">${T3("চাকরি", "Job")}</div><select id="q2" onchange="document.getElementById('q3').value=(S.emp.find(e=>e.id==this.value)||{}).rate||''">${jobOptions}</select></div>
+        <div><div class="k">${T3("ঘণ্টা রেট (SAR)", "Hourly rate")}</div><input id="q3" type="number" step="any" value="${e0.rate || ''}"></div>
+        <div><div class="k">${T3("কাস্টম স্যালারি (ঐচ্ছিক)", "Custom salary (optional)")}</div><input id="q4" type="number" step="any" placeholder="${T3("ফাঁকা = ঘণ্টা × রেট", "Empty = auto")}"></div>
+        <div class="wide"><div class="k">${T3("নাম", "Name")}</div><input id="q5" value="${(P.name || '').replace(/"/g, '&quot;')}"></div>
+        <div><div class="k">${T3("ইকামা নম্বর", "Iqama No.")}</div><input id="q6" value="${P.iqama || ''}"></div>
+        <div><div class="k">${T3("পাসপোর্ট নম্বর", "Passport No.")}</div><input id="q7" value="${P.passport || ''}"></div>
+      </div>
+      <div class="qa" style="margin-top:16px;">
+        <button class="s" onclick="closeModal()">${t("btn_cancel")}</button>
+        <button onclick="execPdf(true)">📤 ${T3("শেয়ার", "Share")}</button>
+        <button onclick="execPdf(false)">💾 ${T3("সেভ করুন", "Save PDF")}</button>
+      </div>
+    </div>`;
+  md.className = "show";
+}
+
+function pm(month, selectedEmpId) {
+  const ids = [...new Set(S.duty.filter(d => String(d.date).slice(0, 7) === month).map(d => d.emp))];
+  const empId = selectedEmpId || ids[0];
+  const emp = S.emp.find(e => e.id == empId);
+  if (!emp) return pd(month);
+  pd(month);
+}
+
+async function execPdf(isShare) {
+  const mk = val("q1");
+  const empId = +val("q2");
+  const emp = S.emp.find(e => e.id == empId);
+  if (!emp) return alert(T3("চাকরি নির্বাচন করুন", "Select a job"));
+
+  const [y, mm] = mk.split("-").map(Number);
+  const numDays = new Date(y, mm, 0).getDate();
+  const dayLogs = {};
+
+  S.duty.forEach(d => {
+    if (d.emp == empId && String(d.date).slice(0, 7) === mk) {
+      const dayNum = +String(d.date).slice(8, 10);
+      (dayLogs[dayNum] = dayLogs[dayNum] || { h: 0, n: [] }).h += N(d.tot);
+      if (d.notes) dayLogs[dayNum].n.push(d.notes);
+    }
+  });
+
+  const days = [];
+  for (let k = 1; k <= numDays; k++) {
+    const dt = new Date(y, mm - 1, k);
+    const entry = dayLogs[k];
+    days.push({
+      date: `${String(k).padStart(2, '0')}/${String(mm).padStart(2, '0')}/${y}`,
+      day: DN[dt.getDay()],
+      h: entry ? entry.h : 0,
+      note: entry ? entry.n.join(", ") : ""
+    });
+  }
+
+  const total = days.reduce((a, d) => a + d.h, 0);
+  const rate = N(val("q3")) || emp.rate;
+  const customSalary = val("q4");
+  const salary = customSalary !== "" ? N(customSalary) : total * rate;
+
+  Object.assign(S.profile, {
+    name: val("q5").trim() || S.profile.name,
+    iqama: val("q6").trim(),
+    passport: val("q7").trim()
+  });
+  save();
+
+  let pdfResult;
+  try {
+    pdfResult = tsPdf({
+      company: emp.company,
+      project: emp.project,
+      name: S.profile.name,
+      iqama: S.profile.iqama,
+      passport: S.profile.passport,
+      monthLabel: `${MN[mm - 1]} ${y}`,
+      days,
+      total,
+      rate,
+      salary
+    });
+  } catch (e) {
+    return alert("PDF Generation Error: " + e.message);
+  }
+
+  const filename = `${MN[mm - 1]}_Timesheet_${y}_${emp.company.replace(/[^\w\-]+/g, '_')}.pdf`;
+  closeModal();
+
+  try {
+    if (window.AndroidBridge) {
+      if (isShare && typeof window.AndroidBridge.sharePdf === "function") {
+        window.AndroidBridge.sharePdf(pdfResult.base64, filename);
+        return;
+      } else if (typeof window.AndroidBridge.downloadPdf === "function") {
+        window.AndroidBridge.downloadPdf(pdfResult.base64, filename);
+        return;
+      }
+    }
+  } catch (e) {}
+
+  try {
+    const file = new File([pdfResult.blob], filename, { type: "application/pdf" });
+    if (isShare && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename });
+      return;
+    }
+  } catch (e) {}
+
+  const url = URL.createObjectURL(pdfResult.blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 60000);
+  toast(T3("✅ PDF তৈরি হয়েছে: " + filename, "✅ PDF Saved: " + filename, "✅ تم حفظ PDF"));
+}
+
+/* ==========================================================================
+   BACKUP & RESTORE SYSTEM (BACKUP_YYYY-MM-DD.json)
+   ========================================================================== */
+function dlFile(name, content, mime) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content], { type: mime }));
+  a.download = name;
+  a.click();
+}
+
+function getBackupFilename() {
+  const d = today();
+  return `BACKUP_${d}.json`;
+}
+
+function downloadBackup() {
+  const fn = getBackupFilename();
+  const data = JSON.stringify(S, null, 2);
+  dlFile(fn, data, "application/json");
+  toast(T3(`✅ ব্যাকআপ ডাউনলোড সম্পন্ন: ${fn}`, `✅ Backup Downloaded: ${fn}`, `✅ تم التنزيل: ${fn}`));
+}
+
+function uploadBackup(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  const msg = L() === "bn"
+    ? `"${file.name}" ফাইল থেকে সব ডেটা রিস্টোর করতে চান? আপনার বর্তমান হিসাব আপডেট হয়ে যাবে।`
+    : `Restore data from "${file.name}"? Current records will be updated.`;
+  if (!confirm(msg)) { input.value = ""; return; }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed && (parsed.duty || parsed.emp || parsed.profile)) {
+        S = parsed;
+        save();
+        render();
+        toast(T3(`✅ ব্যাকআপ সফলভাবে আপলোড ও রিস্টোর হয়েছে (${file.name})`, `✅ Restored from ${file.name}`, `✅ تمت الاستعادة بنجاح`));
+      } else {
+        alert(T3("সঠিক ব্যাকআপ ফাইল (.json) নির্বাচন করুন", "Please select a valid MYHOUR backup file"));
+      }
+    } catch (err) {
+      alert("Invalid JSON File: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function csv() {
+  const header = "Date,Company,Project,TotalHours,NormalHours,OTHours,SalarySAR,Notes\n";
+  const rows = S.duty.map(d => {
+    const e = S.emp.find(e => e.id == d.emp) || {};
+    return [
+      d.date,
+      `"${(e.company || '').replace(/"/g, '""')}"`,
+      `"${(e.project || '').replace(/"/g, '""')}"`,
+      d.tot,
+      d.nor,
+      d.ot,
+      d.sal,
+      `"${(d.notes || '').replace(/"/g, '""')}"`
+    ].join(",");
+  }).join("\n");
+  dlFile("myhour-duties.csv", header + rows, "text/csv");
+  toast(T3("✅ CSV রিপোর্ট ডাউনলোড হয়েছে", "✅ CSV Report Exported", "✅ تم تصدير CSV"));
+}
+
+/* ==========================================================================
+   AUTH, LOGIN & SECURITY
+   ========================================================================== */
+const hs = (s) => {
+  let a = 0xdeadbeef, b = 0x41c6ce57;
+  for (let i = 0, c; i < s.length; i++) {
+    c = s.charCodeAt(i);
+    a = Math.imul(a ^ c, 2654435761);
+    b = Math.imul(b ^ c, 1597334677);
+  }
+  a = Math.imul(a ^ (a >>> 16), 2246822507) ^ Math.imul(b ^ (b >>> 13), 3266489909);
+  b = Math.imul(b ^ (b >>> 16), 2246822507) ^ Math.imul(a ^ (a >>> 13), 3266489909);
+  return (4294967296 * (2097151 & b) + (a >>> 0)).toString(36);
+};
+
+function setLang(lang) {
+  if (!S) S = JSON.parse(JSON.stringify(D0));
+  if (!S.profile) S.profile = {};
+  S.profile.lang = lang;
+  save();
+  if (S.auth && S.logged) {
+    render();
+  } else {
+    gate();
+  }
+}
+
+function togglePwd(id, btnId) {
+  const inp = document.getElementById(id);
+  const btn = document.getElementById(btnId);
+  if (!inp) return;
+  if (inp.type === "password") {
+    inp.type = "text";
+    if (btn) btn.innerText = "🙈";
+  } else {
+    inp.type = "password";
+    if (btn) btn.innerText = "👁️";
+  }
+}
+
+let AM = "li"; // DEFAULT: LOGIN IS ALWAYS FIRST!
+function setAuthMode(m) { AM = m; gate(); }
+
+function gate() {
+  const el = document.getElementById("au");
+  if (!el) return;
+  if (S.auth && S.logged) {
+    el.className = "";
+    el.innerHTML = "";
+    AM = "li";
+    return;
+  }
+
+  // Ensure default is ALWAYS Login ("li")
+  if (!AM) AM = "li";
+
+  // Language selector bar right at the top
+  const langBar = `
+    <div class="au-lang-bar">
+      <button class="au-lang-btn active" onclick="cycleLang()" aria-label="Switch language">${L() === 'bn' ? 'বাংলা' : 'English'}</button>
+    </div>`;
+
+  // Tabs: LOGIN FIRST, SIGN UP SECOND
+  const tabs = `
+    <div class="tabs">
+      <button class="${AM === 'li' ? 'on' : ''}" onclick="setAuthMode('li')">${T3("লগইন", "Log in", "دخول")}</button>
+      <button class="${AM === 'su' ? 'on' : ''}" onclick="setAuthMode('su')">${T3("সাইন আপ", "Sign up", "تسجيل")}</button>
+    </div>`;
+
+  const header = `
+    <div class="lgo">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 2"/>
+        </svg>
+      </div>
+      <b class="gold-text">MYHOUR</b>
+      <span>${t("tagline")}</span>
+    </div>`;
+
+  if (AM === "li") {
+    // LOGIN (FIRST & NORMAL SIZED)
+    el.innerHTML = `
+      <div class="box">
+        ${header}
+        ${tabs}
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px;">
+            <h3 style="margin:0; font-size:16px;">${T3("লগইন করুন", "Log in", "تسجيل الدخول")}</h3>
+            ${langBar}
+          </div>
+          <input id="au2" placeholder="${T3("মোবাইল নম্বর বা ইমেইল", "Mobile or Email", "رقم الجوال أو البريد")}" autocomplete="username" value="${(S.auth && S.auth.id) || ''}">
+          <div style="position:relative;">
+            <input id="au3" type="password" placeholder="${T3("পাসওয়ার্ড", "Password", "كلمة المرور")}" autocomplete="current-password" style="padding-right:38px;">
+            <span onclick="togglePwd('au3','eye_login')" id="eye_login" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
+          </div>
+          <div class="er" id="aue"></div>
+          <button class="big" onclick="login()">${T3("লগইন", "Log in", "دخول")}</button>
+        </div>
+        <a class="lk" onclick="resetAccount()">${T3("পাসওয়ার্ড ভুলে গেছেন? (অ্যাকাউন্ট রিসেট)", "Forgot password? (Reset)", "نسيت كلمة المرور؟")}</a>
+      </div>`;
+  } else {
+    // SIGN UP (SECOND & NORMAL SIZED)
+    el.innerHTML = `
+      <div class="box">
+        ${header}
+        ${tabs}
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px;">
+            <h3 style="margin:0; font-size:16px;">${T3("নতুন অ্যাকাউন্ট খুলুন", "Create Account", "إنشاء حساب")}</h3>
+            ${langBar}
+          </div>
+          <input id="au1" placeholder="${T3("আপনার নাম", "Your Name", "الاسم")}" autocomplete="name" value="${(S.profile && S.profile.name) || ''}">
+          <input id="au2" placeholder="${T3("মোবাইল নম্বর বা ইমেইল", "Mobile or Email", "رقم الجوال أو البريد")}" autocomplete="username">
+          <div style="position:relative;">
+            <input id="au3" type="password" placeholder="${T3("পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর)", "Password (min 4 chars)", "كلمة المرور")}" autocomplete="new-password" style="padding-right:38px;">
+            <span onclick="togglePwd('au3','eye_su1')" id="eye_su1" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
+          </div>
+          <div style="position:relative;">
+            <input id="au4" type="password" placeholder="${T3("পাসওয়ার্ড আবার লিখুন", "Confirm Password", "تأكيد كلمة المرور")}" autocomplete="new-password" style="padding-right:38px;">
+            <span onclick="togglePwd('au4','eye_su2')" id="eye_su2" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
+          </div>
+          <div class="er" id="aue"></div>
+          <button class="big" onclick="signup()">${T3("অ্যাকাউন্ট তৈরি করুন", "Create Account", "إنشاء")}</button>
+        </div>
+        <div class="nt">🔒 ${t("privacy_guarantee")}</div>
+      </div>`;
+  }
+  el.className = "show";
+}
+
+function signup() {
+  const n = val("au1").trim();
+  const id = val("au2").trim().toLowerCase().replace(/\s+/g, "");
+  const p = val("au3");
+  const err = document.getElementById("aue");
+  if (n.length < 2) { err.textContent = T3("আপনার নাম লিখুন", "Enter name"); return; }
+  if (id.length < 4) { err.textContent = T3("সঠিক মোবাইল বা ইমেইল দিন", "Enter valid mobile/email"); return; }
+  if (p.length < 4) { err.textContent = T3("পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে", "Password too short"); return; }
+  if (p !== val("au4")) { err.textContent = T3("দুইটি পাসওয়ার্ড মেলেনি", "Passwords do not match"); return; }
+
+  S.auth = { name: n, id, h: hs("myhour|" + id + "|" + p) };
+  S.logged = 1;
+  S.profile.name = n;
+  if (id.includes("@")) S.profile.email = id;
+  else S.profile.contact = id;
+  save();
+  gate();
+  render();
+  toast(T3("✅ অ্যাকাউন্ট তৈরি সম্পন্ন হয়েছে", "✅ Account Created", "✅ تم إنشاء الحساب"));
+}
+
+function login() {
+  const id = val("au2").trim().toLowerCase().replace(/\s+/g, "");
+  const p = val("au3");
+  const err = document.getElementById("aue");
+  if (!S.auth) {
+    err.innerHTML = `${T3("এখনো কোনো অ্যাকাউন্ট খোলা হয়নি।", "No account registered yet.")} <a onclick="setAuthMode('su')" style="color:var(--gold); text-decoration:underline; cursor:pointer; font-weight:700;">${T3("এখানে ক্লিক করে সাইন আপ করুন", "Sign Up here")}</a>`;
+    return;
+  }
+  if (id !== S.auth.id || hs("myhour|" + id + "|" + p) !== S.auth.h) {
+    err.textContent = T3("মোবাইল/ইমেইল বা পাসওয়ার্ড ভুল হয়েছে", "Incorrect mobile/email or password");
+    return;
+  }
+  S.logged = 1;
+  save();
+  gate();
+  render();
+  toast(T3("✅ লগইন সফল", "✅ Logged In", "✅ تم تسجيل الدخول"));
+}
+
+function logout() {
+  if (!confirm(T3("লগআউট করতে চান?", "Log out?", "تسجيل الخروج؟"))) return;
+  S.logged = 0;
+  save();
+  gate();
+}
+
+function resetAccount() {
+  if (!confirm(T3("রিসেট করলে এই ডিভাইসের সব ডেটা মুছে যাবে। নিশ্চিত?", "Reset will erase all data. Continue?"))) return;
+  if (!confirm(T3("আবার নিশ্চিত করুন: সব ডেটা মুছে যাবে!", "Confirm again: all data will be deleted!"))) return;
+  S = JSON.parse(JSON.stringify(D0));
+  save();
+  gate();
+  render();
+}
+
+function importDemoDataIfNeeded() {
+  if (S.emp.length > 0) return;
+  const id = S.seq++;
+  S.emp.push({
+    id,
+    type: "Company",
+    company: "PIONEER SUPPLY",
+    project: "PT&D JGCP1",
+    prof: S.profile.profession || "Electrician / Site Technician",
+    join: "2026-09-01",
+    rate: 8.5,
+    otr: 8.5,
+    thr: 12,
+    status: "Active"
+  });
+
+  const hours = [12, 15, 12, 12, 15, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15, 15, 12, 15, 12, 12, 14, 12, 12, 14];
+  const notes = { 2: "Concreting Work", 4: "Scaffold TW", 5: "Concreting Work" };
+
+  hours.forEach((tot, idx) => {
+    const d = `2026-09-${String(idx + 1).padStart(2, "0")}`;
+    const nor = Math.min(tot, 12);
+    const ot = Math.max(0, tot - 12);
+    S.duty.push({
+      id: S.seq++,
+      emp: id,
+      date: d,
+      tot,
+      nor,
+      ot,
+      sal: nor * 8.5 + ot * 8.5,
+      notes: notes[idx + 1] || ""
+    });
+  });
+  save();
+}
+
+function row(a, b, key, i) {
+  return `
+    <div class="r">
+      <div>
+        ${a}
+        <div class="k">${b}</div>
+      </div>
+      <div style="display:flex; align-items:center; flex-shrink:0;">
+        <button class="x ed" onclick="ed('${key}', ${i})">✏️ ${T3("এডিট", "Edit")}</button>
+        <button class="x" onclick="del('${key}', ${i})">🗑 ${T3("মুছুন", "Delete")}</button>
+      </div>
+    </div>`;
+}
+
+function render() {
+  applyTheme();
+
+  const sbLinks = document.getElementById("sidebar-links");
+  if (sbLinks) {
+    sbLinks.innerHTML = DR.map(([route, transKey, icon]) => `
+      <div class="s-item ${route === cur ? 'on' : ''}" onclick="go('${route}')">
+        <span class="em">${IC[icon]}</span>
+        <span>${t(transKey)}</span>
+      </div>`).join("") + `
+      <div class="s-item" onclick="logout()" style="margin-top:12px; color:var(--dg);">
+        <span class="em">🚪</span>
+        <span>${T3("লগআউট", "Logout", "خروج")}</span>
+      </div>`;
+  }
+
+  const sbName = document.getElementById("sb-name");
+  const sbProf = document.getElementById("sb-prof");
+  const sbAv = document.getElementById("sb-av");
+  if (sbName) sbName.textContent = S.profile.name || "User";
+  if (sbProf) sbProf.textContent = S.profile.profession || "Site Specialist";
+  if (sbAv) sbAv.textContent = (S.profile.name || "M").charAt(0).toUpperCase();
+
+  const drLinks = document.getElementById("dr-links");
+  if (drLinks) {
+    drLinks.innerHTML = DR.map(([route, transKey, icon]) => `
+      <div class="di ${route === cur ? 'on' : ''}" onclick="go('${route}')">
+        <span class="em">${IC[icon]}</span>
+        <span>${t(transKey)}</span>
+      </div>`).join("") + `
+      <div class="di" onclick="logout()" style="color:var(--dg);">
+        <span class="em">🚪</span>
+        <span>${T3("লগআউট", "Logout", "خروج")}</span>
+      </div>`;
+  }
+
+  const drUser = document.getElementById("dr-user-info");
+  if (drUser) {
+    drUser.innerHTML = `<b>${S.profile.name || ''}</b><div class="k" style="font-size:12px;">${S.profile.profession || ''}</div>`;
+  }
+
+  const nv = document.getElementById("nv");
+  if (nv) {
+    nv.innerHTML = BN.map(([route, transKey, icon]) => `
+      <div class="${route === cur ? 'on' : ''}" onclick="go('${route}')">
+        <span class="em">${IC[icon]}</span>
+        <span>${t(transKey)}</span>
+      </div>`).join("");
+  }
+
+  FM = [];
+  const root = document.getElementById("content-root");
+  if (root && V[cur]) {
+    root.innerHTML = V[cur]();
+  }
+
+  const main = document.getElementById("main-viewport");
+  if (main) main.scrollTop = 0;
+}
+
+window.addEventListener("popstate", () => {
+  if (IGN) { IGN = 0; return; }
+  const md = document.getElementById("md");
+  const dr = document.getElementById("dr");
+  if ((md && md.classList.contains("show")) || (dr && dr.classList.contains("show"))) {
+    closeModal();
+    closeDrawer();
+    return;
+  }
+  if (cur !== "dashboard") goBack();
+});
+
+window.addEventListener("resize", () => {
+  applyViewMode();
+});
+
+importDemoDataIfNeeded();
+gate();
+render();
+</script>
+</body>
+</html>
