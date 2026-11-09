@@ -1944,9 +1944,10 @@ function empName(id) {
   return e ? `${e.company} - ${e.project}` : "-";
 }
 
-function empSel(id) {
+function empSel(id, defaultActive = false) {
   if (!S.emp.length) return `<select id="${id}"><option value="">${T3("কোনো কাজ নেই, নতুন যোগ করুন", "No job added yet", "لا يوجد عمل")}</option></select>`;
-  return `<select id="${id}">${S.emp.map(e => `<option value="${e.id}">${e.company} - ${e.project}</option>`).join("")}</select>`;
+  const activeJob = defaultActive ? S.emp.find(e => e.status === "Active") : null;
+  return `<select id="${id}">${S.emp.map(e => `<option value="${e.id}" ${activeJob && e.id == activeJob.id ? "selected" : ""}>${e.company} - ${e.project}</option>`).join("")}</select>`;
 }
 
 function sum() {
@@ -2373,7 +2374,7 @@ const V = {
           <div class="card">
             <h3>⚡ ${T3("কুইক ডিউটি এন্ট্রি", "Quick Duty Logger", "تسجيل سريع")}</h3>
             <div style="display:flex; flex-direction:column; gap:8px;">
-              <div>${empSel("qd_emp")}</div>
+              <div>${empSel("qd_emp", true)}</div>
               <input id="qd_date" type="date" value="${today()}">
               <input id="qd_hrs" type="number" step="0.5" placeholder="${t("field_total_hours")} (e.g. 10 or 12)">
               <input id="qd_notes" placeholder="${t("field_notes")}">
