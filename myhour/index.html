@@ -10,7 +10,6 @@
 <title>MYHOUR - Work Hours & Salary Manager</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 /* ==========================================================================
    MYHOUR - 3D LUXURY GLASSMORPHIC STYLING & FULL RESPONSIVE AUTO-ADJUST
@@ -1121,8 +1120,8 @@ body.light #dr > div {
   -webkit-user-select: none;
 }
 @keyframes spOut {
-  0% { opacity: 1; transform: scale(1); filter: blur(0px); }
-  100% { opacity: 0; transform: scale(1.04); filter: blur(6px); visibility: hidden; pointer-events: none; }
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
 #sp .lo-wrapper {
@@ -1512,6 +1511,41 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
   line-height: 1.5;
 }
 .pv .em { font-size: 30px; }
+
+/* Intro: fixed row heights so late-loading fonts/emoji can never push the layout around */
+#sp { box-sizing: border-box; padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); overflow: hidden; }
+#sp .sp-pill { box-sizing: border-box; height: 24px; line-height: 22px; padding-top: 0; padding-bottom: 0; }
+#sp .tt { height: 46px; line-height: 46px; }
+#sp .tg { height: 16px; line-height: 16px; white-space: nowrap; }
+#sp .tg-bn { height: 16px; line-height: 16px; white-space: nowrap; }
+#sp .sp-bar-container { box-sizing: border-box; height: 24px; }
+#sp .sp-status { height: 14px; line-height: 14px; overflow: hidden; white-space: nowrap; }
+#sp .sp-skip { box-sizing: border-box; height: 29px; line-height: 15px; }
+
+/* User guide */
+.gd-sec { border:1px solid var(--bd); border-radius:12px; margin-bottom:10px; background:var(--el); }
+.gd-sec summary { padding:13px 14px; font-weight:700; font-size:14.5px; cursor:pointer; color:var(--gold); list-style:none; }
+.gd-sec summary::-webkit-details-marker { display:none; }
+.gd-sec summary::after { content:"▾"; float:right; }
+.gd-sec[open] summary::after { content:"▴"; }
+.gd-body { padding:0 14px 14px; font-size:13.5px; line-height:1.7; color:var(--t2); user-select:text; -webkit-user-select:text; }
+.gd-body ul { padding-left:18px; }
+.gd-body li { margin:6px 0; }
+.gd-body b { color:var(--t1); }
+#gd { position:fixed; inset:0; z-index:100001; display:none; background:var(--bg-gradient); overflow-y:auto; padding:16px; }
+#gd.show { display:block; }
+#gd .gd-wrap { max-width:640px; margin:0 auto; padding-bottom:24px; }
+
+/* Supplier suggestions + Google button */
+.sg-box { display:none; border:1px solid var(--gold-border); border-radius:10px; background:var(--el); max-height:190px; overflow-y:auto; }
+.sg-item { padding:10px 12px; font-size:14px; cursor:pointer; color:var(--t1); border-bottom:1px solid var(--bd); }
+.sg-item:last-child { border-bottom:0; }
+.sg-item:hover, .sg-item:active { background:var(--gold-glow); }
+#au .or-div { display:flex; align-items:center; gap:10px; margin:14px 0 10px; color:var(--t2); font-size:12px; }
+#au .or-div::before, #au .or-div::after { content:""; flex:1; height:1px; background:var(--bd); }
+#au .gbtn { width:100%; padding:12px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:14px; }
+#au .gbtn b { font-size:16px; color:#4285F4; }
+#au button:disabled { opacity:.6; pointer-events:none; }
 </style>
 </head>
 <body>
@@ -1608,7 +1642,7 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     <div class="sp-bar">
       <div class="sp-bar-fill"></div>
     </div>
-    <div class="sp-status" id="sp-status-text">🔒 Encrypted Local Vault Initializing...</div>
+    <div class="sp-status" id="sp-status-text">🔒 Secure Sign-in Initializing...</div>
   </div>
 
   <div class="sp-skip" onclick="dismissSplash()">
@@ -1637,7 +1671,7 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     <div class="user-brief" id="sb-user">
       <div class="user-avatar" id="sb-av">M</div>
       <div class="user-meta">
-        <div class="user-name" id="sb-name">Mijanur Rahman</div>
+        <div class="user-name" id="sb-name">User</div>
         <div class="user-prof" id="sb-prof">Site Technician</div>
       </div>
     </div>
@@ -1645,15 +1679,6 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     <div class="s-nav-title" id="sb-menu-title">Main Navigation</div>
     <div id="sidebar-links"></div>
 
-    <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
-      <button class="s" style="width:100%; padding:9px 12px; font-size:12px; border-radius:10px;" onclick="downloadBackup()">
-        💾 ব্যাকআপ (JSON)
-      </button>
-      <div class="vault-status" id="vault-badge" title="IndexedDB + LocalStorage + Device Vault Active">
-        <span class="vault-dot"></span>
-        <span id="vault-text">100% Private & Auto-Synced</span>
-      </div>
-    </div>
   </aside>
 
   <!-- Content Stage -->
@@ -1719,12 +1744,33 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 <div id="au"></div>
 
 <!-- Scripts -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
+/* ==========================================================================
+   FIREBASE CONFIG (project: mrtech-7e537)
+   ========================================================================== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyC8hKqviJJzheFlEfL_q6AJnelNFk-6mTE",
+  authDomain: "mrtech-7e537.firebaseapp.com",
+  databaseURL: "https://mrtech-7e537-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mrtech-7e537",
+  storageBucket: "mrtech-7e537.firebasestorage.app",
+  messagingSenderId: "103240954590",
+  appId: "1:103240954590:web:56fcbcdffef47638a4c84f"
+};
+// Admin = verified Google/email account below, or any uid listed under "admins" in the database.
+const ADMIN_EMAILS = ["mijanbabu2015@gmail.com"];
+const COMPANY = "MrTech";
+
 /* ==========================================================================
    TRANSLATION DICTIONARY (Bengali, English, Arabic)
    ========================================================================== */
 const TR = {
-  nav_developer: { en: "Developer", bn: "ডেভেলপার", ar: "المطور" },
+  nav_guide: { en: "How to Use", bn: "ব্যবহার নির্দেশিকা", ar: "طريقة الاستخدام" },
+  nav_about: { en: "About MrTech", bn: "MrTech সম্পর্কে", ar: "عن MrTech" },
+  nav_admin: { en: "Admin Panel", bn: "অ্যাডমিন প্যানেল", ar: "لوحة المشرف" },
   app_name: { en: "MYHOUR", bn: "MYHOUR", ar: "ماي آور" },
   tagline: { en: "Your Time. Your Work. Your Earnings.", bn: "আপনার সময়। আপনার কাজ। আপনার উপার্জন।", ar: "وقتك. عملك. أرباحك." },
   nav_dashboard: { en: "Dashboard", bn: "ড্যাশবোর্ড", ar: "لوحة التحكم" },
@@ -1768,7 +1814,7 @@ const TR = {
   field_notes: { en: "Notes / Details", bn: "মন্তব্য / বিবরণ", ar: "ملاحظات وتفاصيل" },
   emp_type_company: { en: "Company Employee", bn: "কোম্পানি কর্মী (Company Employee)", ar: "موظف شركة نظامي" },
   emp_type_supply: { en: "Independent / Supply Worker", bn: "সাপ্লাই / স্বাধীন কর্মী (Supply Worker)", ar: "عامل توريد / مستقل" },
-  privacy_guarantee: { en: "Strict Personal Privacy: Your records are 100% private to you. Stored securely on your device.", bn: "কঠোর ব্যক্তিগত গোপনীয়তা: আপনার হিসাব কেবল আপনারই। সম্পূর্ণ সুরক্ষিতভাবে আপনার ডিভাইসে সংরক্ষিত।", ar: "خصوصية تامة: بياناتك وأرباحك خاصة بك فقط ومحفوظة بأمان على جهازك." }
+  privacy_guarantee: { en: "Your duty, salary and expense records stay only on your device. Online we keep just your name, mobile and email for your account; only the admin can see those three.", bn: "আপনার ডিউটি, বেতন ও খরচের হিসাব শুধু আপনার ডিভাইসে থাকে, অন্য কেউ দেখতে পারে না। অ্যাকাউন্টের জন্য অনলাইনে শুধু আপনার নাম, মোবাইল ও ইমেইল থাকে, এই তিনটি শুধু অ্যাডমিন দেখতে পারেন।", ar: "سجلات الدوام والراتب والمصاريف تبقى على جهازك فقط. نحفظ على الإنترنت اسمك ورقم جوالك وبريدك فقط، ولا يراها إلا المشرف." }
 };
 
 /* ==========================================================================
@@ -1776,10 +1822,10 @@ const TR = {
    ========================================================================== */
 const D0 = {
   profile: {
-    name: "Mijanur Rahman",
+    name: "",
     email: "",
-    contact: "+01700000000",
-    profession: "Electrician / Site Technician",
+    contact: "",
+    profession: "",
     rate: 32.5,
     lang: "bn",
     dark: true,
@@ -1794,54 +1840,53 @@ const D0 = {
   rem: [],
   loan: [],
   exp: [],
-  seq: 1,
-  auth: null,
-  logged: 1
+  seq: 1
 };
 
-let S = null;
+let S = JSON.parse(JSON.stringify(D0));
+let U = null;            // signed-in Firebase user { uid, email }
+let REC = null;          // this user's online record { name, phone, email }
+let IS_ADMIN = false;
+let KEY = null;          // local storage key of the signed-in user
+let READY_APP = false;   // true once signed in AND profile complete
 
 const openIDB = () => new Promise((resolve) => {
   try {
     const req = indexedDB.open("myhour_vault_v2", 1);
     req.onupgradeneeded = () => {
       const db = req.result;
-      if (!db.objectStoreNames.contains("state")) {
-        db.createObjectStore("state");
-      }
+      if (!db.objectStoreNames.contains("state")) db.createObjectStore("state");
     };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => resolve(null);
   } catch (e) { resolve(null); }
 });
 
-const idbGet = async () => {
+const idbGet = async (k) => {
   try {
     const db = await openIDB();
     if (!db) return null;
     return new Promise((resolve) => {
-      const tx = db.transaction("state", "readonly");
-      const req = tx.objectStore("state").get("current");
+      const req = db.transaction("state", "readonly").objectStore("state").get(k);
       req.onsuccess = () => resolve(req.result || null);
       req.onerror = () => resolve(null);
     });
   } catch (e) { return null; }
 };
 
-const idbPut = async (val) => {
+const idbPut = async (k, v) => {
   try {
     const db = await openIDB();
     if (!db) return;
-    const tx = db.transaction("state", "readwrite");
-    tx.objectStore("state").put(val, "current");
+    db.transaction("state", "readwrite").objectStore("state").put(v, k);
   } catch (e) {}
 };
 
 function save() {
-  if (!S) return;
+  if (!S || !KEY) return;
   const json = JSON.stringify(S);
-  try { localStorage.setItem("myhour", json); } catch (e) {}
-  idbPut(json);
+  try { localStorage.setItem(KEY, json); } catch (e) {}
+  idbPut(KEY, json);
   try {
     if (window.AndroidBridge && typeof window.AndroidBridge.saveToNative === "function") {
       window.AndroidBridge.saveToNative(json);
@@ -1849,53 +1894,55 @@ function save() {
   } catch (e) {}
 }
 
-try {
-  const localStr = localStorage.getItem("myhour");
-  if (localStr) S = JSON.parse(localStr);
-} catch (e) { S = null; }
-
-if (!S) {
-  try {
-    if (window.AndroidBridge && typeof window.AndroidBridge.loadFromNative === "function") {
-      const nativeStr = window.AndroidBridge.loadFromNative();
-      if (nativeStr) S = JSON.parse(nativeStr);
-    }
-  } catch (e) {}
+function normalizeState(st) {
+  const base = JSON.parse(JSON.stringify(D0));
+  if (!st || typeof st !== "object") return base;
+  delete st.auth; delete st.logged;
+  st.profile = Object.assign({}, base.profile, st.profile || {});
+  ["emp", "duty", "sched", "pay", "rem", "loan", "exp"].forEach(k => { if (!Array.isArray(st[k])) st[k] = []; });
+  st.seq = st.seq || 1;
+  return st;
 }
 
-S = S || JSON.parse(JSON.stringify(D0));
+// Each account has its own private data on this device.
+function loadLocalState(uid) {
+  KEY = "myhour_u_" + uid;
+  const pre = { lang: S.profile.lang, dark: S.profile.dark };
+  let st = null;
+  try { const s = localStorage.getItem(KEY); if (s) st = JSON.parse(s); } catch (e) {}
 
-idbGet().then((savedStr) => {
-  if (savedStr) {
+  // One-time: the first account on this device adopts data saved by the old single-user version.
+  let migrated = false;
+  try { migrated = !!localStorage.getItem("myhour_migrated"); } catch (e) {}
+  if (!st && !migrated) {
+    try { const old = localStorage.getItem("myhour"); if (old) st = JSON.parse(old); } catch (e) {}
     try {
-      const parsed = JSON.parse(savedStr);
-      if (parsed && parsed.seq > (S ? S.seq : 0)) {
-        S = parsed;
-        importDemoDataIfNeeded();
-        save();
-        render();
-        gate();
+      if (!st && window.AndroidBridge && typeof window.AndroidBridge.loadFromNative === "function") {
+        const n = window.AndroidBridge.loadFromNative();
+        if (n) st = JSON.parse(n);
       }
     } catch (e) {}
+    try { localStorage.removeItem("myhour"); localStorage.setItem("myhour_migrated", "1"); } catch (e) {}
   }
-});
+
+  const fresh = !st;
+  S = normalizeState(st);
+  if (fresh) { S.profile.lang = pre.lang; S.profile.dark = pre.dark; }
+  save();
+
+  const k = KEY;
+  idbGet(k).then((str) => {
+    if (!str || KEY !== k) return;
+    try {
+      const p = JSON.parse(str);
+      if (p && p.seq > S.seq) { S = normalizeState(p); save(); if (READY_APP) render(); }
+    } catch (e) {}
+  });
+}
 
 window.addEventListener("pagehide", () => save());
 window.addEventListener("beforeunload", () => save());
 document.addEventListener("visibilitychange", () => { if (document.hidden) save(); });
-
-window.checkNativeRestore = function() {
-  try {
-    if (window.AndroidBridge && typeof window.AndroidBridge.loadFromNative === "function") {
-      const nativeStr = window.AndroidBridge.loadFromNative();
-      if (nativeStr && (!S || S.duty.length === 0)) {
-        S = JSON.parse(nativeStr);
-        save();
-        render();
-      }
-    }
-  } catch (e) {}
-};
 
 /* ==========================================================================
    HELPERS & LOCALIZATION
@@ -1906,10 +1953,11 @@ const T3 = (bn, en, ar) => L() === "bn" ? bn : (L() === "ar" ? (ar || en) : en);
 const N = (x) => (+x || 0);
 const f = (x) => N(x).toLocaleString(undefined, { maximumFractionDigits: 2 });
 const today = () => new Date().toISOString().slice(0, 10);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const val = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
 
 const IC = {
-  dev: "👨‍💻", home: "🏠", dashboard: "📊", date_range: "⏱️", payments: "💵",
+  info: "ℹ️", shield: "🛡️", home: "🏠", dashboard: "📊", date_range: "⏱️", payments: "💵",
   send: "📤", menu_book: "📖", work: "💼", calendar_month: "📅",
   trending_up: "📈", cloud_done: "☁️", person: "👤"
 };
@@ -1932,8 +1980,15 @@ const DR = [
   ["reports", "nav_reports", "trending_up"],
   ["backup", "nav_backup", "cloud_done"],
   ["profile", "nav_profile", "person"],
-  ["developer", "nav_developer", "dev"]
+  ["guide", "nav_guide", "menu_book"],
+  ["about", "nav_about", "info"]
 ];
+
+function navList() {
+  const l = DR.slice();
+  if (IS_ADMIN) l.splice(l.length - 2, 0, ["admin", "nav_admin", "shield"]);
+  return l;
+}
 
 let cur = "dashboard";
 const ST = [];
@@ -2013,8 +2068,16 @@ window.addEventListener('beforeinstallprompt', (e) => {
 let pwaBannerHideTimer = null;
 let pwaBannerShownThisSession = false;
 
+function splashVisible() {
+  const sp = document.getElementById("sp");
+  if (!sp) return false;
+  const cs = getComputedStyle(sp);
+  return cs.display !== "none" && cs.visibility !== "hidden" && parseFloat(cs.opacity) > 0.02;
+}
+
 function showPwaBanner() {
   if (window.AndroidBridge) return;
+  if (splashVisible()) { setTimeout(showPwaBanner, 600); return; }
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
   if (sessionStorage.getItem('pwa_dismissed') || pwaBannerShownThisSession) return;
 
@@ -2066,16 +2129,15 @@ function initSplashStatus() {
   if (!el) return;
   setTimeout(() => { if (el) el.innerText = "⏱️ Time & Overtime Engine Ready..."; }, 600);
   setTimeout(() => { if (el) el.innerText = "📊 Salary Intelligence Synced..."; }, 1300);
-  setTimeout(() => { if (el) el.innerText = "✨ Welcome, " + (S && S.profile && S.profile.name ? S.profile.name : "Mijanur Rahman"); }, 1900);
+  setTimeout(() => { if (el) el.innerText = "✨ Welcome to MYHOUR"; }, 1900);
 }
 
 function dismissSplash() {
   const sp = document.getElementById("sp");
   if (!sp) return;
-  sp.style.transition = "opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease";
+  sp.style.animation = "none";
+  sp.style.transition = "opacity 0.4s ease";
   sp.style.opacity = "0";
-  sp.style.transform = "scale(1.04)";
-  sp.style.filter = "blur(6px)";
   sp.style.pointerEvents = "none";
   setTimeout(() => { sp.style.display = "none"; }, 400);
 }
@@ -2103,8 +2165,8 @@ function openTourModal() {
           <div style="font-size:12px; color:var(--t2); line-height:1.4;">ইকামা, প্রজেক্ট নাম, কর্মঘণ্টা ও সিগনেচার স্পেস সহ অফিশিয়াল টাইমশিট।</div>
         </div>
         <div class="card" style="margin:0; padding:14px; background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.25);">
-          <div style="font-size:14px; font-weight:700; color:var(--pr); margin-bottom:4px;">🔒 ১০০% অফলাইন ভল্ট</div>
-          <div style="font-size:12px; color:var(--t2); line-height:1.4;">কোনো ডেটা সার্ভারে যায় না, আপনার ডিভাইসেই সুরক্ষিত ব্যাকআপ থাকে।</div>
+          <div style="font-size:14px; font-weight:700; color:var(--pr); margin-bottom:4px;">🔒 শুধু আপনার হিসাব</div>
+          <div style="font-size:12px; color:var(--t2); line-height:1.4;">ডিউটি, বেতন ও খরচের হিসাব আপনার ডিভাইসেই থাকে। অ্যাডমিনও দেখতে পারেন না।</div>
         </div>
       </div>
       <button class="btn" style="width:100%; padding:12px;" onclick="closeModal()">
@@ -2160,8 +2222,9 @@ function cycleLang() {
   if (!S) S = JSON.parse(JSON.stringify(D0));
   if (!S.profile) S.profile = {};
   S.profile.lang = L() === "bn" ? "en" : "bn";
+  try { localStorage.setItem("myhour_lang", S.profile.lang); } catch (e) {}
   save();
-  if (S.auth && S.logged) render();
+  if (READY_APP) render();
   else gate();
 }
 
@@ -2302,8 +2365,6 @@ const V = {
         <button onclick="go('duty')">➕ ${t("btn_add_duty")}</button>
         <button class="s" onclick="go('salary')">💵 ${t("btn_add_payment")}</button>
         <button class="s" onclick="go('finance')">📤 ${t("btn_add_remittance")}</button>
-        <button class="s" onclick="pd()">📄 ${T3("PDF টাইমশিট", "Timesheet PDF", "كشف PDF")}</button>
-        <button class="s" onclick="downloadBackup()">💾 ${T3("ব্যাকআপ ডাউনলোড", "Backup JSON", "نسخة احتياطية")}</button>
       </div>`;
 
     const recentDuties = S.duty.length
@@ -2325,11 +2386,9 @@ const V = {
           <div class="dash-hero-pill">
             <span class="live-dot"></span>
             <span class="dash-hero-edition">PREMIUM SERVICE SUITE</span>
-            <span class="dash-hero-sep">·</span>
-            <span class="dash-hero-secure">🔒 100% PRIVATE VAULT</span>
           </div>
           <h2 class="dash-hero-title">
-            স্বাগতম, <span class="gold-text">${S.profile.name || "মিজানুর রহমান"}</span> 👋
+            স্বাগতম, <span class="gold-text">${esc(S.profile.name || "")}</span> 👋
           </h2>
           <p class="dash-hero-sub">
             ${T3("আপনার কাজের নির্ভুল সময়, ওভারটাইম হিসাব ও স্যালারি ট্র্যাকিং সম্পূর্ণ প্রস্তুত।", 
@@ -2371,17 +2430,6 @@ const V = {
         </div>
 
         <div class="pc-col-side">
-          <div class="card">
-            <h3>⚡ ${T3("কুইক ডিউটি এন্ট্রি", "Quick Duty Logger", "تسجيل سريع")}</h3>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <div>${empSel("qd_emp", true)}</div>
-              <input id="qd_date" type="date" value="${today()}">
-              <input id="qd_hrs" type="number" step="0.5" placeholder="${t("field_total_hours")} (e.g. 10 or 12)">
-              <input id="qd_notes" placeholder="${t("field_notes")}">
-              <button onclick="quickAddDuty()">${t("btn_save")}</button>
-            </div>
-          </div>
-
           <div class="card pv">
             <span class="em">🔒</span>
             <div>${pv}</div>
@@ -2391,7 +2439,10 @@ const V = {
   },
 
   employment() {
-    const list = S.emp.map((e, i) => `
+    const list = S.emp.map((e, i) => {
+      const isSupply = isSupplyEmployment(e);
+      const rating = Number(e.rating) || 0;
+      return `
       <div class="card" style="padding:16px 18px; margin-bottom:12px;">
         <div class="rh">
           <div>
@@ -2408,7 +2459,17 @@ const V = {
           <div>${T3("ওভারটাইম রেট", "OT Rate")}: <b style="color:var(--wn);">${e.otr} SAR/h</b></div>
           <div>${T3("দৈনিক স্বাভাবিক শিফট", "Regular Shift")}: <b style="color:var(--t1);">${e.thr}h</b></div>
         </div>
-      </div>`).join("");
+        ${isSupply ? `
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:13px; padding-top:11px; border-top:1px solid var(--bd, rgba(255,255,255,.12));">
+          <label for="supply-rating-${i}" style="font-size:13px; color:var(--t2); font-weight:700;">⭐ ${T3("সাপ্লাই রেটিং", "Supply Rating", "تقييم التوريد")}</label>
+          <select id="supply-rating-${i}" onchange="setSupplyRating(${i}, this.value)" style="max-width:190px;">
+            <option value="0" ${rating === 0 ? "selected" : ""}>${T3("রেটিং দিন", "Give a rating", "أضف تقييماً")}</option>
+            ${[1,2,3,4,5].map(n => `<option value="${n}" ${rating === n ? "selected" : ""}>${"★".repeat(n)}${"☆".repeat(5-n)} (${n}/5)</option>`).join("")}
+          </select>
+          <span style="font-size:13px; color:var(--gold);">${rating ? `${"★".repeat(rating)}${"☆".repeat(5-rating)} (${rating}/5)` : T3("এখনো রেটিং দেওয়া হয়নি", "Not rated yet", "لم يتم التقييم بعد")}</span>
+        </div>` : ""}
+      </div>`;
+    }).join("");
 
     return `
       <div class="pc-split">
@@ -2442,7 +2503,7 @@ const V = {
   duty() {
     const s = sum();
     return `
-      ${newMonthBanner("openModal(0)")}
+      ${newMonthBanner("focusDutyForm()")}
       
       <!-- Top 4 Single-Line Balanced Cards -->
       <div class="kpi-row-4">
@@ -2472,7 +2533,6 @@ const V = {
         <div class="pc-col-main">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <h3 class="gold-text" style="font-size:18px; margin:0;">⏱️ ${T3("মাসভিত্তিক ডিউটি শিডিউল", "Monthly Duty Records")}</h3>
-            <button class="s" onclick="pd()">📄 ${T3("PDF টাইমশিট", "PDF Timesheet")}</button>
           </div>
           ${dutyMonths()}
         </div>
@@ -2615,17 +2675,6 @@ const V = {
             </div>
           </div>
 
-          <div class="card">
-            <h3>⚡ ${T3("দ্রুত অ্যাকশন", "Quick Actions")}</h3>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <button class="s" style="width:100%; justify-content:flex-start;" onclick="pd()">
-                📄 ${T3("A4 PDF টাইমশিট ডাউনলোড", "Download PDF Timesheet")}
-              </button>
-              <button class="s" style="width:100%; justify-content:flex-start;" onclick="downloadBackup()">
-                💾 ${T3("ব্যাকআপ ডাউনলোড (BACKUP_" + today() + ".json)", "Download Backup JSON")}
-              </button>
-            </div>
-          </div>
         </div>
       </div>`;
   },
@@ -2729,7 +2778,6 @@ const V = {
       <div class="card" style="padding:24px;">
         <div class="rh">
           <h3 class="gold-text" style="font-size:22px; margin:0;">💾 ${t("nav_backup")}</h3>
-          <span class="vault-status" style="margin:0;"><span class="vault-dot"></span> 100% Protected</span>
         </div>
         <p class="k" style="font-size:14px; margin:10px 0 20px; line-height:1.6;">
           ${T3("আপনার ফোনের সকল ডিউটি, স্যালারি, রেমিট্যান্স, খরচ ও প্রোফাইল ডেটা সুরক্ষিত ব্যাকআপ ফাইলে সংরক্ষণ করুন। এটি যেকোনো ফোন বা পিসিতে আবার ফিরিয়ে আনা যায়।",
@@ -2764,7 +2812,6 @@ const V = {
         </div>
 
         <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <button class="s" style="flex:1;" onclick="csv()">📄 ${t("btn_export_csv")}</button>
           <button class="x" style="color:var(--dg); padding:8px 14px;" onclick="resetAccount()">⚠️ ${T3("সব ডেটা রিসেট", "Reset All Data")}</button>
         </div>
       </div>`;
@@ -2778,7 +2825,7 @@ const V = {
         <div class="fl">
           <div class="wide">
             <div class="k">${T3("আপনার নাম", "Your Name")}</div>
-            <input id="p1" value="${p.name || ''}">
+            <input id="p1" value="${esc(p.name || '')}">
           </div>
           <div>
             <div class="k">${T3("ইকামা নম্বর (PDF টাইমশিটের জন্য)", "Iqama No. (for timesheet PDF)")}</div>
@@ -2790,11 +2837,11 @@ const V = {
           </div>
           <div>
             <div class="k">${T3("ইমেইল", "Email")}</div>
-            <input id="p2" value="${p.email || ''}">
+            <input id="p2" value="${esc(U ? U.email : (p.email || ''))}" readonly style="opacity:.7;">
           </div>
           <div>
             <div class="k">${T3("মোবাইল নম্বর", "Contact Phone")}</div>
-            <input id="p3" value="${p.contact || ''}">
+            <input id="p3" value="${esc(p.contact || '')}" inputmode="tel">
           </div>
           <div class="wide">
             <div class="k">${T3("পেশা / পদবী", "Profession")}</div>
@@ -2804,58 +2851,72 @@ const V = {
             <div class="k">${T3("ডিফল্ট রেমিট্যান্স রেট (SAR → BDT)", "Default Remittance Rate")}</div>
             <input id="p5" type="number" step="0.01" value="${p.rate || 32.5}">
           </div>
-          <div>
-            <div class="k">${T3("অ্যাপের ভাষা", "App Language")}</div>
-            <select id="p6">
-              <option value="bn" ${p.lang === 'bn' ? 'selected' : ''}>বাংলা (Bengali)</option>
-              <option value="en" ${p.lang === 'en' ? 'selected' : ''}>English</option>
-            </select>
-          </div>
-          <div>
-            <div class="k">${T3("থিম মোড", "Theme Mode")}</div>
-            <select id="p7">
-              <option value="1" ${p.dark ? 'selected' : ''}>🌙 Dark Luxury 3D Gold</option>
-              <option value="0" ${!p.dark ? 'selected' : ''}>☀️ Light Executive Pearl</option>
-            </select>
-          </div>
-          <div>
-            <div class="k">${T3("ডিসপ্লে লেআউট মোড", "Display Layout Mode")}</div>
-            <select id="p8">
-              <option value="auto" ${p.viewMode === 'auto' ? 'selected' : ''}>⚡ Auto (PC / Mobile Responsive)</option>
-              <option value="pc" ${p.viewMode === 'pc' ? 'selected' : ''}>💻 Full PC Web View</option>
-              <option value="mobile" ${p.viewMode === 'mobile' ? 'selected' : ''}>📱 Mobile App View</option>
-            </select>
-          </div>
         </div>
         <button class="btn" style="width:100%; margin-top:16px;" onclick="sp()">${t("btn_save")}</button>
       </div>`;
   },
 
-  developer() {
+  guide() {
+    return `
+      <div class="card" style="max-width:760px; margin:auto;">
+        <div class="rh" style="margin-bottom:12px;">
+          <h3 class="gold-text" style="font-size:20px; margin:0;">📖 ${t("nav_guide")}</h3>
+        </div>
+        ${guideHTML()}
+      </div>`;
+  },
+
+  about() {
     return `
       <div class="card" style="text-align:center; max-width:540px; margin:auto; padding:32px 20px;">
-        <div style="font-size:56px; margin-bottom:12px;">👨‍💻</div>
-        <h3 class="gold-text" style="font-size:24px;">Md Mijanur Rahman</h3>
-        <div class="k" style="font-size:16px; margin:6px 0;">Developer & Electrical / Site Specialist</div>
-        <div class="k" style="font-size:14px;">Bangladesh · </div>
-        <div style="margin-top:18px;">
-          <a href="tel:+966536105242" style="color:var(--gold); font-size:20px; font-weight:800; text-decoration:none; display:inline-block; padding:10px 20px; border:1.5px solid var(--gold-border); border-radius:30px; background:rgba(0,0,0,0.3);">
-            📞 +966 53 610 5242
-          </a>
+        <div style="font-size:56px; margin-bottom:12px;">⏱️</div>
+        <h3 class="gold-text" style="font-size:26px; letter-spacing:2px;">MYHOUR</h3>
+        <div class="k" style="font-size:16px; margin:8px 0;">${T3("এই অ্যাপ তৈরি ও পরিচালনা করেছে " + COMPANY, "Created and owned by " + COMPANY, "تم إنشاؤه وإدارته بواسطة " + COMPANY)}</div>
+        <div style="margin-top:20px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY}. All rights reserved.</div>
+      </div>`;
+  },
+
+  admin() {
+    if (!IS_ADMIN) return "";
+    return `
+      <div class="card">
+        <div class="rh">
+          <h3>🛡️ ${t("nav_admin")}</h3>
+          <span class="k" id="adm-count"></span>
         </div>
-        <div style="margin-top:20px; font-size:13px; color:var(--t2);">
-          MYHOUR - Created with pride for hard-working technicians, engineers & expatriates worldwide.
-        </div>
+        <input id="adm-q" placeholder="${T3("নাম, মোবাইল বা ইমেইল খুঁজুন", "Search name, mobile or email")}" oninput="renderAdminList()" style="margin-bottom:12px;">
+        <div id="adm-list" class="lst"><p class="k" style="text-align:center; padding:16px;">${T3("লোড হচ্ছে...", "Loading...")}</p></div>
       </div>`;
   }
 };
 
 /* ==========================================================================
+   LOCAL SUPPLY RATING (NO ADMIN / FIREBASE CONNECTION YET)
+   ========================================================================== */
+function isSupplyEmployment(e) {
+  if (!e) return false;
+  const type = String(e.type || "").toLowerCase();
+  return type.includes("supply") || type.includes("সাপ্লাই") || type.includes("توريد") || type.includes("مستقل");
+}
+
+function setSupplyRating(index, value) {
+  const e = S.emp[index];
+  if (!isSupplyEmployment(e)) return;
+  const rating = Number(value);
+  if (!Number.isInteger(rating) || rating < 0 || rating > 5) return;
+  e.rating = rating || null;
+  save();
+  render();
+  toast(T3("⭐ রেটিং সংরক্ষণ হয়েছে", "⭐ Rating saved", "⭐ تم حفظ التقييم"));
+}
+
+/* ==========================================================================
    FORM ACTION HANDLERS
    ========================================================================== */
 function addEmp() {
-  const company = val("a2").trim();
+  const company = val("a2").trim().replace(/\s+/g, " ");
   if (!company) return alert(T3("কোম্পানির নাম লিখুন", "Enter company name", "أدخل اسم الشركة"));
+  registerSupplier(company);
   add("emp", {
     type: val("a1"),
     company,
@@ -2868,6 +2929,11 @@ function addEmp() {
     status: "Active"
   });
   closeModal();
+}
+
+function focusDutyForm() {
+  const el = document.getElementById("a3");
+  if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.focus(); }
 }
 
 function addDuty() {
@@ -2889,30 +2955,6 @@ function addDuty() {
     notes: val("a4").trim()
   });
   closeModal();
-}
-
-function quickAddDuty() {
-  const empId = val("qd_emp");
-  const e = S.emp.find(e => e.id == empId);
-  if (!e) return alert(T3("আগে চাকরি যোগ করুন", "Add employment first", "أضف عملاً أولاً"));
-  const tot = N(val("qd_hrs"));
-  if (!(tot > 0)) return alert(T3("ডিউটি ঘণ্টা লিখুন", "Enter valid duty hours", "أدخل ساعات العمل"));
-  const nor = Math.min(tot, e.thr);
-  const ot = Math.max(0, tot - e.thr);
-  const sal = nor * e.rate + ot * e.otr;
-  add("duty", {
-    emp: e.id,
-    date: val("qd_date") || today(),
-    tot,
-    nor,
-    ot,
-    sal,
-    notes: val("qd_notes").trim()
-  });
-  const qh = document.getElementById("qd_hrs");
-  if (qh) qh.value = "";
-  const qn = document.getElementById("qd_notes");
-  if (qn) qn.value = "";
 }
 
 function addSched() {
@@ -2964,21 +3006,26 @@ function addLoan() {
 }
 
 function sp() {
+  const nm = val("p1").trim();
+  const ph = val("p3").replace(/[\s-]/g, "");
+  if (nm.length < 2) return alert(T3("আপনার নাম লিখুন", "Enter your name"));
+  if (!PHONE_RE.test(ph)) return alert(T3("সঠিক মোবাইল নম্বর দিন", "Enter a valid mobile number"));
   Object.assign(S.profile, {
-    name: val("p1").trim() || S.profile.name,
+    name: nm,
     iqama: val("p_iq").trim(),
     passport: val("p_pp").trim(),
-    email: val("p2").trim(),
-    contact: val("p3").trim(),
+    email: U ? U.email : S.profile.email,
+    contact: ph,
     profession: val("p4").trim(),
-    rate: N(val("p5")) || 32.5,
-    lang: val("p6"),
-    dark: val("p7") === "1",
-    viewMode: val("p8") || "auto"
+    rate: N(val("p5")) || 32.5
   });
   save();
-  applyTheme();
   render();
+  if (DB && U) {
+    DB.ref("users/" + U.uid).update({ name: nm, phone: ph }).catch(() => {
+      toast(T3("⚠️ নাম/মোবাইল অনলাইনে আপডেট হয়নি", "⚠️ Could not update name/phone online"));
+    });
+  }
   toast(T3("✅ প্রোফাইল সংরক্ষিত হয়েছে", "✅ Profile Saved", "✅ تم حفظ الملف"));
 }
 
@@ -3139,7 +3186,6 @@ function monthCards() {
 
           <div style="display:flex; gap:8px; padding-top:8px; border-top:1px solid var(--bd);">
             ${due > 0 ? `<button class="btn" style="flex:1; padding:8px 10px; font-size:13px;" onclick="payFor('${k}')">💵 ${T3("পেমেন্ট দিন", "Pay Now")}</button>` : ""}
-            <button class="s" style="flex:1; padding:8px 10px; font-size:13px;" onclick="pm('${k}')">📄 ${T3("PDF টাইমশিট", "PDF")}</button>
           </div>
         </div>
 
@@ -3170,7 +3216,6 @@ function monthCards() {
 
           <div style="padding-top:8px; border-top:1px solid var(--bd); font-size:12px; color:var(--t2); display:flex; justify-content:space-between; align-items:center;">
             <span>${due > 0 ? "⚠️ " + T3("বাকি SAR " + f(due) + " আদায় করুন", "Clear remaining dues") : "✨ " + T3("সকল বেতন প্রাপ্ত", "All salary cleared")}</span>
-            <button class="s" style="padding:6px 10px; font-size:12px;" onclick="pm('${k}')">📄 ${T3("ফুল টাইমশিট", "Timesheet")}</button>
           </div>
         </div>
       </div>`;
@@ -3223,7 +3268,6 @@ function monthCards() {
 
             <div style="display:flex; gap:8px; padding-top:8px; border-top:1px solid var(--bd);">
               ${due > 0 ? `<button class="btn" style="flex:1; padding:8px 10px; font-size:13px;" onclick="payFor('${k}')">💵 ${T3("পেমেন্ট দিন", "Pay Now")}</button>` : ""}
-              <button class="s" style="flex:1; padding:8px 10px; font-size:13px;" onclick="pm('${k}')">📄 ${T3("PDF টাইমশিট", "PDF")}</button>
             </div>
           </div>`;
       }).join("")}
@@ -3438,6 +3482,7 @@ function ed(k, i) {
       </div>
     </div>`;
   md.className = "show";
+  if (k === "emp") attachSuggest("e2");
 }
 
 function saveEdit(k, i) {
@@ -3465,6 +3510,7 @@ function saveEdit(k, i) {
     next.bdt = next.sar * next.rate;
   }
 
+  if (k === "emp" && next.company) registerSupplier(next.company);
   Object.assign(target, next);
   save();
   closeModal();
@@ -3890,7 +3936,9 @@ function uploadBackup(input) {
     try {
       const parsed = JSON.parse(e.target.result);
       if (parsed && (parsed.duty || parsed.emp || parsed.profile)) {
-        S = parsed;
+        const keep = { name: S.profile.name, contact: S.profile.contact, email: S.profile.email };
+        S = normalizeState(parsed);
+        Object.assign(S.profile, keep);
         save();
         render();
         toast(T3(`✅ ব্যাকআপ সফলভাবে আপলোড ও রিস্টোর হয়েছে (${file.name})`, `✅ Restored from ${file.name}`, `✅ تمت الاستعادة بنجاح`));
@@ -3926,30 +3974,6 @@ function csv() {
 /* ==========================================================================
    AUTH, LOGIN & SECURITY
    ========================================================================== */
-const hs = (s) => {
-  let a = 0xdeadbeef, b = 0x41c6ce57;
-  for (let i = 0, c; i < s.length; i++) {
-    c = s.charCodeAt(i);
-    a = Math.imul(a ^ c, 2654435761);
-    b = Math.imul(b ^ c, 1597334677);
-  }
-  a = Math.imul(a ^ (a >>> 16), 2246822507) ^ Math.imul(b ^ (b >>> 13), 3266489909);
-  b = Math.imul(b ^ (b >>> 16), 2246822507) ^ Math.imul(a ^ (a >>> 13), 3266489909);
-  return (4294967296 * (2097151 & b) + (a >>> 0)).toString(36);
-};
-
-function setLang(lang) {
-  if (!S) S = JSON.parse(JSON.stringify(D0));
-  if (!S.profile) S.profile = {};
-  S.profile.lang = lang;
-  save();
-  if (S.auth && S.logged) {
-    render();
-  } else {
-    gate();
-  }
-}
-
 function togglePwd(id, btnId) {
   const inp = document.getElementById(id);
   const btn = document.getElementById(btnId);
@@ -3963,36 +3987,64 @@ function togglePwd(id, btnId) {
   }
 }
 
-let AM = "li"; // DEFAULT: LOGIN IS ALWAYS FIRST!
-function setAuthMode(m) { AM = m; gate(); }
+/* ==========================================================================
+   FIREBASE: SIGN-IN (EMAIL OR GOOGLE), USER RECORD, SUPPLIER NAME SUGGESTIONS
+   ========================================================================== */
+let AUTH = null, DB = null;
+let AUTH_READY = false;      // first sign-in state received
+let SETUP_ERR = "";          // "config" | "sdk" | ""
+let AM = "li";               // li = log in, su = sign up, cp = complete profile
+let AUTH_BUSY = false;
+let SIGNUP_PENDING = null;
+let PENDING_NAME = "";
+let CP_ERR = "";
+const PHONE_RE = /^\+?\d{7,15}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-function gate() {
-  const el = document.getElementById("au");
+function initFirebase() {
+  if (!window.firebase) { SETUP_ERR = "sdk"; return false; }
+  if (!FIREBASE_CONFIG.apiKey || /PASTE/.test(FIREBASE_CONFIG.apiKey)) { SETUP_ERR = "config"; return false; }
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    AUTH = firebase.auth();
+    DB = firebase.database();
+    return true;
+  } catch (e) { SETUP_ERR = "config"; return false; }
+}
+
+function authErr(e) {
+  const c = (e && e.code) || "";
+  if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "";
+  const m = {
+    "auth/invalid-email": ["সঠিক ইমেইল দিন", "Enter a valid email"],
+    "auth/user-not-found": ["এই ইমেইলে কোনো অ্যাকাউন্ট নেই", "No account with this email"],
+    "auth/wrong-password": ["ইমেইল বা পাসওয়ার্ড ভুল হয়েছে", "Incorrect email or password"],
+    "auth/invalid-credential": ["ইমেইল বা পাসওয়ার্ড ভুল হয়েছে", "Incorrect email or password"],
+    "auth/email-already-in-use": ["এই ইমেইলে আগেই অ্যাকাউন্ট খোলা আছে, লগইন করুন", "Email already registered, please log in"],
+    "auth/weak-password": ["পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের দিন", "Password must be at least 6 characters"],
+    "auth/network-request-failed": ["ইন্টারনেট সংযোগ চেক করুন", "Check your internet connection"],
+    "auth/too-many-requests": ["অনেকবার চেষ্টা হয়েছে, একটু পরে আবার করুন", "Too many attempts, try again later"],
+    "auth/user-disabled": ["এই অ্যাকাউন্ট বন্ধ করা আছে", "This account is disabled"],
+    "auth/account-exists-with-different-credential": ["এই ইমেইল অন্য পদ্ধতিতে খোলা আছে", "Email registered with another method"],
+    "auth/unauthorized-domain": ["এই ডোমেইন Firebase-এ অনুমোদিত নয়", "Domain not authorized in Firebase"]
+  }[c];
+  return m ? T3(m[0], m[1]) : T3("সমস্যা হয়েছে: ", "Error: ") + (c || (e && e.message) || "");
+}
+
+function authMsg(text, ok) {
+  const el = document.getElementById("aue");
   if (!el) return;
-  if (S.auth && S.logged) {
-    el.className = "";
-    el.innerHTML = "";
-    AM = "li";
-    return;
-  }
+  el.style.color = ok ? "var(--ok)" : "";
+  el.textContent = text || "";
+}
 
-  // Ensure default is ALWAYS Login ("li")
-  if (!AM) AM = "li";
+function authBusy(b) {
+  AUTH_BUSY = b;
+  document.querySelectorAll("#au button").forEach(x => { x.disabled = b; });
+}
 
-  // Language selector bar right at the top
-  const langBar = `
-    <div class="au-lang-bar">
-      <button class="au-lang-btn active" onclick="cycleLang()" aria-label="Switch language">${L() === 'bn' ? 'বাংলা' : 'English'}</button>
-    </div>`;
-
-  // Tabs: LOGIN FIRST, SIGN UP SECOND
-  const tabs = `
-    <div class="tabs">
-      <button class="${AM === 'li' ? 'on' : ''}" onclick="setAuthMode('li')">${T3("লগইন", "Log in", "دخول")}</button>
-      <button class="${AM === 'su' ? 'on' : ''}" onclick="setAuthMode('su')">${T3("সাইন আপ", "Sign up", "تسجيل")}</button>
-    </div>`;
-
-  const header = `
+function authHeader() {
+  return `
     <div class="lgo">
       <div class="brand-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -4003,149 +4055,515 @@ function gate() {
       <b class="gold-text">MYHOUR</b>
       <span>${t("tagline")}</span>
     </div>`;
+}
 
-  if (AM === "li") {
-    // LOGIN (FIRST & NORMAL SIZED)
+function togglePwd(id, btnId) {
+  const inp = document.getElementById(id);
+  const btn = document.getElementById(btnId);
+  if (!inp) return;
+  if (inp.type === "password") { inp.type = "text"; if (btn) btn.innerText = "🙈"; }
+  else { inp.type = "password"; if (btn) btn.innerText = "👁️"; }
+}
+
+function pwdField(id, eye, ph, ac) {
+  return `
+    <div style="position:relative;">
+      <input id="${id}" type="password" placeholder="${ph}" autocomplete="${ac}" style="padding-right:38px;">
+      <span onclick="togglePwd('${id}','${eye}')" id="${eye}" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
+    </div>`;
+}
+
+function googleBtn() {
+  return `
+    <div class="or-div"><span>${T3("অথবা", "or")}</span></div>
+    <button class="s gbtn" onclick="googleSignIn()"><b>G</b> ${T3("Google দিয়ে চালিয়ে যান", "Continue with Google")}</button>`;
+}
+
+function gate() {
+  const el = document.getElementById("au");
+  if (!el) return;
+  if (READY_APP) { el.className = ""; el.innerHTML = ""; return; }
+
+  if (!AUTH_READY) {
+    el.innerHTML = `<div class="box">${authHeader()}<div class="nt" style="text-align:center;">${T3("লোড হচ্ছে...", "Loading...")}</div></div>`;
+    el.className = "show";
+    return;
+  }
+
+  if (SETUP_ERR) {
     el.innerHTML = `
-      <div class="box">
-        ${header}
-        ${tabs}
+      <div class="box">${authHeader()}
+        <div class="card">
+          <h3 style="margin:0 0 8px; font-size:16px;">${SETUP_ERR === "sdk" ? T3("ইন্টারনেট দরকার", "Internet required") : T3("সেটআপ বাকি আছে", "Setup required")}</h3>
+          <div class="k" style="line-height:1.6;">${SETUP_ERR === "sdk"
+            ? T3("সাইন-ইন সিস্টেম লোড হয়নি। ইন্টারনেট চেক করে পেজ রিলোড করুন।", "The sign-in system did not load. Check your internet and reload.")
+            : T3("index.html ফাইলের উপরের দিকে FIREBASE_CONFIG-এ আপনার Firebase তথ্য বসান।", "Paste your Firebase details into FIREBASE_CONFIG near the top of index.html.")}</div>
+        </div>
+      </div>`;
+    el.className = "show";
+    return;
+  }
+
+  const langBar = `
+    <div class="au-lang-bar">
+      <button class="au-lang-btn active" onclick="cycleLang()" aria-label="Switch language">${L() === "bn" ? "বাংলা" : "English"}</button>
+    </div>`;
+  const tabs = `
+    <div class="tabs">
+      <button class="${AM === "li" ? "on" : ""}" onclick="setAuthMode('li')">${T3("লগইন", "Log in", "دخول")}</button>
+      <button class="${AM === "su" ? "on" : ""}" onclick="setAuthMode('su')">${T3("সাইন আপ", "Sign up", "تسجيل")}</button>
+    </div>`;
+
+  if (U && !READY_APP) {
+    // signed in (e.g. with Google) but name / mobile still missing
+    el.innerHTML = `
+      <div class="box">${authHeader()}
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px;">
-            <h3 style="margin:0; font-size:16px;">${T3("লগইন করুন", "Log in", "تسجيل الدخول")}</h3>
+            <h3 style="margin:0; font-size:16px;">${T3("প্রোফাইল সম্পূর্ণ করুন", "Complete your profile")}</h3>
             ${langBar}
           </div>
-          <input id="au2" placeholder="${T3("মোবাইল নম্বর বা ইমেইল", "Mobile or Email", "رقم الجوال أو البريد")}" autocomplete="username" value="${(S.auth && S.auth.id) || ''}">
-          <div style="position:relative;">
-            <input id="au3" type="password" placeholder="${T3("পাসওয়ার্ড", "Password", "كلمة المرور")}" autocomplete="current-password" style="padding-right:38px;">
-            <span onclick="togglePwd('au3','eye_login')" id="eye_login" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
-          </div>
-          <div class="er" id="aue"></div>
-          <button class="big" onclick="login()">${T3("লগইন", "Log in", "دخول")}</button>
+          <input id="cp1" placeholder="${T3("আপনার নাম", "Your Name")}" autocomplete="name" value="${esc(PENDING_NAME)}">
+          <input id="cp2" placeholder="${T3("মোবাইল নম্বর", "Mobile number")}" autocomplete="tel" inputmode="tel">
+          <div class="er" id="aue">${esc(CP_ERR)}</div>
+          <button class="big" onclick="completeProfile()">${T3("সংরক্ষণ করে শুরু করুন", "Save & Continue")}</button>
         </div>
-        <a class="lk" onclick="resetAccount()">${T3("পাসওয়ার্ড ভুলে গেছেন? (অ্যাকাউন্ট রিসেট)", "Forgot password? (Reset)", "نسيت كلمة المرور؟")}</a>
+        <a class="lk" onclick="logout(true)">${T3("অন্য অ্যাকাউন্টে লগইন", "Use another account")}</a>
       </div>`;
-  } else {
-    // SIGN UP (SECOND & NORMAL SIZED)
+    el.className = "show";
+    return;
+  }
+
+  if (AM === "su") {
     el.innerHTML = `
-      <div class="box">
-        ${header}
-        ${tabs}
+      <div class="box">${authHeader()}${tabs}
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px;">
             <h3 style="margin:0; font-size:16px;">${T3("নতুন অ্যাকাউন্ট খুলুন", "Create Account", "إنشاء حساب")}</h3>
             ${langBar}
           </div>
-          <input id="au1" placeholder="${T3("আপনার নাম", "Your Name", "الاسم")}" autocomplete="name" value="${(S.profile && S.profile.name) || ''}">
-          <input id="au2" placeholder="${T3("মোবাইল নম্বর বা ইমেইল", "Mobile or Email", "رقم الجوال أو البريد")}" autocomplete="username">
-          <div style="position:relative;">
-            <input id="au3" type="password" placeholder="${T3("পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর)", "Password (min 4 chars)", "كلمة المرور")}" autocomplete="new-password" style="padding-right:38px;">
-            <span onclick="togglePwd('au3','eye_su1')" id="eye_su1" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
-          </div>
-          <div style="position:relative;">
-            <input id="au4" type="password" placeholder="${T3("পাসওয়ার্ড আবার লিখুন", "Confirm Password", "تأكيد كلمة المرور")}" autocomplete="new-password" style="padding-right:38px;">
-            <span onclick="togglePwd('au4','eye_su2')" id="eye_su2" style="position:absolute; right:12px; top:42%; transform:translateY(-50%); cursor:pointer; font-size:16px;">👁️</span>
-          </div>
+          <input id="au1" placeholder="${T3("আপনার নাম", "Your Name", "الاسم")}" autocomplete="name">
+          <input id="au5" placeholder="${T3("মোবাইল নম্বর", "Mobile number", "رقم الجوال")}" autocomplete="tel" inputmode="tel">
+          <input id="au2" type="email" placeholder="${T3("ইমেইল", "Email", "البريد")}" autocomplete="email">
+          ${pwdField("au3", "eye_su1", T3("পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)", "Password (min 6 chars)", "كلمة المرور"), "new-password")}
+          ${pwdField("au4", "eye_su2", T3("পাসওয়ার্ড আবার লিখুন", "Confirm Password", "تأكيد كلمة المرور"), "new-password")}
           <div class="er" id="aue"></div>
           <button class="big" onclick="signup()">${T3("অ্যাকাউন্ট তৈরি করুন", "Create Account", "إنشاء")}</button>
+          ${googleBtn()}
         </div>
         <div class="nt">🔒 ${t("privacy_guarantee")}</div>
+        <a class="lk" onclick="openAuthGuide()">📖 ${T3("কীভাবে ব্যবহার করবেন?", "How to use the app")}</a>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="box">${authHeader()}${tabs}
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px;">
+            <h3 style="margin:0; font-size:16px;">${T3("লগইন করুন", "Log in", "تسجيل الدخول")}</h3>
+            ${langBar}
+          </div>
+          <input id="au2" type="email" placeholder="${T3("ইমেইল", "Email", "البريد")}" autocomplete="username">
+          ${pwdField("au3", "eye_login", T3("পাসওয়ার্ড", "Password", "كلمة المرور"), "current-password")}
+          <div class="er" id="aue"></div>
+          <button class="big" onclick="login()">${T3("লগইন", "Log in", "دخول")}</button>
+          ${googleBtn()}
+        </div>
+        <a class="lk" onclick="forgotPassword()">${T3("পাসওয়ার্ড ভুলে গেছেন?", "Forgot password?", "نسيت كلمة المرور؟")}</a>
+        <a class="lk" onclick="openAuthGuide()">📖 ${T3("কীভাবে ব্যবহার করবেন?", "How to use the app")}</a>
       </div>`;
   }
   el.className = "show";
 }
 
-function signup() {
-  const n = val("au1").trim();
-  const id = val("au2").trim().toLowerCase().replace(/\s+/g, "");
-  const p = val("au3");
-  const err = document.getElementById("aue");
-  if (n.length < 2) { err.textContent = T3("আপনার নাম লিখুন", "Enter name"); return; }
-  if (id.length < 4) { err.textContent = T3("সঠিক মোবাইল বা ইমেইল দিন", "Enter valid mobile/email"); return; }
-  if (p.length < 4) { err.textContent = T3("পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে", "Password too short"); return; }
-  if (p !== val("au4")) { err.textContent = T3("দুইটি পাসওয়ার্ড মেলেনি", "Passwords do not match"); return; }
+function setAuthMode(m) { AM = m; gate(); }
 
-  S.auth = { name: n, id, h: hs("myhour|" + id + "|" + p) };
-  S.logged = 1;
-  S.profile.name = n;
-  if (id.includes("@")) S.profile.email = id;
-  else S.profile.contact = id;
-  save();
-  gate();
-  render();
-  toast(T3("✅ অ্যাকাউন্ট তৈরি সম্পন্ন হয়েছে", "✅ Account Created", "✅ تم إنشاء الحساب"));
+function signup() {
+  if (AUTH_BUSY) return;
+  const n = val("au1").trim().replace(/\s+/g, " ");
+  const ph = val("au5").replace(/[\s-]/g, "");
+  const em = val("au2").trim().toLowerCase();
+  const p = val("au3");
+  if (n.length < 2) return authMsg(T3("আপনার নাম লিখুন", "Enter your name"));
+  if (!PHONE_RE.test(ph)) return authMsg(T3("সঠিক মোবাইল নম্বর দিন", "Enter a valid mobile number"));
+  if (!EMAIL_RE.test(em)) return authMsg(T3("সঠিক ইমেইল দিন", "Enter a valid email"));
+  if (p.length < 6) return authMsg(T3("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের দিন", "Password must be at least 6 characters"));
+  if (p !== val("au4")) return authMsg(T3("দুইটি পাসওয়ার্ড মেলেনি", "Passwords do not match"));
+  authBusy(true);
+  SIGNUP_PENDING = { name: n, phone: ph };
+  AUTH.createUserWithEmailAndPassword(em, p).catch((e) => {
+    SIGNUP_PENDING = null;
+    authBusy(false);
+    authMsg(authErr(e));
+  });
 }
 
 function login() {
-  const id = val("au2").trim().toLowerCase().replace(/\s+/g, "");
+  if (AUTH_BUSY) return;
+  const em = val("au2").trim().toLowerCase();
   const p = val("au3");
-  const err = document.getElementById("aue");
-  if (!S.auth) {
-    err.innerHTML = `${T3("এখনো কোনো অ্যাকাউন্ট খোলা হয়নি।", "No account registered yet.")} <a onclick="setAuthMode('su')" style="color:var(--gold); text-decoration:underline; cursor:pointer; font-weight:700;">${T3("এখানে ক্লিক করে সাইন আপ করুন", "Sign Up here")}</a>`;
-    return;
-  }
-  if (id !== S.auth.id || hs("myhour|" + id + "|" + p) !== S.auth.h) {
-    err.textContent = T3("মোবাইল/ইমেইল বা পাসওয়ার্ড ভুল হয়েছে", "Incorrect mobile/email or password");
-    return;
-  }
-  S.logged = 1;
-  save();
-  gate();
-  render();
-  toast(T3("✅ লগইন সফল", "✅ Logged In", "✅ تم تسجيل الدخول"));
+  if (!EMAIL_RE.test(em)) return authMsg(T3("সঠিক ইমেইল দিন", "Enter a valid email"));
+  if (!p) return authMsg(T3("পাসওয়ার্ড লিখুন", "Enter your password"));
+  authBusy(true);
+  AUTH.signInWithEmailAndPassword(em, p).catch((e) => {
+    authBusy(false);
+    authMsg(authErr(e));
+  });
 }
 
-function logout() {
-  if (!confirm(T3("লগআউট করতে চান?", "Log out?", "تسجيل الخروج؟"))) return;
-  S.logged = 0;
-  save();
-  gate();
+function googleSignIn() {
+  if (AUTH_BUSY) return;
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+  AUTH.signInWithPopup(provider).catch((e) => {
+    const redirectCodes = ["auth/popup-blocked", "auth/operation-not-supported-in-this-environment", "auth/web-storage-unsupported"];
+    if (redirectCodes.includes(e.code)) { AUTH.signInWithRedirect(provider); return; }
+    authMsg(authErr(e));
+  });
 }
 
+function forgotPassword() {
+  const em = val("au2").trim().toLowerCase();
+  if (!EMAIL_RE.test(em)) return authMsg(T3("আগে উপরে আপনার ইমেইল লিখুন", "Enter your email above first"));
+  AUTH.sendPasswordResetEmail(em)
+    .then(() => authMsg(T3("✅ পাসওয়ার্ড রিসেটের লিংক ইমেইলে পাঠানো হয়েছে", "✅ Password reset link sent to your email"), true))
+    .catch((e) => authMsg(authErr(e)));
+}
+
+async function saveUserRecord(name, phone) {
+  const ref = DB.ref("users/" + U.uid);
+  const data = { name, phone, email: U.email };
+  if (REC) await ref.update(data);
+  else await ref.set(Object.assign({ createdAt: firebase.database.ServerValue.TIMESTAMP }, data));
+  REC = data;
+  try { localStorage.setItem("myhour_rec_" + U.uid, JSON.stringify(data)); } catch (e) {}
+}
+
+async function completeProfile() {
+  if (AUTH_BUSY) return;
+  const n = val("cp1").trim().replace(/\s+/g, " ");
+  const ph = val("cp2").replace(/[\s-]/g, "");
+  if (n.length < 2) return authMsg(T3("আপনার নাম লিখুন", "Enter your name"));
+  if (!PHONE_RE.test(ph)) return authMsg(T3("সঠিক মোবাইল নম্বর দিন", "Enter a valid mobile number"));
+  authBusy(true);
+  try {
+    await saveUserRecord(n, ph);
+    authBusy(false);
+    finishLogin();
+  } catch (e) {
+    authBusy(false);
+    CP_ERR = T3("সংরক্ষণ করা যায়নি, ইন্টারনেট চেক করে আবার চেষ্টা করুন", "Could not save, check your internet and try again");
+    authMsg(CP_ERR);
+  }
+}
+
+async function onAuthChanged(user) {
+  AUTH_READY = true;
+  if (!user) {
+    stopSuppliers();
+    U = null; REC = null; IS_ADMIN = false; KEY = null; READY_APP = false; AM = "li";
+    const pre = { lang: S.profile.lang, dark: S.profile.dark };
+    try { const l = localStorage.getItem("myhour_lang"); if (l === "en" || l === "bn") pre.lang = l; } catch (e) {}
+    S = JSON.parse(JSON.stringify(D0));
+    S.profile.lang = pre.lang; S.profile.dark = pre.dark;
+    authBusy(false);
+    applyTheme();
+    gate();
+    return;
+  }
+
+  U = { uid: user.uid, email: (user.email || "").toLowerCase(), verified: !!user.emailVerified };
+  loadLocalState(user.uid);
+
+  if (SIGNUP_PENDING) {
+    const sp0 = SIGNUP_PENDING; SIGNUP_PENDING = null;
+    try { await saveUserRecord(sp0.name, sp0.phone); }
+    catch (e) { REC = null; PENDING_NAME = sp0.name; CP_ERR = T3("তথ্য সংরক্ষণ করা যায়নি, আবার চেষ্টা করুন", "Could not save your details, try again"); authBusy(false); gate(); return; }
+  } else {
+    let failed = false;
+    try {
+      const snap = await DB.ref("users/" + U.uid).once("value");
+      REC = snap.val();
+      if (REC) { try { localStorage.setItem("myhour_rec_" + U.uid, JSON.stringify(REC)); } catch (e) {} }
+    } catch (e) { failed = true; }
+    if (!REC && failed) { try { REC = JSON.parse(localStorage.getItem("myhour_rec_" + U.uid)); } catch (e) {} }
+    if (!REC || !REC.phone) {
+      PENDING_NAME = user.displayName || "";
+      CP_ERR = failed ? T3("ইন্টারনেট সংযোগ চেক করে আবার চেষ্টা করুন", "Check your internet connection and try again") : "";
+      authBusy(false);
+      gate();
+      return;
+    }
+  }
+  finishLogin();
+}
+
+function finishLogin() {
+  S.profile.name = REC.name;
+  S.profile.contact = REC.phone;
+  S.profile.email = U.email;
+  save();
+  READY_APP = true;
+  authBusy(false);
+  ST.length = 0;
+  IS_ADMIN = U.verified && ADMIN_EMAILS.includes(U.email);
+  startSuppliers();
+  DB.ref("admins/" + U.uid).once("value")
+    .then((s) => { if (s.val() === true && !IS_ADMIN) { IS_ADMIN = true; render(); } })
+    .catch(() => {});
+  gate();
+  go("dashboard", true);
+}
+
+function logout(skipConfirm) {
+  if (skipConfirm !== true && !confirm(T3("লগআউট করতে চান?", "Log out?", "تسجيل الخروج؟"))) return;
+  save();
+  if (AUTH) AUTH.signOut();
+}
+
+// Clears this account's records on this device only.
 function resetAccount() {
-  if (!confirm(T3("রিসেট করলে এই ডিভাইসের সব ডেটা মুছে যাবে। নিশ্চিত?", "Reset will erase all data. Continue?"))) return;
+  if (!confirm(T3("রিসেট করলে এই অ্যাকাউন্টের সব ডিউটি, বেতন ও খরচের হিসাব এই ডিভাইস থেকে মুছে যাবে। নিশ্চিত?", "Reset will erase all your records on this device. Continue?"))) return;
   if (!confirm(T3("আবার নিশ্চিত করুন: সব ডেটা মুছে যাবে!", "Confirm again: all data will be deleted!"))) return;
+  const keep = { name: S.profile.name, contact: S.profile.contact, email: S.profile.email, lang: S.profile.lang, dark: S.profile.dark };
   S = JSON.parse(JSON.stringify(D0));
+  Object.assign(S.profile, keep);
   save();
-  gate();
   render();
 }
 
-function importDemoDataIfNeeded() {
-  if (S.emp.length > 0) return;
-  const id = S.seq++;
-  S.emp.push({
-    id,
-    type: "Company",
-    company: "PIONEER SUPPLY",
-    project: "PT&D JGCP1",
-    prof: S.profile.profession || "Electrician / Site Technician",
-    join: "2026-09-01",
-    rate: 8.5,
-    otr: 8.5,
-    thr: 12,
-    status: "Active"
+/* ---- Supplier / company name suggestions (shared list, names only) ---- */
+const SUPK = {};
+const supNorm = (n) => String(n).trim().replace(/\s+/g, " ").toLowerCase();
+const supKey = (n) => encodeURIComponent(supNorm(n)).replace(/\./g, "%2E");
+
+function startSuppliers() {
+  if (!DB) return;
+  const ref = DB.ref("suppliers");
+  ref.off();
+  ref.on("child_added", (s) => { const v = s.val(); if (v && typeof v.name === "string") SUPK[s.key] = v.name; }, () => {});
+  ref.on("child_removed", (s) => { delete SUPK[s.key]; });
+}
+
+function stopSuppliers() {
+  try { if (DB) DB.ref("suppliers").off(); } catch (e) {}
+  Object.keys(SUPK).forEach(k => delete SUPK[k]);
+}
+
+function registerSupplier(name) {
+  if (!DB || !U) return;
+  name = String(name).trim().replace(/\s+/g, " ");
+  if (name.length < 2 || name.length > 80) return;
+  const k = supKey(name);
+  if (SUPK[k]) return;
+  SUPK[k] = name;
+  DB.ref("suppliers/" + k).set({ name }).catch(() => { delete SUPK[k]; });
+}
+
+function suggestMatches(q) {
+  q = supNorm(q);
+  if (!q) return [];
+  const starts = [], has = [];
+  Object.keys(SUPK).forEach((k) => {
+    const n = SUPK[k], l = supNorm(n);
+    if (l.startsWith(q)) starts.push(n);
+    else if (l.includes(" " + q)) has.push(n);
   });
+  const byName = (a, b) => a.localeCompare(b);
+  return starts.sort(byName).concat(has.sort(byName)).slice(0, 6);
+}
 
-  const hours = [12, 15, 12, 12, 15, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15, 15, 12, 15, 12, 12, 14, 12, 12, 14];
-  const notes = { 2: "Concreting Work", 4: "Scaffold TW", 5: "Concreting Work" };
+function attachSuggest(id) {
+  const inp = document.getElementById(id);
+  if (!inp || inp.dataset.sg) return;
+  inp.dataset.sg = "1";
+  inp.setAttribute("autocomplete", "off");
+  const box = document.createElement("div");
+  box.className = "sg-box";
+  inp.insertAdjacentElement("afterend", box);
+  const hide = () => { box.style.display = "none"; box.innerHTML = ""; };
+  const show = () => {
+    const list = suggestMatches(inp.value).filter(n => n !== inp.value.trim());
+    if (!list.length) return hide();
+    box.innerHTML = list.map(n => `<div class="sg-item" data-n="${esc(n)}">${esc(n)}</div>`).join("");
+    box.style.display = "block";
+  };
+  inp.addEventListener("input", show);
+  inp.addEventListener("focus", show);
+  inp.addEventListener("blur", () => setTimeout(hide, 180));
+  box.addEventListener("pointerdown", (e) => {
+    const it = e.target.closest(".sg-item");
+    if (!it) return;
+    e.preventDefault();
+    inp.value = it.dataset.n;
+    hide();
+    inp.focus();
+  });
+}
 
-  hours.forEach((tot, idx) => {
-    const d = `2026-09-${String(idx + 1).padStart(2, "0")}`;
-    const nor = Math.min(tot, 12);
-    const ot = Math.max(0, tot - 12);
-    S.duty.push({
-      id: S.seq++,
-      emp: id,
-      date: d,
-      tot,
-      nor,
-      ot,
-      sal: nor * 8.5 + ot * 8.5,
-      notes: notes[idx + 1] || ""
+/* ==========================================================================
+   USER GUIDE (one content, opened from the menu page and from the sign-in screen)
+   ========================================================================== */
+function guideHTML() {
+  const S_ = [
+    ["🚀", T3("শুরু: সাইন আপ ও লগইন", "Getting started: sign up and log in"),
+      T3(`<ul>
+        <li>নতুন ইউজার <b>নাম, মোবাইল, ইমেইল ও পাসওয়ার্ড</b> দিয়ে সাইন আপ করে, অথবা <b>Google</b> দিয়ে ঢোকে। Google দিয়ে প্রথমবার ঢুকলে নাম ও মোবাইল একবার চেয়ে নেয়।</li>
+        <li>পাসওয়ার্ড ভুলে গেলে লগইন পেজের "পাসওয়ার্ড ভুলে গেছেন?" চাপুন, ইমেইলে রিসেটের লিংক যাবে।</li>
+        <li>অ্যাপ ফোনে নিচে মেনু বার আর পিসিতে বাঁ পাশে সাইডবার দেখায়, স্ক্রিন দেখে নিজে বদলে নেয়।</li>
+      </ul>`, `<ul>
+        <li>New users sign up with <b>name, mobile, email and password</b>, or continue with <b>Google</b>. After a first Google sign-in you are asked once for your name and mobile.</li>
+        <li>Forgot your password? Tap "Forgot password?" on the login page and a reset link is emailed to you.</li>
+        <li>The app shows a bottom menu on phones and a sidebar on PC, adjusting to your screen automatically.</li>
+      </ul>`)],
+    ["💼", T3("১. চাকরি যোগ করুন (চাকরি ও কোম্পানি)", "1. Add a job (My Employment)"),
+      T3(`<ul>
+        <li>প্রথমে <b>কোম্পানির নাম, প্রজেক্ট, পেশা ও যোগদানের তারিখ</b> দিন।</li>
+        <li>তিনটা রেট দিন: <b>সাধারণ ঘণ্টা রেট</b>, <b>ওভারটাইম (OT) রেট</b> ও <b>দৈনিক নিয়মিত ঘণ্টা</b>। যেমন নিয়মিত ১০ ঘণ্টা, রেট ১২, OT রেট ১৮।</li>
+        <li>ধরন বেছে নিন: <b>কোম্পানি কর্মী</b> অথবা <b>সাপ্লাই কর্মী</b>। সাপ্লাই হলে ১ থেকে ৫ তারা রেটিং দেওয়া যায়।</li>
+        <li>কোম্পানির নাম লেখার সময় আগে কেউ সেভ করে থাকলে নিচে সাজেশন আসে। ক্লিক করলে পুরো নাম বসে যায়। নতুন নাম সেভ করলে সেটা সবার সাজেশনে যোগ হয়।</li>
+      </ul>`, `<ul>
+        <li>First enter the <b>company name, project, profession and joining date</b>.</li>
+        <li>Set three values: the <b>regular hourly rate</b>, the <b>overtime (OT) rate</b> and the <b>regular daily hours</b>. Example: 10 regular hours, rate 12, OT rate 18.</li>
+        <li>Pick the type: <b>company employee</b> or <b>supply worker</b>. Supply jobs can be rated 1 to 5 stars.</li>
+        <li>While you type a company name, saved names from other users appear below. Tap one to fill in the full name. A new name you save is added to everyone's suggestions.</li>
+      </ul>`)],
+    ["⏱️", T3("২. প্রতিদিনের ডিউটি", "2. Daily duty"),
+      T3(`<ul>
+        <li><b>দৈনিক ডিউটি</b> পেজে চাকরি, তারিখ ও মোট ঘণ্টা দিয়ে সেভ করুন।</li>
+        <li>মোট ঘণ্টা নিয়মিত ঘণ্টার চেয়ে বেশি হলে বাড়তিটা OT ধরা হয়। <b>বেতন = নিয়মিত ঘণ্টা × সাধারণ রেট + OT ঘণ্টা × OT রেট।</b> যেমন ১২ ঘণ্টা কাজ, নিয়মিত ১০, রেট ১২, OT রেট ১৮ হলে (১০ × ১২) + (২ × ১৮) = ১৫৬ SAR।</li>
+        <li>এন্ট্রি পরে এডিট বা ডিলিট করা যায়।</li>
+        <li>মাস শেষ হলে "নতুন মাস শুরু করুন" নোটিশ এসে গত মাসের মোট ঘণ্টা, বেতন ও বাকি দেখায়।</li>
+        <li>এই পেজেই <b>A4 PDF টাইমশিট</b> বানানো যায়। তাতে ইকামা, পাসপোর্ট, প্রজেক্ট, ঘণ্টা ও সই করার জায়গা থাকে। সরাসরি শেয়ার বা ডাউনলোড করা যায়।</li>
+      </ul>`, `<ul>
+        <li>On the <b>Daily Duty</b> page choose the job, date and total hours, then save.</li>
+        <li>Hours above the regular daily hours count as OT. <b>Pay = regular hours × regular rate + OT hours × OT rate.</b> Example: 12 hours worked, 10 regular, rate 12, OT rate 18 gives (10 × 12) + (2 × 18) = 156 SAR.</li>
+        <li>Entries can be edited or deleted later.</li>
+        <li>After a month ends, a "Start new month" notice shows last month's hours, pay and dues.</li>
+        <li>The same page makes the <b>A4 PDF timesheet</b> with Iqama, passport, project, hours and a signature area. Share or download it directly.</li>
+      </ul>`)],
+    ["💵", T3("৩. বেতন ও পেমেন্ট", "3. Salary and payments"),
+      T3(`<ul>
+        <li>মাস ধরে দেখায় কত ঘণ্টা কাজ হলো, কত বেতন হলো, কত পেয়েছেন আর কত বাকি।</li>
+        <li>কোম্পানি থেকে বেতন পেলে রেকর্ড করুন: কোন মাসের, কত টাকা, কোন মাধ্যমে (Cash, Bank, STC Pay ইত্যাদি)।</li>
+        <li><b>বাকি = মোট বেতন − যা পেয়েছেন।</b> পুরো পেলে মাসটা "পরিশোধিত" দেখায়।</li>
+      </ul>`, `<ul>
+        <li>Each month shows the hours worked, salary earned, amount received and amount still due.</li>
+        <li>When you receive pay, record the month, amount and method (Cash, Bank, STC Pay and so on).</li>
+        <li><b>Due = total salary − what you received.</b> A fully paid month shows as "Paid".</li>
+      </ul>`)],
+    ["📤", T3("৪. রেমিট্যান্স, খরচ ও ঋণ", "4. Remittance, expenses and loans"),
+      T3(`<ul>
+        <li><b>রেমিট্যান্স:</b> কাকে কত SAR পাঠালেন আর রেট কত লিখুন। অ্যাপ নিজে BDT হিসাব করে দেয়।</li>
+        <li><b>ব্যক্তিগত খরচ:</b> খাবার, থাকা, যাতায়াত, মোবাইল, চিকিৎসা ইত্যাদি।</li>
+        <li><b>অ্যাডভান্স ও ঋণ:</b> কোম্পানির অ্যাডভান্স, নেওয়া বা দেওয়া ঋণ আর কত শোধ হয়েছে।</li>
+        <li>ড্যাশবোর্ডে <b>হাতে সঞ্চিত ব্যালেন্স = পাওয়া বেতন − রেমিট্যান্স − খরচ।</b></li>
+      </ul>`, `<ul>
+        <li><b>Remittance:</b> enter who you sent how many SAR to and the rate. The app works out BDT for you.</li>
+        <li><b>Personal expenses:</b> food, accommodation, transport, mobile, medical and more.</li>
+        <li><b>Advance and loans:</b> company advances, loans taken or given, and how much is repaid.</li>
+        <li>On the dashboard, <b>net balance in hand = salary received − remittance − expenses.</b></li>
+      </ul>`)],
+    ["📊", T3("৫. ড্যাশবোর্ড, রিপোর্ট ও প্রোফাইল", "5. Dashboard, reports and profile"),
+      T3(`<ul>
+        <li><b>ড্যাশবোর্ড:</b> মোট বেতন, পাওয়া, বাকি, রেমিট্যান্স ও খরচ এক নজরে, সাথে সাম্প্রতিক ডিউটি।</li>
+        <li><b>রিপোর্ট:</b> মাস ধরে হিসাব আর CSV ফাইল এক্সপোর্ট।</li>
+        <li><b>প্রোফাইল:</b> নাম, মোবাইল, ইকামা, পাসপোর্ট, পেশা, ডিফল্ট রেমিট্যান্স রেট। ইকামা ও পাসপোর্ট PDF-এ বসে। ইমেইল বদলানো যায় না, কারণ এটাই লগইন ইমেইল।</li>
+        <li>উপরের বারে ভাষা (বাংলা/English), ডার্ক/লাইট থিম ও ডিসপ্লে মোড বদলানোর বাটন আছে।</li>
+      </ul>`, `<ul>
+        <li><b>Dashboard:</b> total salary, received, due, remittance and expenses at a glance, plus recent duties.</li>
+        <li><b>Reports:</b> month-by-month totals and a CSV export.</li>
+        <li><b>Profile:</b> name, mobile, Iqama, passport, profession and default remittance rate. Iqama and passport appear on the PDF. Email cannot be changed because it is your login email.</li>
+        <li>The top bar has buttons for language (বাংলা/English), dark/light theme and display mode.</li>
+      </ul>`)],
+    ["💾", T3("৬. ব্যাকআপ", "6. Backup"),
+      T3(`<ul>
+        <li><b>ব্যাকআপ ও ডেটা ভল্ট</b> পেজ থেকে সব হিসাব একটা <b>BACKUP_তারিখ.json</b> ফাইলে ডাউনলোড করা যায়। ফোন বদলালে বা ডেটা হারালে আপলোড করে ফিরিয়ে আনা যায়।</li>
+        <li>ব্যাকআপ ফাইল আপনার ফোনেই থাকে, কোথাও আপলোড হয় না। ফোন হারালে ফাইলও হারাবেন, তাই মাঝেমধ্যে নিজের নিরাপদ জায়গায় রেখে দিন।</li>
+      </ul>`, `<ul>
+        <li>On the <b>Backup and Data Vault</b> page you can download all records as one <b>BACKUP_date.json</b> file, and upload it later to restore, for example after changing phones.</li>
+        <li>The backup file stays on your phone and is not uploaded anywhere. If you lose the phone you lose the file too, so keep a copy somewhere safe from time to time.</li>
+      </ul>`)],
+    ["🔒", T3("৭. আপনার তথ্য কোথায় থাকে, কে দেখে", "7. Where your data lives and who sees it"),
+      T3(`<ul>
+        <li>ডিউটি, বেতন, খরচ ও ঋণের হিসাব <b>শুধু আপনার ফোন বা পিসির ব্রাউজারে</b> থাকে। অ্যাডমিনও দেখতে পারেন না।</li>
+        <li>অনলাইনে থাকে শুধু <b>নাম, মোবাইল ও ইমেইল</b>। এই তিনটা শুধু অ্যাডমিন দেখতে পারেন, অন্য ইউজার পারে না।</li>
+        <li>একই ফোনে দুইজন আলাদা অ্যাকাউন্টে ঢুকলে একজনের হিসাব অন্যজন দেখে না।</li>
+        <li>ব্রাউজারের ডেটা মুছলে বা অন্য ফোনে ঢুকলে হিসাব দেখা যাবে না, তাই ব্যাকআপ রাখুন।</li>
+        <li>লগইন আর কোম্পানির নামের সাজেশনের জন্য ইন্টারনেট লাগে।</li>
+      </ul>`, `<ul>
+        <li>Duty, salary, expense and loan records stay <b>only in the browser on your phone or PC</b>. Even the admin cannot see them.</li>
+        <li>Only your <b>name, mobile and email</b> are stored online. Only the admin can see these three, never other users.</li>
+        <li>Two accounts on the same phone never see each other's records.</li>
+        <li>If you clear browser data or sign in on another phone, your records will not be there, so keep a backup.</li>
+        <li>Signing in and company-name suggestions need an internet connection.</li>
+      </ul>`)],
+    ["📲", T3("৮. ফোনে অ্যাপের মতো ইনস্টল", "8. Install like an app"),
+      T3(`<ul>
+        <li>সাইট খুললে "অ্যাপ ইনস্টল করুন" নোটিশ আসে। চাপলে হোম স্ক্রিনে আইকন বসে, তখন আলাদা অ্যাপের মতো চলে।</li>
+        <li>আইফোনে Safari-র Share বাটন থেকে "Add to Home Screen" বেছে নিন।</li>
+      </ul>`, `<ul>
+        <li>When you open the site an "Install app" notice appears. Tap it and an icon is added to your home screen, so it opens like a separate app.</li>
+        <li>On iPhone, use Safari's Share button and choose "Add to Home Screen".</li>
+      </ul>`)]
+  ];
+  return S_.map(([ic, title, body], i) => `
+    <details class="gd-sec"${i === 0 ? " open" : ""}>
+      <summary>${ic} ${title}</summary>
+      <div class="gd-body">${body}</div>
+    </details>`).join("");
+}
+
+function openAuthGuide() {
+  let g = document.getElementById("gd");
+  if (!g) { g = document.createElement("div"); g.id = "gd"; document.body.appendChild(g); }
+  g.innerHTML = `
+    <div class="gd-wrap">
+      <div class="rh" style="margin-bottom:12px;">
+        <h3 class="gold-text" style="font-size:18px; margin:0;">📖 ${t("nav_guide")}</h3>
+        <button class="x" onclick="closeAuthGuide()">✕</button>
+      </div>
+      ${guideHTML()}
+    </div>`;
+  g.className = "show";
+}
+
+function closeAuthGuide() {
+  const g = document.getElementById("gd");
+  if (g) { g.className = ""; g.innerHTML = ""; }
+}
+
+/* ---- Admin: list of users (name, mobile, email only) ---- */
+let ADM = [];
+function loadAdminUsers() {
+  if (!IS_ADMIN || !DB) return;
+  DB.ref("users").once("value").then((s) => {
+    ADM = [];
+    s.forEach((c) => {
+      const v = c.val() || {};
+      ADM.push({ name: v.name || "", phone: v.phone || "", email: v.email || "", at: v.createdAt || 0 });
     });
+    ADM.sort((a, b) => b.at - a.at);
+    renderAdminList();
+  }).catch(() => {
+    const el = document.getElementById("adm-list");
+    if (el) el.innerHTML = `<p class="k" style="text-align:center; padding:16px;">${T3("তালিকা লোড করা যায়নি", "Could not load the list")}</p>`;
   });
-  save();
+}
+
+function renderAdminList() {
+  const el = document.getElementById("adm-list");
+  if (!el) return;
+  const q = (val("adm-q") || "").trim().toLowerCase();
+  const list = ADM.filter(u => !q || (u.name + " " + u.phone + " " + u.email).toLowerCase().includes(q));
+  const cnt = document.getElementById("adm-count");
+  if (cnt) cnt.textContent = ADM.length + " " + T3("জন ইউজার", "users");
+  el.innerHTML = list.length ? list.map(u => `
+    <div class="r">
+      <div>
+        <b>${esc(u.name)}</b>
+        <div class="k">${esc(u.phone)} · ${esc(u.email)}</div>
+      </div>
+    </div>`).join("") : `<p class="k" style="text-align:center; padding:16px;">${T3("কোনো ইউজার পাওয়া যায়নি", "No users found")}</p>`;
 }
 
 function row(a, b, key, i) {
@@ -4167,7 +4585,7 @@ function render() {
 
   const sbLinks = document.getElementById("sidebar-links");
   if (sbLinks) {
-    sbLinks.innerHTML = DR.map(([route, transKey, icon]) => `
+    sbLinks.innerHTML = navList().map(([route, transKey, icon]) => `
       <div class="s-item ${route === cur ? 'on' : ''}" onclick="go('${route}')">
         <span class="em">${IC[icon]}</span>
         <span>${t(transKey)}</span>
@@ -4187,7 +4605,7 @@ function render() {
 
   const drLinks = document.getElementById("dr-links");
   if (drLinks) {
-    drLinks.innerHTML = DR.map(([route, transKey, icon]) => `
+    drLinks.innerHTML = navList().map(([route, transKey, icon]) => `
       <div class="di ${route === cur ? 'on' : ''}" onclick="go('${route}')">
         <span class="em">${IC[icon]}</span>
         <span>${t(transKey)}</span>
@@ -4200,7 +4618,7 @@ function render() {
 
   const drUser = document.getElementById("dr-user-info");
   if (drUser) {
-    drUser.innerHTML = `<b>${S.profile.name || ''}</b><div class="k" style="font-size:12px;">${S.profile.profession || ''}</div>`;
+    drUser.innerHTML = `<b>${esc(S.profile.name || '')}</b><div class="k" style="font-size:12px;">${esc(S.profile.profession || '')}</div>`;
   }
 
   const nv = document.getElementById("nv");
@@ -4217,6 +4635,8 @@ function render() {
   if (root && V[cur]) {
     root.innerHTML = V[cur]();
   }
+  if (cur === "employment") attachSuggest("a2");
+  if (cur === "admin") loadAdminUsers();
 
   const main = document.getElementById("main-viewport");
   if (main) main.scrollTop = 0;
@@ -4238,9 +4658,20 @@ window.addEventListener("resize", () => {
   applyViewMode();
 });
 
-importDemoDataIfNeeded();
-gate();
-render();
+(function boot() {
+  try {
+    const l = localStorage.getItem("myhour_lang");
+    if (l === "en" || l === "bn") S.profile.lang = l;
+  } catch (e) {}
+  applyTheme();
+  if (initFirebase()) {
+    AUTH.getRedirectResult().catch((e) => { const m = authErr(e); if (m) setTimeout(() => authMsg(m), 300); });
+    AUTH.onAuthStateChanged(onAuthChanged);
+  } else {
+    AUTH_READY = true;
+  }
+  gate();
+})();
 </script>
 </body>
 </html>
