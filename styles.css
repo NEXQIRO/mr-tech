@@ -757,19 +757,6 @@ section {
 }
 
 /* ==========================================================================
-/* Water Ripple Liquid Surface Canvas (Floating on Water Effect) */
-#waterRippleCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.95;
-}
-
-/* ==========================================================================
    Skills Section
    ========================================================================== */
 #skills {
@@ -1980,21 +1967,60 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   Ambient Water Floating Elements (Floating on Water Effect)
+/* ==========================================================================
+   Lightweight Bubble Touch Sway Effect ("Bubbler Moto Halka Dolbe")
+   Pure elastic bubble squish & rebound when user touches an element.
+   Zero continuous animation, 0% CPU idle, zero color change.
    ========================================================================== */
-@keyframes water-surface-float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-3.5px); }
-  100% { transform: translateY(0px); }
+.bubble-swayed {
+  animation: bubble-jiggle 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+  will-change: transform;
 }
 
-.skill-card:nth-child(odd),
-.project-card:nth-child(odd) {
-  animation: water-surface-float 6.5s ease-in-out infinite;
+@keyframes bubble-jiggle {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+  28% {
+    transform: translate3d(0, 3px, 0) scale(1.028, 0.972);
+  }
+  58% {
+    transform: translate3d(0, -2.5px, 0) scale(0.982, 1.018);
+  }
+  82% {
+    transform: translate3d(0, 1px, 0) scale(1.008, 0.994);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
 }
 
-.skill-card:nth-child(even),
-.project-card:nth-child(even) {
-  animation: water-surface-float 7.8s ease-in-out 1.2s infinite;
+/* Delicate, Transparent Bubble on Touch Point (NO color change) */
+.touch-bubble {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.22), inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 65%, transparent 100%);
+  transform: translate(-50%, -50%) scale(0.25);
+  opacity: 0.85;
+  animation: bubble-pop-expand 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bubble-pop-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(0.25);
+    opacity: 0.85;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.35);
+    opacity: 0;
+  }
 }
 

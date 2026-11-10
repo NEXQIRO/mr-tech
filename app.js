@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypingEffect();
   initContactForm();
   initLiveChatBot();
-  initWaterRippleEffect();
+  initBubbleTouchEffect();
 
   // Render initial seed immediately
   renderPortfolio(currentPortfolioData);
@@ -1095,192 +1095,79 @@ function initLiveChatBot() {
 
 /**
  * =========================================================================
- * INTERACTIVE LIQUID WATER RIPPLE & CAUSTIC ENGINE
- * Provides real water ripples upon screen touch, drag, and scroll,
- * giving the tactile feeling of dipping a hand into living water.
+ * ULTRA-LIGHTWEIGHT BUBBLE TOUCH SWAY EFFECT ("Bubbler Moto Halka Dolbe")
+ * When the user touches anywhere, the touched element softly sways and bobs
+ * like an elastic bubble, with a delicate transparent bubble pop.
+ * Zero CPU overhead, zero color change, 100% lightweight & smooth.
  * =========================================================================
  */
-function initWaterRippleEffect() {
-  const canvas = document.getElementById('waterRippleCanvas');
-  if (!canvas) return;
+function initBubbleTouchEffect() {
+  let lastTouchTime = 0;
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  function triggerBubbleAt(clientX, clientY, targetEl) {
+    // 1. Soft bubble jiggle/sway on touched element
+    const interactiveEl = targetEl ? targetEl.closest(
+      '.skill-card, .project-card, .service-card, .about-card, .timeline-item, .contact-card, .stat-item, .tab-btn, .btn, .hero-visual, .nav-link, .quick-chip'
+    ) : null;
 
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
+    if (interactiveEl) {
+      interactiveEl.classList.remove('bubble-swayed');
+      void interactiveEl.offsetWidth; // Force reflow
+      interactiveEl.classList.add('bubble-swayed');
+      setTimeout(() => {
+        interactiveEl.classList.remove('bubble-swayed');
+      }, 430);
+    }
 
-  // Resize listener
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    // 2. Delicate, transparent bubble pop on the touch point (NO color change)
+    if (clientX && clientY) {
+      const bubble = document.createElement('div');
+      bubble.className = 'touch-bubble';
+      bubble.style.left = `${clientX}px`;
+      bubble.style.top = `${clientY}px`;
+      const size = Math.floor(45 + Math.random() * 25);
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      document.body.appendChild(bubble);
+
+      setTimeout(() => {
+        bubble.remove();
+      }, 370);
+    }
+  }
+
+  // Touch listener (Mobile)
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      const t = e.touches[0];
+      triggerBubbleAt(t.clientX, t.clientY, e.target);
+    }
   }, { passive: true });
 
-  // Ripple Pool
-  const ripples = [];
-  const MAX_RIPPLES = 25;
-  let lastSpawnTime = 0;
-
-  class WaterRipple {
-    constructor(x, y, intensity = 1.0, maxRadius = 260) {
-      this.x = x;
-      this.y = y;
-      this.radius = 4;
-      this.maxRadius = maxRadius;
-      this.intensity = intensity;
-      this.speed = 3.2;
-      this.rings = 3;
-      this.wavelength = 20;
+  // Mouse / Pointer listener (Desktop)
+  window.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') {
+      triggerBubbleAt(e.clientX, e.clientY, e.target);
     }
+  }, { passive: true });
 
-    update() {
-      this.radius += this.speed;
-      this.intensity *= 0.965; // Viscous damping of water
-      return this.intensity > 0.015 && this.radius < this.maxRadius;
-    }
-
-    draw(context) {
-      for (let r = 0; r < this.rings; r++) {
-        const ringRad = this.radius - r * this.wavelength;
-        if (ringRad > 1) {
-          const progress = ringRad / this.maxRadius;
-          const alpha = this.intensity * (1 - progress) * (0.85 - r * 0.22);
-          if (alpha <= 0.005) continue;
-
-          // Main aquatic wave crest
-          context.beginPath();
-          context.arc(this.x, this.y, ringRad, 0, Math.PI * 2);
-          context.lineWidth = 2.4 - progress * 1.2;
-          context.strokeStyle = `rgba(0, 240, 255, ${Math.min(1, alpha).toFixed(3)})`;
-          context.shadowColor = '#00F0FF';
-          context.shadowBlur = 10;
-          context.stroke();
-
-          // Specular water surface shine (top reflection)
-          context.beginPath();
-          context.arc(this.x, this.y, ringRad, -Math.PI * 0.85, -Math.PI * 0.15);
-          context.lineWidth = 1.6;
-          context.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.6).toFixed(3)})`;
-          context.stroke();
-
-          // Deep violet-cyan refraction trough
-          context.beginPath();
-          context.arc(this.x, this.y, Math.max(1, ringRad - 7), 0, Math.PI * 2);
-          context.lineWidth = 1.8;
-          context.strokeStyle = `rgba(139, 92, 246, ${(alpha * 0.45).toFixed(3)})`;
-          context.shadowBlur = 0;
-          context.stroke();
+  // Gentle scroll touch sway (debounced, 100% smooth)
+  window.addEventListener('touchmove', (e) => {
+    const now = Date.now();
+    if (now - lastTouchTime > 120 && e.touches.length > 0) {
+      lastTouchTime = now;
+      const t = e.touches[0];
+      const el = document.elementFromPoint(t.clientX, t.clientY);
+      if (el) {
+        const card = el.closest('.skill-card, .project-card, .service-card');
+        if (card && !card.classList.contains('bubble-swayed')) {
+          card.classList.add('bubble-swayed');
+          setTimeout(() => card.classList.remove('bubble-swayed'), 430);
         }
       }
     }
-  }
-
-  function addDrop(x, y, intensity = 1.0, maxRadius = 260) {
-    if (ripples.length >= MAX_RIPPLES) {
-      ripples.shift();
-    }
-    ripples.push(new WaterRipple(x, y, intensity, maxRadius));
-  }
-
-  // Touch Interaction (Mobile)
-  window.addEventListener('touchstart', (e) => {
-    if (e.touches.length > 0) {
-      for (let i = 0; i < e.touches.length; i++) {
-        const t = e.touches[i];
-        addDrop(t.clientX, t.clientY, 1.0, 280);
-      }
-    }
   }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    const now = Date.now();
-    if (now - lastSpawnTime > 40 && e.touches.length > 0) {
-      lastSpawnTime = now;
-      const t = e.touches[0];
-      addDrop(t.clientX, t.clientY, 0.65, 180);
-    }
-  }, { passive: true });
-
-  // Mouse / Pointer Interaction (Desktop)
-  window.addEventListener('pointerdown', (e) => {
-    if (e.pointerType === 'mouse') {
-      addDrop(e.clientX, e.clientY, 0.9, 260);
-    }
-  }, { passive: true });
-
-  window.addEventListener('pointermove', (e) => {
-    if (e.pointerType === 'mouse') {
-      const now = Date.now();
-      if (now - lastSpawnTime > 80) {
-        lastSpawnTime = now;
-        addDrop(e.clientX, e.clientY, 0.35, 140);
-      }
-    }
-  }, { passive: true });
-
-  // Scroll Ripple Wake ("Theme Floating on Water")
-  let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const now = Date.now();
-    if (now - lastSpawnTime > 65) {
-      lastSpawnTime = now;
-      const scrollDiff = Math.abs(window.scrollY - lastScrollY);
-      lastScrollY = window.scrollY;
-      const wakeX = width * (0.2 + Math.random() * 0.6);
-      const wakeY = height * (0.4 + Math.random() * 0.4);
-      addDrop(wakeX, wakeY, Math.min(0.85, 0.3 + scrollDiff * 0.01), 220);
-    }
-  }, { passive: true });
-
-  // Ambient Floating Water Waves Animation Loop
-  let time = 0;
-  function animate() {
-    time += 0.025;
-    ctx.clearRect(0, 0, width, height);
-
-    // 1. Draw subtle ambient water caustics at base (giving liquid depth)
-    ctx.save();
-    ctx.shadowBlur = 0;
-    
-    // Wave Layer 1
-    ctx.beginPath();
-    ctx.moveTo(0, height);
-    for (let x = 0; x <= width; x += 30) {
-      const y = height - 45 + Math.sin(x * 0.007 + time) * 14 + Math.cos(x * 0.003 - time * 0.6) * 10;
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(width, height);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(0, 240, 255, 0.025)';
-    ctx.fill();
-
-    // Wave Layer 2
-    ctx.beginPath();
-    ctx.moveTo(0, height);
-    for (let x = 0; x <= width; x += 30) {
-      const y = height - 30 + Math.sin(x * 0.005 - time * 1.2) * 12 + Math.cos(x * 0.008 + time * 0.8) * 8;
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(width, height);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(139, 92, 246, 0.018)';
-    ctx.fill();
-    ctx.restore();
-
-    // 2. Update and draw interactive touch ripples
-    for (let i = ripples.length - 1; i >= 0; i--) {
-      const rip = ripples[i];
-      if (rip.update()) {
-        rip.draw(ctx);
-      } else {
-        ripples.splice(i, 1);
-      }
-    }
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
 }
+
 
 
