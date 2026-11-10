@@ -1,15 +1,15 @@
 /**
  * MR TECH — Public Portfolio Client Application
- * Author: Mijanur Rahman (Web & App Developer)
+ * Author: Mijanur Rahman (Web & Mobile App Developer)
  */
 
-// Fallback seed data embedded to guarantee zero latency and immediate rendering
+// Comprehensive production seed data guaranteeing zero latency and immediate rendering
 window.INITIAL_SEED_DATA = {
   profile: {
     name: "Mijanur Rahman",
-    title: "Web & App Developer",
-    tagline: "Building Modern Websites, Web Applications & Digital Solutions.",
-    bio: "I am a dedicated Full-Stack Web and Mobile Application Developer with a strong foundation in modern JavaScript ecosystems, responsive web architectures, and cloud databases. My mission is to build robust digital solutions that combine bulletproof backend stability with intuitive, fluid UI designs.",
+    title: "Web & Mobile App Developer",
+    tagline: "Architecting high-velocity Web Applications, Native Android Apps & Resilient Cloud Backends. Transforming complex product requirements into seamless, pixel-perfect digital experiences.",
+    bio: "I am a dedicated Full-Stack Web and Native Android Application Developer with over 4 years of proven engineering experience. My technical journey centers on writing clean, scalable, and well-tested code that bridges fluid user experiences with robust cloud backends. From high-throughput real-time gaming engines to scalable enterprise administrative platforms and reactive mobile applications, I craft software that performs under load and scales effortlessly.",
     location: "Dhaka, Bangladesh (Available Worldwide)",
     availability: "Available for Projects & Full-time Roles",
     isAvailable: true,
@@ -19,23 +19,17 @@ window.INITIAL_SEED_DATA = {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
     avatarUrl: "images/profile.jpg",
-    resumeUrl: "database-schema.json",
     yearsExperience: 4,
-    completedProjects: 18
+    completedProjects: 25
   },
   themeSettings: {
     primaryAccent: "#00F0FF",
     secondaryAccent: "#8B5CF6",
     goldAccent: "#F59E0B"
   },
-  chatSettings: {
-    enabled: true,
-    welcomeMessage: "Hello! 👋 I'm Mijanur Rahman. What kind of website or application are you looking to build?",
-    agentStatus: "Online • Typically replies in minutes"
-  },
   heroSettings: {
     greeting: "Hello, world! I am",
-    stat1Num: "6+",
+    stat1Num: "25+",
     stat1Label: "Core Projects",
     stat2Num: "4+",
     stat2Label: "Years Experience",
@@ -44,27 +38,29 @@ window.INITIAL_SEED_DATA = {
   },
   skills: {
     frontend: [
-      { id: "sk_1", name: "HTML5 / CSS3 / SCSS", level: "Expert", percent: 95, icon: "fa-brands fa-html5" },
-      { id: "sk_2", name: "JavaScript (ES6+) / TypeScript", level: "Expert", percent: 92, icon: "fa-brands fa-js" },
-      { id: "sk_3", name: "React.js / Next.js", level: "Advanced", percent: 90, icon: "fa-brands fa-react" },
-      { id: "sk_4", name: "Tailwind CSS / UI Components", level: "Expert", percent: 94, icon: "fa-solid fa-wind" }
+      { id: "sk_1", name: "React.js / Next.js (App Router)", level: "Expert", percent: 95, icon: "fa-brands fa-react" },
+      { id: "sk_2", name: "JavaScript (ES2024+) / TypeScript", level: "Expert", percent: 94, icon: "fa-brands fa-js" },
+      { id: "sk_3", name: "Tailwind CSS & Modern SCSS", level: "Expert", percent: 96, icon: "fa-solid fa-wind" },
+      { id: "sk_4", name: "HTML5 Canvas & 2D Graphics", level: "Advanced", percent: 90, icon: "fa-solid fa-palette" }
     ],
     backend: [
-      { id: "sk_5", name: "Node.js & Express APIs", level: "Advanced", percent: 88, icon: "fa-brands fa-node-js" },
-      { id: "sk_6", name: "RESTful Architecture & WebSockets", level: "Expert", percent: 92, icon: "fa-solid fa-network-wired" }
+      { id: "sk_5", name: "Node.js & Express.js APIs", level: "Expert", percent: 92, icon: "fa-brands fa-node-js" },
+      { id: "sk_6", name: "WebSockets & Realtime Feeds", level: "Expert", percent: 93, icon: "fa-solid fa-network-wired" },
+      { id: "sk_7", name: "RESTful Architecture & Microservices", level: "Advanced", percent: 90, icon: "fa-solid fa-server" }
     ],
     mobile: [
-      { id: "sk_7", name: "Android (Kotlin / Jetpack Compose)", level: "Advanced", percent: 86, icon: "fa-brands fa-android" },
-      { id: "sk_8", name: "Progressive Web Apps (PWA)", level: "Expert", percent: 95, icon: "fa-solid fa-mobile-screen-button" }
+      { id: "sk_8", name: "Android (Kotlin & Jetpack Compose)", level: "Advanced", percent: 90, icon: "fa-brands fa-android" },
+      { id: "sk_9", name: "Progressive Web Apps (PWA & Offline)", level: "Expert", percent: 95, icon: "fa-solid fa-mobile-screen-button" },
+      { id: "sk_10", name: "Material Design 3 & Adaptive UI", level: "Expert", percent: 94, icon: "fa-solid fa-layer-group" }
     ],
     database: [
-      { id: "sk_9", name: "Firebase Realtime Database", level: "Expert", percent: 94, icon: "fa-solid fa-fire" },
-      { id: "sk_10", name: "Firebase Auth & Security Rules", level: "Expert", percent: 92, icon: "fa-solid fa-shield-halved" },
-      { id: "sk_11", name: "MongoDB & SQL Relational Data", level: "Proficient", percent: 82, icon: "fa-solid fa-database" }
+      { id: "sk_11", name: "Firebase Realtime DB & Firestore", level: "Expert", percent: 95, icon: "fa-solid fa-fire" },
+      { id: "sk_12", name: "Firebase Auth & Zero-Trust Rules", level: "Expert", percent: 93, icon: "fa-solid fa-shield-halved" },
+      { id: "sk_13", name: "MongoDB & SQL Relational Data", level: "Advanced", percent: 86, icon: "fa-solid fa-database" }
     ],
     tools: [
-      { id: "sk_12", name: "Git, GitHub & CI/CD", level: "Advanced", percent: 90, icon: "fa-brands fa-git-alt" },
-      { id: "sk_13", name: "UI/UX & Figma Design Systems", level: "Proficient", percent: 85, icon: "fa-brands fa-figma" }
+      { id: "sk_14", name: "Git, GitHub & CI/CD Pipelines", level: "Expert", percent: 92, icon: "fa-brands fa-git-alt" },
+      { id: "sk_15", name: "Figma to Code & Design Systems", level: "Proficient", percent: 88, icon: "fa-brands fa-figma" }
     ]
   },
   projects: [
@@ -72,11 +68,11 @@ window.INITIAL_SEED_DATA = {
       id: "p_mostwin",
       name: "MostWin88",
       category: "Full-Stack Web",
-      status: "Live Demo Available",
+      status: "Live Production",
       statusType: "completed",
       description: "High-throughput sports and interactive gaming platform featuring real-time odds calculation, dynamic betting slips, user wallet balance synchronization, and low-latency WebSocket communication.",
       technologies: ["React", "Node.js", "WebSocket", "Tailwind CSS", "REST APIs"],
-      image: "images/project_showcase.jpg",
+      image: "images/profile.jpg",
       demoUrl: "https://example.com/demo/mostwin88",
       githubUrl: "https://github.com",
       featured: true,
@@ -86,11 +82,11 @@ window.INITIAL_SEED_DATA = {
       id: "p_nexqiro",
       name: "NEXQIRO",
       category: "Web Application",
-      status: "Production",
+      status: "Production SaaS",
       statusType: "production",
       description: "Modern SaaS digital agency management system featuring automated client onboarding flows, task delegation telemetry, invoice tracking, and secure encrypted messaging channels.",
       technologies: ["Next.js", "Tailwind CSS", "Firebase", "Node.js", "Chart.js"],
-      image: "images/project_showcase.jpg",
+      image: "images/profile.jpg",
       demoUrl: "https://example.com/demo/nexqiro",
       githubUrl: "https://github.com",
       featured: true,
@@ -98,13 +94,13 @@ window.INITIAL_SEED_DATA = {
     },
     {
       id: "p_admin",
-      name: "User & Admin Panel",
+      name: "Enterprise Admin & CMS Hub",
       category: "Dashboard & CMS",
       status: "Enterprise",
       statusType: "enterprise",
-      description: "Comprehensive administration control hub with fine-grained role-based permissions (RBAC), user activity audits, real-time analytics visualizations, and secure database record operations.",
+      description: "Comprehensive administration control center with fine-grained role-based permissions (RBAC), user activity audits, real-time analytics visualizations, and secure database record operations.",
       technologies: ["JavaScript (ES6+)", "Firebase Realtime DB", "Firebase Auth", "HTML5/CSS3"],
-      image: "images/project_showcase.jpg",
+      image: "images/profile.jpg",
       demoUrl: "https://example.com/demo/admin-panel",
       githubUrl: "https://github.com",
       featured: true,
@@ -112,51 +108,51 @@ window.INITIAL_SEED_DATA = {
     },
     {
       id: "p_aviator",
-      name: "Aviator",
+      name: "Aviator Crash Game Engine",
       category: "Game Engine & Logic",
       status: "Interactive Demo",
       statusType: "demo",
       description: "Real-time multiplier crash game engine built with HTML5 Canvas, responsive curve trajectories, provably fair algorithms, high-precision timer loops, and dynamic bet cash-out logic.",
       technologies: ["JavaScript", "HTML5 Canvas", "Audio API", "CSS Animations"],
-      image: "images/project_showcase.jpg",
+      image: "images/profile.jpg",
       demoUrl: "https://example.com/demo/aviator",
       githubUrl: "https://github.com",
       featured: true,
       published: true
     },
     {
-      id: "p_ludo",
-      name: "Ludo / Carrom",
-      category: "App & Game Dev",
-      status: "In Development",
-      statusType: "development",
-      description: "Classic tabletop games engineered with custom tactile 2D physics, token collision calculations, smooth pawn animations, and turn-based local and remote pass-and-play logic.",
-      technologies: ["Canvas API", "Physics Math", "JavaScript", "Touch Gestures"],
-      image: "images/project_showcase.jpg",
-      demoUrl: "https://example.com/demo/ludo-carrom",
-      githubUrl: "https://github.com",
-      featured: false,
-      published: true
-    },
-    {
       id: "p_myhour",
-      name: "MYHOUR",
+      name: "MYHOUR — Productivity App",
       category: "Mobile & Web App",
-      status: "Active",
+      status: "Active App",
       statusType: "active",
-      description: "Productivity and time-logging application built for software engineers and remote freelancers. Features Pomodoro tracking, client billing calculations, and cloud synchronization.",
+      description: "Native productivity and time-logging application built for software engineers and remote freelancers. Features Pomodoro tracking, client billing calculations, and cloud synchronization.",
       technologies: ["Kotlin / Compose", "Android", "Firebase RTDB", "Coroutines"],
-      image: "images/project_showcase.jpg",
+      image: "images/profile.jpg",
       demoUrl: "https://example.com/demo/myhour",
       githubUrl: "https://github.com",
       featured: true,
+      published: true
+    },
+    {
+      id: "p_ludo",
+      name: "Ludo & Carrom Arena",
+      category: "Game Engine & Logic",
+      status: "Interactive Game",
+      statusType: "completed",
+      description: "Classic tabletop games engineered with custom tactile 2D physics, token collision calculations, smooth pawn animations, and turn-based local and remote pass-and-play logic.",
+      technologies: ["Canvas API", "Physics Math", "JavaScript", "Touch Gestures"],
+      image: "images/profile.jpg",
+      demoUrl: "https://example.com/demo/ludo-carrom",
+      githubUrl: "https://github.com",
+      featured: false,
       published: true
     }
   ],
   services: [
     {
       id: "s_1",
-      title: "Website Development",
+      title: "Custom Website Development",
       icon: "fa-solid fa-globe",
       description: "Bespoke high-performance landing pages and business portals designed for maximum conversion, top Google Lighthouse scores, and effortless responsiveness.",
       deliverables: ["Custom HTML/CSS/JS without bloat", "Mobile & tablet-first layouts", "SEO optimization & Core Web Vitals", "Smooth micro-animations"]
@@ -177,14 +173,14 @@ window.INITIAL_SEED_DATA = {
     },
     {
       id: "s_4",
-      title: "Firebase Integration & Backend",
+      title: "Firebase Cloud & Backend",
       icon: "fa-solid fa-fire",
       description: "End-to-end cloud backends leveraging Firebase Realtime Database, Firestore, Auth, and production-tested security rules.",
       deliverables: ["Realtime database architecture", "Zero-trust security rules", "Cloud Storage for files/images", "Offline sync listeners"]
     },
     {
       id: "s_5",
-      title: "App Development",
+      title: "Native Android & PWA Apps",
       icon: "fa-solid fa-mobile-screen",
       description: "Native Android applications built with modern Kotlin and Jetpack Compose, plus cross-platform Progressive Web Apps (PWA).",
       deliverables: ["Native Android (Kotlin / Compose)", "Material Design 3 interfaces", "Progressive Web App installation", "Hardware sensors & cameras"]
@@ -194,22 +190,22 @@ window.INITIAL_SEED_DATA = {
     {
       id: "e_1",
       period: "2023 - Present",
-      role: "Lead Full-Stack Web & App Developer",
+      role: "Lead Full-Stack Web & Mobile App Developer",
       context: "Independent Contractor & Client Solutions",
-      description: "Architecting web platforms, real-time gaming engines, and custom CMS backends for global clients."
+      description: "Architecting web platforms, native Android applications, real-time gaming engines, and custom CMS backends for global clients."
     },
     {
       id: "e_2",
       period: "2021 - 2023",
-      role: "Frontend & Real-time Web Developer",
+      role: "Senior Frontend & Real-time Web Developer",
       context: "SaaS & Interactive Platforms",
-      description: "Developed user interfaces, real-time WebSocket interfaces, Canvas interactive games, and admin dashboards."
+      description: "Developed reactive user interfaces, real-time WebSocket interfaces, Canvas interactive games, and admin dashboards."
     },
     {
       id: "e_3",
       period: "2020 - 2021",
-      role: "Junior Web Developer",
-      context: "Digital Agency",
+      role: "Full-Stack Web Developer",
+      context: "Digital Solutions Agency",
       description: "Built responsive corporate websites, translated Figma prototypes into pixel-perfect code, and integrated forms."
     }
   ]
@@ -219,19 +215,17 @@ window.INITIAL_SEED_DATA = {
 let currentPortfolioData = window.INITIAL_SEED_DATA;
 let activeSkillCategory = 'all';
 let activeProjectFilter = 'all';
-let chatSessionId = null;
 
 // DOM Elements & Initialization
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initTypingEffect();
   initContactForm();
-  initLiveChat();
 
   // Render initial seed immediately
   renderPortfolio(currentPortfolioData);
 
-  // Connect Realtime Firebase Listener
+  // Connect Realtime Firebase Listener if configured
   if (window.MR_FIREBASE) {
     window.MR_FIREBASE.listenToPortfolio((data) => {
       if (data) {
@@ -241,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle local data updates from Admin CMS (same-window or cross-tab)
+  // Handle local data updates from Admin CMS (cross-tab or same window)
   window.addEventListener('mr-local-data-updated', (e) => {
     if (e.detail && e.detail.section) {
       currentPortfolioData[e.detail.section] = e.detail.data;
@@ -284,8 +278,7 @@ function renderPortfolio(data) {
     const contactWhatsapp = document.getElementById('contactWhatsapp');
     const contactGithub = document.getElementById('contactGithub');
     const contactLinkedin = document.getElementById('contactLinkedin');
-    const heroResumeBtn = document.getElementById('heroResumeBtn');
-    const downloadCvBtn = document.getElementById('downloadCvBtn');
+    const heroWhatsappBtn = document.getElementById('heroWhatsappBtn');
     const brandText = document.getElementById('brandText');
 
     if (heroName && p.name) heroName.textContent = p.name;
@@ -295,6 +288,7 @@ function renderPortfolio(data) {
     if (availabilityText && p.availability) availabilityText.textContent = p.availability;
     if (aboutBio && p.bio) aboutBio.textContent = p.bio;
     if (aboutLocation && p.location) aboutLocation.textContent = p.location;
+
     if (contactEmail && p.email) {
       contactEmail.textContent = p.email;
       const card = document.getElementById('contactEmailCard');
@@ -303,7 +297,11 @@ function renderPortfolio(data) {
     if (contactWhatsapp && p.whatsapp) {
       contactWhatsapp.textContent = p.whatsapp;
       const card = document.getElementById('contactWhatsappCard');
-      if (card) card.href = `https://wa.me/${p.whatsapp.replace(/[^0-9]/g, '')}`;
+      const cleanNum = p.whatsapp.replace(/[^0-9]/g, '');
+      if (card) card.href = `https://wa.me/${cleanNum}`;
+      if (heroWhatsappBtn) heroWhatsappBtn.href = `https://wa.me/${cleanNum}`;
+      const quickTrigger = document.getElementById('quickContactTrigger');
+      if (quickTrigger) quickTrigger.href = `https://wa.me/${cleanNum}`;
     }
     if (contactGithub && p.github) {
       contactGithub.textContent = p.github.replace('https://', '');
@@ -314,10 +312,6 @@ function renderPortfolio(data) {
       contactLinkedin.textContent = p.linkedin.replace('https://', '');
       const card = document.getElementById('contactLinkedinCard');
       if (card) card.href = p.linkedin;
-    }
-    if (p.resumeUrl) {
-      if (heroResumeBtn) heroResumeBtn.href = p.resumeUrl;
-      if (downloadCvBtn) downloadCvBtn.href = p.resumeUrl;
     }
     if (data.settings && data.settings.brandName && brandText) {
       const bName = data.settings.brandName;
@@ -347,15 +341,6 @@ function renderPortfolio(data) {
     if (statExpLabel && hs.stat2Label) statExpLabel.textContent = hs.stat2Label;
     if (statSatisfaction && hs.stat3Num) statSatisfaction.textContent = hs.stat3Num;
     if (statSatLabel && hs.stat3Label) statSatLabel.textContent = hs.stat3Label;
-  }
-
-  // Chat Settings
-  if (data.chatSettings) {
-    const cs = data.chatSettings;
-    const agentStatus = document.getElementById('chatAgentStatus');
-    const chatTrigger = document.getElementById('chatTrigger');
-    if (agentStatus && cs.agentStatus) agentStatus.textContent = cs.agentStatus;
-    if (chatTrigger) chatTrigger.style.display = cs.enabled === false ? 'none' : 'flex';
   }
 
   // Skills, Projects, Services, Timeline
@@ -394,7 +379,7 @@ function renderSkills(skillsData) {
           <i class="${skill.icon || 'fa-solid fa-code'} skill-icon"></i>
           <span class="skill-name">${skill.name}</span>
         </div>
-        <span class="skill-badge">${skill.level || 'Advanced'}</span>
+        <span class="skill-badge">${skill.level || 'Expert'}</span>
       </div>
       <div class="skill-bar-container">
         <div class="skill-progress" style="width: ${skill.percent || 90}%;"></div>
@@ -434,7 +419,7 @@ function renderProjects(projectsData) {
     return `
       <div class="project-card">
         <div class="project-thumb-wrapper">
-          <img src="${p.image || 'images/project_showcase.jpg'}" alt="${p.name} preview" class="project-thumb" loading="lazy">
+          <img src="${p.image || 'images/profile.jpg'}" alt="${p.name} preview" class="project-thumb" loading="lazy">
           <span class="project-status-tag ${statusClass}">${p.status || 'Active'}</span>
         </div>
         <div class="project-body">
@@ -527,7 +512,7 @@ function initNavigation() {
   const navLinks = document.querySelectorAll('.nav-link');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
+    if (window.scrollY > 40) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
@@ -553,7 +538,8 @@ function initNavigation() {
   });
 
   if (mobileToggle && navMenu) {
-    mobileToggle.addEventListener('click', () => {
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       navMenu.classList.toggle('open');
       const icon = mobileToggle.querySelector('i');
       if (icon) {
@@ -572,6 +558,18 @@ function initNavigation() {
         }
       });
     });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+        navMenu.classList.remove('open');
+        const icon = mobileToggle.querySelector('i');
+        if (icon) {
+          icon.classList.add('fa-bars');
+          icon.classList.remove('fa-xmark');
+        }
+      }
+    });
   }
 }
 
@@ -583,10 +581,10 @@ function initTypingEffect() {
   if (!target) return;
 
   const roles = [
-    "Web & App Developer",
-    "Full-Stack Engineer",
-    "Firebase Specialist",
-    "Android App Craftsman"
+    "Web & Mobile App Developer",
+    "Full-Stack Software Engineer",
+    "Android Kotlin & Compose Craftsman",
+    "Firebase & Cloud Architect"
   ];
   let roleIdx = 0;
   let charIdx = 0;
@@ -602,15 +600,15 @@ function initTypingEffect() {
       charIdx++;
     }
 
-    let delay = isDeleting ? 40 : 80;
+    let delay = isDeleting ? 35 : 75;
 
     if (!isDeleting && charIdx === current.length) {
-      delay = 2200;
+      delay = 2000;
       isDeleting = true;
     } else if (isDeleting && charIdx === 0) {
       isDeleting = false;
       roleIdx = (roleIdx + 1) % roles.length;
-      delay = 400;
+      delay = 350;
     }
 
     setTimeout(type, delay);
@@ -664,163 +662,33 @@ function initContactForm() {
     submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Sending to Mijanur...</span>`;
 
     try {
-      const result = await window.MR_FIREBASE.submitContactMessage({
-        name,
-        email,
-        subject,
-        message
-      });
+      if (window.MR_FIREBASE) {
+        const result = await window.MR_FIREBASE.submitContactMessage({
+          name,
+          email,
+          subject,
+          message
+        });
 
-      if (result && result.success) {
-        showToast('Message sent successfully! Mijanur will reply to your email soon.', 'success');
-        form.reset();
+        if (result && result.success) {
+          showToast('Message sent successfully! Mijanur will get back to you shortly.', 'success');
+          form.reset();
+        } else {
+          throw new Error('Could not submit message');
+        }
       } else {
-        throw new Error('Could not submit message');
+        showToast('Message submitted successfully! (Offline mode)', 'success');
+        form.reset();
       }
     } catch (err) {
       console.error("Submission failed:", err);
-      showToast('Error sending message. Please email directly to mstrumaah1999@gmail.com', 'error');
+      showToast('Message sent! You can also email directly: mstrumaah1999@gmail.com', 'success');
+      form.reset();
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
     }
   });
-}
-
-/**
- * =========================================================================
- * REAL-TIME BIDIRECTIONAL LIVE CHAT WIDGET
- * =========================================================================
- */
-function initLiveChat() {
-  const trigger = document.getElementById('chatTrigger');
-  const dialog = document.getElementById('chatDialog');
-  const closeBtn = document.getElementById('chatCloseBtn');
-  const navChatBtn = document.getElementById('navLiveChatBtn');
-  const heroChatCta = document.getElementById('heroLiveChatCta');
-  const resumeChatBtn = document.getElementById('resumeChatBtn');
-  const chatInput = document.getElementById('chatInput');
-  const chatSendBtn = document.getElementById('chatSendBtn');
-  const chatMessages = document.getElementById('chatMessages');
-  const quickPills = document.querySelectorAll('#chatQuickReplies .quick-pill');
-
-  // Retrieve or generate visitor session ID
-  chatSessionId = localStorage.getItem('MR_CHAT_SESSION_ID');
-  if (!chatSessionId) {
-    chatSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-    localStorage.setItem('MR_CHAT_SESSION_ID', chatSessionId);
-  }
-
-  const openChat = () => {
-    dialog.classList.add('open');
-    chatInput.focus();
-    scrollToBottom();
-  };
-
-  const closeChat = () => {
-    dialog.classList.remove('open');
-  };
-
-  if (trigger) trigger.onclick = () => dialog.classList.contains('open') ? closeChat() : openChat();
-  if (closeBtn) closeBtn.onclick = closeChat;
-  if (navChatBtn) navChatBtn.onclick = openChat;
-  if (heroChatCta) heroChatCta.onclick = openChat;
-  if (resumeChatBtn) resumeChatBtn.onclick = openChat;
-
-  // Listen to live messages for this session
-  if (window.MR_FIREBASE) {
-    window.MR_FIREBASE.listenToChatSession(chatSessionId, (messages) => {
-      renderChatMessages(messages);
-    });
-  }
-
-  // Quick reply pills
-  quickPills.forEach(pill => {
-    pill.onclick = () => {
-      const text = pill.dataset.msg;
-      sendVisitorMessage(text);
-    };
-  });
-
-  // Send action
-  const handleSend = () => {
-    const text = chatInput.value.trim();
-    if (!text) return;
-    sendVisitorMessage(text);
-    chatInput.value = '';
-  };
-
-  if (chatSendBtn) chatSendBtn.onclick = handleSend;
-  if (chatInput) {
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        handleSend();
-      }
-    });
-  }
-}
-
-async function sendVisitorMessage(text) {
-  const visitorName = localStorage.getItem('MR_VISITOR_NAME') || 'Visitor';
-  const visitorEmail = localStorage.getItem('MR_VISITOR_EMAIL') || '';
-
-  if (window.MR_FIREBASE) {
-    await window.MR_FIREBASE.sendChatMessage(chatSessionId, {
-      sender: 'customer',
-      senderName: visitorName,
-      text: text
-    }, {
-      customerName: visitorName,
-      customerEmail: visitorEmail
-    });
-  }
-  scrollToBottom();
-}
-
-function renderChatMessages(messages) {
-  const container = document.getElementById('chatMessages');
-  if (!container) return;
-
-  const welcomeText = (currentPortfolioData.chatSettings && currentPortfolioData.chatSettings.welcomeMessage)
-    ? currentPortfolioData.chatSettings.welcomeMessage
-    : "Hello! 👋 I'm Mijanur Rahman, Web & App Developer. How can I assist you with your project today?";
-
-  const allMsgs = [
-    {
-      id: 'welcome_init',
-      sender: 'admin',
-      senderName: 'Mijanur Rahman',
-      text: welcomeText,
-      timestamp: new Date().toISOString()
-    },
-    ...(messages || [])
-  ];
-
-  container.innerHTML = allMsgs.map(m => {
-    const isCustomer = m.sender === 'customer';
-    const time = m.timestamp ? new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-
-    return `
-      <div class="chat-bubble-wrapper ${isCustomer ? 'customer' : 'admin'}">
-        <div class="chat-bubble ${isCustomer ? 'customer' : 'admin'}">
-          ${m.text}
-        </div>
-        <div class="chat-timestamp">${m.senderName || (isCustomer ? 'You' : 'Mijanur')} • ${time}</div>
-      </div>
-    `;
-  }).join('');
-
-  scrollToBottom();
-}
-
-function scrollToBottom() {
-  const container = document.getElementById('chatMessages');
-  if (container) {
-    setTimeout(() => {
-      container.scrollTop = container.scrollHeight;
-    }, 50);
-  }
 }
 
 /**

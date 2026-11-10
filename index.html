@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="docTitle">MR TECH | Mijanur Rahman — Web & App Developer</title>
-  <meta name="description" id="docMetaDesc" content="Official personal portfolio of Mijanur Rahman (MR TECH). Building modern websites, web applications, real-time dashboards and native digital solutions.">
-  <meta name="keywords" content="Mijanur Rahman, MR TECH, Web Developer, App Developer, Full-Stack, React, Firebase, Kotlin, Portfolio, Live Chat">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title id="docTitle">MR TECH | Mijanur Rahman — Web & Mobile App Developer</title>
+  <meta name="description" id="docMetaDesc" content="Official personal portfolio of Mijanur Rahman (MR TECH). Full-Stack Web & Native Android App Developer building scalable digital solutions, high-performance web applications, and real-time cloud backends.">
+  <meta name="keywords" content="Mijanur Rahman, MR TECH, Web Developer, Android Developer, Mobile App Developer, Full-Stack, React, Next.js, Kotlin, Jetpack Compose, Firebase, Portfolio">
   <meta name="author" content="Mijanur Rahman">
   <meta name="theme-color" content="#040711">
 
   <!-- Open Graph / Social Meta -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="MR TECH | Mijanur Rahman — Web & App Developer">
-  <meta property="og:description" content="Building Modern Websites, Web Applications & Digital Solutions. Explore genuine projects and chat live with Mijanur.">
+  <meta property="og:title" content="MR TECH | Mijanur Rahman — Web & Mobile App Developer">
+  <meta property="og:description" content="Building Modern Websites, Web Applications & Native Mobile Apps. Explore genuine projects and get in touch with Mijanur.">
   <meta property="og:image" content="images/profile.jpg">
 
   <!-- Favicon & PWA Manifest -->
@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -42,10 +42,10 @@
     <div class="container nav-container">
       <a href="#home" class="brand-logo" aria-label="MR TECH Homepage">
         <div class="logo-badge">&lt;/&gt;</div>
-        <span class="brand-text" id="brandText">MR TECH</span>
+        <span class="brand-text" id="brandText">MR <span class="tech-pill-badge">TECH</span></span>
       </a>
 
-      <nav>
+      <nav aria-label="Main Navigation">
         <ul class="nav-menu" id="navMenu">
           <li><a href="#home" class="nav-link active">Home</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
@@ -53,16 +53,15 @@
           <li><a href="#projects" class="nav-link">Projects</a></li>
           <li><a href="#services" class="nav-link">Services</a></li>
           <li><a href="#journey" class="nav-link">Journey</a></li>
-          <li><a href="#resume" class="nav-link">Resume</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <button class="btn btn-gold btn-sm" id="navLiveChatBtn" style="display:none" hidden>
-          <i class="fa-solid fa-comments"></i>
-          <span>Live Chat</span>
-        </button>
+        <a href="#contact" class="btn btn-primary btn-sm nav-cta-btn">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Hire Me</span>
+        </a>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -86,11 +85,11 @@
             
             <div class="hero-role-wrapper">
               <span>Passionate</span>
-              <span class="role-typing" id="heroTitle">Web & App Developer</span>
+              <span class="role-typing" id="heroTitle">Web & Mobile App Developer</span>
             </div>
 
             <p class="hero-tagline" id="heroTagline">
-              Building Modern Websites, Web Applications & Digital Solutions. Transforming complex logic into seamless, high-velocity digital experiences.
+              Architecting high-velocity Web Applications, Native Android Apps & Resilient Cloud Backends. Transforming complex product requirements into seamless, pixel-perfect digital experiences.
             </p>
 
             <div class="hero-cta-group">
@@ -98,19 +97,19 @@
                 <span>View Real Projects</span>
                 <i class="fa-solid fa-code"></i>
               </a>
-              <button class="btn btn-gold" id="heroLiveChatCta">
-                <i class="fa-solid fa-comments"></i>
-                <span>Live Chat With Me</span>
-              </button>
-              <a href="#resume" class="btn btn-outline" id="heroResumeBtn">
-                <span>Download CV</span>
-                <i class="fa-solid fa-file-arrow-down"></i>
+              <a href="#contact" class="btn btn-gold" id="heroHireBtn">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Hire Me / Let's Talk</span>
+              </a>
+              <a href="https://wa.me/8801700000000" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="heroWhatsappBtn">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>Direct WhatsApp</span>
               </a>
             </div>
 
             <div class="hero-stats">
               <div class="stat-item">
-                <span class="stat-num" id="statProjects">6+</span>
+                <span class="stat-num" id="statProjects">25+</span>
                 <span class="stat-label" id="statProjectsLabel">Core Projects</span>
               </div>
               <div class="stat-item">
@@ -156,14 +155,14 @@
             <span>Professional Profile</span>
           </div>
           <h2 class="section-title">About <span>Me</span></h2>
-          <p class="section-desc">Get to know the developer behind the code, my principles, and engineering trajectory.</p>
+          <p class="section-desc">Get to know the developer behind the code, engineering principles, and technical trajectory.</p>
         </div>
 
         <div class="about-grid">
           <div class="about-card">
-            <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">Engineering With Purpose</h3>
+            <h3 class="about-headline">Engineering With Purpose & Precision</h3>
             <p class="about-bio" id="aboutBio">
-              I am a dedicated Full-Stack Web and Mobile Application Developer with a strong foundation in modern JavaScript ecosystems, responsive web architectures, and cloud databases. My mission is to build robust digital solutions that combine bulletproof backend stability with intuitive, fluid UI designs.
+              I am a dedicated Full-Stack Web and Native Android Application Developer with over 4 years of proven engineering experience. My technical journey centers on writing clean, scalable, and well-tested code that bridges fluid user experiences with robust cloud backends. From high-throughput real-time gaming engines to scalable enterprise administrative platforms and reactive mobile applications, I craft software that performs under load and scales effortlessly.
             </p>
 
             <div class="about-highlights">
@@ -191,21 +190,21 @@
               <div class="value-icon"><i class="fa-solid fa-bolt"></i></div>
               <div class="value-content">
                 <h4>Performance First</h4>
-                <p>Writing lean, highly optimized code with zero bloat and sub-second load times.</p>
+                <p>Writing lean, highly optimized code with zero bloat, high Core Web Vitals, and sub-second load times.</p>
               </div>
             </div>
             <div class="value-item">
               <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
               <div class="value-content">
-                <h4>Robust Cloud Security</h4>
-                <p>Implementing zero-trust Firebase rules, encrypted sessions, and verified authorization.</p>
+                <h4>Zero-Trust Cloud Security</h4>
+                <p>Implementing fine-grained Firebase security rules, protected REST APIs, secure token auth, and safe data access layers.</p>
               </div>
             </div>
             <div class="value-item">
               <div class="value-icon"><i class="fa-solid fa-mobile-screen"></i></div>
               <div class="value-content">
                 <h4>Pixel-Perfect Responsiveness</h4>
-                <p>Every interface looks and feels natural on smartphones, foldables, tablets, and 4K displays.</p>
+                <p>Every interface dynamically adapts to all smartphone display sizes, tablets, foldables, laptops, and ultra-wide screens.</p>
               </div>
             </div>
           </div>
@@ -222,7 +221,7 @@
             <span>Technical Arsenal</span>
           </div>
           <h2 class="section-title">Skills & <span>Expertise</span></h2>
-          <p class="section-desc">Technologies and developer tools I leverage to craft scalable digital products.</p>
+          <p class="section-desc">Technologies, frameworks, and developer tools I leverage to craft scalable digital products.</p>
         </div>
 
         <div class="skills-tabs" id="skillsTabs">
@@ -275,7 +274,7 @@
             <span>What I Deliver</span>
           </div>
           <h2 class="section-title">Professional <span>Services</span></h2>
-          <p class="section-desc">End-to-end development services tailored to businesses, founders, and startups.</p>
+          <p class="section-desc">End-to-end development services tailored to businesses, founders, startups, and product owners.</p>
         </div>
 
         <div class="services-grid" id="servicesGrid">
@@ -302,32 +301,7 @@
       </div>
     </section>
 
-    <!-- 7. Resume Section -->
-    <section id="resume">
-      <div class="container">
-        <div class="resume-box">
-          <div class="resume-icon">
-            <i class="fa-solid fa-file-lines"></i>
-          </div>
-          <h2 class="resume-title">Curriculum Vitae</h2>
-          <p class="resume-text">
-            Looking for a detailed breakdown of my technical qualifications, education, and development achievements? Download my official resume below.
-          </p>
-          <div class="resume-actions">
-            <a href="database-schema.json" download="Mijanur_Rahman_CV.json" class="btn btn-primary" id="downloadCvBtn">
-              <i class="fa-solid fa-download"></i>
-              <span>Download CV (Doc / JSON)</span>
-            </a>
-            <button class="btn btn-gold" id="resumeChatBtn">
-              <i class="fa-solid fa-comments"></i>
-              <span>Chat Live With Mijanur</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. Contact Section -->
+    <!-- 7. Contact Section -->
     <section id="contact">
       <div class="container">
         <div class="section-header">
@@ -336,7 +310,7 @@
             <span>Get In Touch</span>
           </div>
           <h2 class="section-title">Contact <span>Me</span></h2>
-          <p class="section-desc">Have a project proposal, freelance opportunity, or technical question? Send a message directly.</p>
+          <p class="section-desc">Have a project proposal, freelance opportunity, or technical question? Send a direct message.</p>
         </div>
 
         <div class="contact-grid">
@@ -378,12 +352,12 @@
             <form id="contactForm">
               <div class="form-group">
                 <label for="contactName" class="form-label">Your Name *</label>
-                <input type="text" id="contactName" class="form-control" placeholder="John Doe" required>
+                <input type="text" id="contactName" class="form-control" placeholder="John Doe" required autocomplete="name">
               </div>
 
               <div class="form-group">
                 <label for="contactFormEmail" class="form-label">Email Address *</label>
-                <input type="email" id="contactFormEmail" class="form-control" placeholder="john@example.com" required>
+                <input type="email" id="contactFormEmail" class="form-control" placeholder="john@example.com" required autocomplete="email">
               </div>
 
               <div class="form-group">
@@ -393,7 +367,7 @@
 
               <div class="form-group">
                 <label for="contactMessage" class="form-label">Message *</label>
-                <textarea id="contactMessage" class="form-control" placeholder="Describe your project, timeline, and requirements..." required></textarea>
+                <textarea id="contactMessage" class="form-control" placeholder="Describe your project, timeline, budget, or requirements..." required></textarea>
               </div>
 
               <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitMsgBtn">
@@ -407,53 +381,13 @@
     </section>
   </main>
 
-  <!-- ==========================================================================
-       PUBLIC REAL-TIME LIVE CHAT WIDGET
-       ========================================================================== -->
-  <button class="livechat-trigger" id="chatTrigger" aria-label="Open Live Chat with Mijanur">
-    <i class="fa-solid fa-comments"></i>
+  <!-- Quick Floating WhatsApp / Direct Contact Trigger -->
+  <a href="https://wa.me/8801700000000" target="_blank" rel="noopener noreferrer" class="quick-contact-trigger" id="quickContactTrigger" aria-label="Direct WhatsApp Chat with Mijanur">
+    <i class="fa-brands fa-whatsapp"></i>
     <span class="badge-pulse"></span>
-  </button>
+  </a>
 
-  <div class="livechat-dialog" id="chatDialog">
-    <div class="chat-header">
-      <div class="chat-agent-info">
-        <img src="images/profile.jpg" alt="Mijanur Rahman" class="chat-agent-avatar" id="chatAgentAvatar">
-        <div>
-          <div class="chat-agent-title" id="chatAgentName">Mijanur Rahman</div>
-          <div class="chat-agent-subtitle">
-            <span class="status-dot"></span>
-            <span id="chatAgentStatus">Online • Typically replies in minutes</span>
-          </div>
-        </div>
-      </div>
-      <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close Chat">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-
-    <!-- Quick Prompt Suggestions -->
-    <div class="chat-quick-replies" id="chatQuickReplies">
-      <button class="quick-pill" data-msg="💼 I need a new modern website. Can you help?">💼 New Website</button>
-      <button class="quick-pill" data-msg="📱 I need a mobile app quotation.">📱 Mobile App</button>
-      <button class="quick-pill" data-msg="⚡ Can you integrate Firebase into my app?">⚡ Firebase Integration</button>
-    </div>
-
-    <!-- Messages Feed -->
-    <div class="chat-messages-container" id="chatMessages">
-      <!-- Auto populated with welcome message and live chat bubbles -->
-    </div>
-
-    <!-- Input Bar -->
-    <div class="chat-input-bar">
-      <input type="text" id="chatInput" placeholder="Type a message to Mijanur..." autocomplete="off">
-      <button class="chat-send-btn" id="chatSendBtn" aria-label="Send Message">
-        <i class="fa-solid fa-paper-plane"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- 9. Footer Section -->
+  <!-- 8. Footer Section -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -462,8 +396,8 @@
             <div class="logo-badge">&lt;/&gt;</div>
             <span class="brand-text">MR TECH</span>
           </a>
-          <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem; max-width: 340px;">
-            Mijanur Rahman — Web & App Developer. Building Modern Websites, Web Applications & Digital Solutions.
+          <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem; max-width: 360px;">
+            Mijanur Rahman — Full-Stack Web & Native Mobile App Developer. Building modern websites, web applications, and resilient digital architectures.
           </p>
         </div>
 
