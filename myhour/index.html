@@ -518,77 +518,61 @@ body.light .tx {
 }
 
 /* ==========================================================================
-   TOP PWA INSTALL NOTIFICATION BANNER
+   CENTERED PWA INSTALL MODAL (APPEARS IN MIDDLE OF MOBILE SCREEN)
    ========================================================================== */
-.pwa-banner {
+.pwa-modal-overlay {
   position: fixed;
-  top: max(10px, env(safe-area-inset-top, 10px));
-  left: 50%;
-  right: auto;
-  width: min(380px, calc(100% - 24px));
-  box-sizing: border-box;
-  background: linear-gradient(135deg, rgba(16, 26, 44, 0.96) 0%, rgba(8, 13, 24, 0.97) 100%);
-  border: 1px solid rgba(214, 170, 84, 0.65);
-  border-radius: 20px;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 0 16px rgba(214, 170, 84, 0.3);
-  padding: 6px 12px;
-  display: flex;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  justify-content: center;
   z-index: 99999;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -120%);
-  transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 20px;
 }
-.pwa-banner.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, 0);
+.pwa-modal-overlay.show {
+  display: flex !important;
+  animation: pwaPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
-.pwa-banner .pwa-banner-icon img {
-  width: 30px !important;
-  height: 30px !important;
+@keyframes pwaPop {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
 }
-.pwa-banner .pwa-banner-text #pwa-desc {
-  font-size: 11px !important;
-  line-height: 1.25;
+.pwa-modal-card {
+  width: 100%;
+  max-width: 360px;
+  background: linear-gradient(150deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 40%, rgba(4,8,18,0.85)), var(--sf);
+  border: 1.5px solid var(--gold);
+  border-radius: 24px;
+  padding: 26px 20px 20px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px var(--gold-glow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.pwa-banner .pwa-install-btn {
-  padding: 7px 10px;
-  font-size: 11px;
+body.light .pwa-modal-card {
+  background: #FFFFFF;
+  border-color: rgba(168,125,34,0.45);
+  box-shadow: 0 20px 40px rgba(15,27,45,0.25);
 }
-.pwa-banner .pwa-dismiss-btn {
-  padding: 5px 8px;
-  min-width: 28px;
-}
-.pwa-banner.show {
-  transform: translateY(0);
-}
-.pwa-banner-content {
+.pwa-modal-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
+  justify-content: center;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.8), 0 6px 18px var(--gold-glow);
+  margin-bottom: 8px;
 }
-.pwa-banner-text {
-  min-width: 0;
-}
-.pwa-banner-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.pwa-install-btn {
-  padding: 8px 16px;
-  font-size: 13px;
-  border-radius: 20px;
-  white-space: nowrap;
+.pwa-modal-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #0A1220;
 }
 
 /* ==========================================================================
@@ -844,7 +828,7 @@ main {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px 18px calc(86px + env(safe-area-inset-bottom, 12px));
+  padding: 16px 18px calc(112px + env(safe-area-inset-bottom, 24px));
   -webkit-overflow-scrolling: touch;
   width: 100%;
   box-sizing: border-box;
@@ -861,20 +845,20 @@ nav#nv {
   display: none;
   background: var(--sf);
   border-top: 1.5px solid var(--gold-border);
-  box-shadow: 0 -6px 20px rgba(0,0,0,0.45);
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.55);
   z-index: 35;
   flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: 6px 4px max(8px, env(safe-area-inset-bottom, 8px));
+  padding: 8px 6px max(24px, env(safe-area-inset-bottom, 24px));
   position: relative;
-  align-items: flex-end;
-  min-height: 64px;
+  align-items: center;
+  min-height: 76px;
 }
 nav#nv div {
   flex: 1;
   text-align: center;
-  padding: 4px 2px 2px;
+  padding: 2px 2px 2px;
   font-size: 11px;
   color: var(--t2);
   cursor: pointer;
@@ -884,7 +868,7 @@ nav#nv div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   user-select: none;
 }
 nav#nv div span:last-child {
@@ -911,8 +895,8 @@ nav#nv div.nav-home-btn {
   padding-bottom: 2px;
 }
 nav#nv div.nav-home-btn .em {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
   border: 2px solid #FFF1C5;
@@ -920,9 +904,9 @@ nav#nv div.nav-home-btn .em {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -16px auto 2px;
+  margin: -20px auto 3px;
   color: #0A1220;
-  font-size: 22px;
+  font-size: 24px;
   flex-shrink: 0;
 }
 
@@ -1641,22 +1625,27 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 </head>
 <body>
 
-<!-- Top PWA Install Notification Banner (Centered, Compact & Refined) -->
-<div id="pwa-install-banner" class="pwa-banner">
-  <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
-    <img src="./icon-192.png" alt="MYHOUR" width="28" height="28" style="border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.4); flex-shrink:0;">
-    <div style="min-width:0;">
-      <b class="gold-text" style="font-size:13px; display:block; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="pwa-title">MYHOUR ইনস্টল করুন</b>
-      <div style="font-size:10.5px; color:var(--t2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="pwa-desc">অ্যাপের মতো ফুলস্ক্রিনে ব্যবহার করুন</div>
+<!-- Centered PWA Install Popup Dialog (Middle of Mobile Screen) -->
+<div id="pwa-install-modal" class="pwa-modal-overlay" onclick="if(event.target===this)dismissPwaModal()">
+  <div class="pwa-modal-card">
+    <div class="pwa-modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+      </svg>
     </div>
-  </div>
-  <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
-    <button class="btn pwa-install-btn" style="padding:6px 12px; font-size:12px; border-radius:14px;" onclick="triggerPwaInstall()">
-      📥 ইনস্টল
-    </button>
-    <button class="x pwa-dismiss-btn" style="padding:4px 6px; font-size:13px;" onclick="dismissPwaBanner()" title="Close">
-      ✕
-    </button>
+    <h3 class="gold-text" style="margin:10px 0 6px; font-size:20px; letter-spacing:1px;" id="pwa-modal-title">MYHOUR ইনস্টল করুন</h3>
+    <p style="font-size:13.5px; color:var(--t2); line-height:1.45; margin:0 0 20px;" id="pwa-modal-desc">
+      আপনার মোবাইলে সম্পূর্ণ অ্যাপের মতো ফুলস্ক্রিনে সহজ ও দ্রুত ব্যবহার করতে এখনই অ্যাপটি ইনস্টল করুন।
+    </p>
+    <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+      <button class="btn" style="width:100%; padding:13px; font-size:15px; font-weight:800; border-radius:14px; box-shadow:0 4px 16px var(--gold-glow);" onclick="triggerPwaInstall()">
+        📥 ইনস্টল করুন (Install App)
+      </button>
+      <button class="s" style="width:100%; padding:10px; font-size:13px; border-radius:14px;" onclick="dismissPwaModal()">
+        পরে করব (Maybe Later)
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1788,9 +1777,13 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
       </div>
 
       <div class="header-controls-right" style="display:flex; align-items:center; gap:8px; margin-left:auto;">
-        <span id="view-mode-pill" class="tx" onclick="cycleViewMode()" title="Toggle View Mode">⚡ Auto</span>
-        <span id="lang-pill" class="tx" onclick="cycleLang()">বাংলা</span>
-        <span id="theme-pill" class="tx" onclick="toggleTheme()">🌙</span>
+        <div id="hdr-balance-pill" class="tx" onclick="go('balance')" title="হাতে নিট ব্যালেন্স" style="display:inline-flex; align-items:center; gap:7px; padding:5px 12px; background:linear-gradient(135deg, rgba(214,170,84,0.2), rgba(14,22,38,0.95)); border:1.5px solid var(--gold); border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25); cursor:pointer;">
+          <span style="font-size:15px; line-height:1;">💰</span>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; line-height:1.15;">
+            <span style="font-size:9px; text-transform:uppercase; letter-spacing:0.5px; color:var(--t2); font-weight:700;" id="hdr-bal-title">ব্যালেন্স</span>
+            <span style="font-size:13.5px; font-weight:800; color:var(--gold);" id="hdr-balance-val">SAR 0.00</span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -1828,7 +1821,32 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
       </div>
       <div id="dr-user-info" style="font-size:13px; color:var(--t1); margin-top:8px;"></div>
     </div>
+    <!-- Quick Display & Preference Controls (Language, Theme, View Mode) -->
+    <div style="padding:14px 16px 12px; border-bottom:1.5px solid var(--bd); background:rgba(255,255,255,0.03);">
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.8px; color:var(--t3); font-weight:700; margin-bottom:10px;">
+        ⚙️ <span id="dr-pref-title">ডিসপ্লে ও ভাষা সেটিংস</span>
+      </div>
+      <div style="display:flex; gap:8px; margin-bottom:8px;">
+        <button class="s" onclick="cycleLang()" style="flex:1; padding:9px 6px; font-size:12px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:5px;" title="ভাষা পরিবর্তন">
+          <span>🌐</span> <b id="dr-lang-txt">বাংলা</b>
+        </button>
+        <button class="s" onclick="toggleTheme()" style="flex:1; padding:9px 6px; font-size:12px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:5px;" title="থিম পরিবর্তন">
+          <span id="dr-theme-icon">🌙</span> <span id="dr-theme-txt">ডার্ক</span>
+        </button>
+      </div>
+      <button class="s" onclick="cycleViewMode()" style="width:100%; padding:9px 8px; font-size:12px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:6px;" title="ভিউ মোড পরিবর্তন">
+        <span>🖥️</span> <span>ভিউ মোড:</span> <b id="dr-vm-txt">⚡ অটো</b>
+      </button>
+    </div>
     <div id="dr-links" style="padding:10px 0;"></div>
+    <!-- Developer Info Footer -->
+    <div style="padding:16px 18px 24px; text-align:center; border-top:1.5px solid var(--bd); margin-top:10px; background:rgba(0,0,0,0.25);">
+      <div style="font-size:11px; color:var(--t3); margin-bottom:5px;">ডেভেলপার ও প্রযুক্তি সেবা</div>
+      <a href="https://www.mrtech.top" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-size:13.5px; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--gold-border); padding:6px 14px; border-radius:16px; background:rgba(214,170,84,0.12);">
+        🌐 www.mrtech.top
+      </a>
+      <div style="font-size:10.5px; color:var(--t2); margin-top:4px;">MrTech Intelligent Systems</div>
+    </div>
   </div>
 </div>
 
@@ -2239,20 +2257,18 @@ function del(k, i) {
 }
 
 /* ==========================================================================
-   PWA INSTALLATION PROMPT CONTROLLER (SLIDES DOWN FROM TOP)
+   PWA INSTALLATION MODAL CONTROLLER (CENTERED IN MIDDLE OF MOBILE SCREEN)
    ========================================================================== */
 let deferredPwaPrompt = null;
+let pwaModalShownThisSession = false;
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPwaPrompt = e;
   setTimeout(() => {
-    showPwaBanner();
-  }, 2600);
+    showPwaModal();
+  }, 1600);
 });
-
-let pwaBannerHideTimer = null;
-let pwaBannerShownThisSession = false;
 
 function splashVisible() {
   const sp = document.getElementById("sp");
@@ -2261,30 +2277,27 @@ function splashVisible() {
   return cs.display !== "none" && cs.visibility !== "hidden" && parseFloat(cs.opacity) > 0.02;
 }
 
-function showPwaBanner() {
+function showPwaModal() {
   if (window.AndroidBridge) return;
-  if (splashVisible()) { setTimeout(showPwaBanner, 600); return; }
+  if (splashVisible()) { setTimeout(showPwaModal, 800); return; }
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
-  if (sessionStorage.getItem('pwa_dismissed') || pwaBannerShownThisSession) return;
+  if (sessionStorage.getItem('pwa_dismissed') || pwaModalShownThisSession) return;
 
-  const banner = document.getElementById('pwa-install-banner');
-  if (!banner) return;
+  const modal = document.getElementById('pwa-install-modal');
+  if (!modal) return;
 
-  pwaBannerShownThisSession = true;
-  banner.classList.add('show');
-
-  if (pwaBannerHideTimer) clearTimeout(pwaBannerHideTimer);
-  pwaBannerHideTimer = setTimeout(() => {
-    banner.classList.remove('show');
-  }, 5000);
+  pwaModalShownThisSession = true;
+  modal.classList.add('show');
 }
 
-function dismissPwaBanner() {
-  const banner = document.getElementById('pwa-install-banner');
-  if (banner) banner.classList.remove('show');
-  if (pwaBannerHideTimer) clearTimeout(pwaBannerHideTimer);
+function dismissPwaModal() {
+  const modal = document.getElementById('pwa-install-modal');
+  if (modal) modal.classList.remove('show');
   sessionStorage.setItem('pwa_dismissed', '1');
 }
+
+const showPwaBanner = showPwaModal;
+const dismissPwaBanner = dismissPwaModal;
 
 async function triggerPwaInstall() {
   if (deferredPwaPrompt) {
@@ -2294,7 +2307,7 @@ async function triggerPwaInstall() {
       toast(T3('✅ অ্যাপ ইনস্টল সম্পন্ন হচ্ছে...', '✅ Installing App...', '✅ جاري التثبيت...'));
     }
     deferredPwaPrompt = null;
-    dismissPwaBanner();
+    dismissPwaModal();
   } else {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if (isIOS) {
@@ -2306,7 +2319,7 @@ async function triggerPwaInstall() {
                "Tap the browser menu (⋮) and select 'Install app' or 'Add to Home screen'.",
                "افتح قائمة المتصفح (⋮) واختر 'تثبيت التطبيق'"));
     }
-    dismissPwaBanner();
+    dismissPwaModal();
   }
 }
 
@@ -2325,7 +2338,10 @@ function dismissSplash() {
   sp.style.transition = "opacity 0.4s ease";
   sp.style.opacity = "0";
   sp.style.pointerEvents = "none";
-  setTimeout(() => { sp.style.display = "none"; }, 400);
+  setTimeout(() => {
+    sp.style.display = "none";
+    setTimeout(showPwaModal, 800);
+  }, 400);
 }
 
 function openTourModal() {
@@ -2384,6 +2400,13 @@ function applyViewMode() {
     document.body.classList.add("mode-mobile");
   }
 
+  const vmTxt = document.getElementById("dr-vm-txt");
+  if (vmTxt) {
+    if (mode === "pc") vmTxt.textContent = "💻 " + T3("পিসি", "PC", "كمبيوتر");
+    else if (mode === "mobile") vmTxt.textContent = "📱 " + T3("মোবাইল", "Mobile", "جوال");
+    else vmTxt.textContent = "⚡ " + T3("অটো", "Auto", "تلقائي");
+  }
+
   const pill = document.getElementById("view-mode-pill");
   if (pill) {
     if (mode === "pc") pill.textContent = "💻 PC Web";
@@ -2424,6 +2447,18 @@ function applyTheme() {
   document.body.className = S.profile.dark ? "" : "light";
   applyViewMode();
   document.documentElement.dir = "ltr";
+
+  const drLang = document.getElementById("dr-lang-txt");
+  if (drLang) drLang.textContent = L() === "bn" ? "বাংলা" : "English";
+
+  const drIcon = document.getElementById("dr-theme-icon");
+  const drTxt = document.getElementById("dr-theme-txt");
+  if (drIcon) drIcon.textContent = S.profile.dark ? "🌙" : "☀️";
+  if (drTxt) drTxt.textContent = S.profile.dark ? T3("ডার্ক", "Dark", "داكن") : T3("লাইট", "Light", "فاتح");
+
+  const drPref = document.getElementById("dr-pref-title");
+  if (drPref) drPref.textContent = T3("ডিসপ্লে ও ভাষা সেটিংস", "Display & Language", "إعدادات العرض واللغة");
+
   const pill = document.getElementById("theme-pill");
   if (pill) pill.textContent = S.profile.dark ? "🌙" : "☀️";
   const lPill = document.getElementById("lang-pill");
@@ -3199,7 +3234,12 @@ const V = {
         <div style="font-size:56px; margin-bottom:12px;">⏱️</div>
         <h3 class="gold-text" style="font-size:26px; letter-spacing:2px;">MYHOUR</h3>
         <div class="k" style="font-size:16px; margin:8px 0;">${T3("এই অ্যাপ তৈরি ও পরিচালনা করেছে " + COMPANY, "Created and owned by " + COMPANY, "تم إنشاؤه وإدارته بواسطة " + COMPANY)}</div>
-        <div style="margin-top:20px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY}. All rights reserved.</div>
+        <div style="margin-top:14px; font-size:14px;">
+          <a href="https://www.mrtech.top" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--gold-border); padding:10px 22px; border-radius:24px; background:rgba(214,170,84,0.14); box-shadow:0 4px 14px rgba(0,0,0,0.3);">
+            🌐 www.mrtech.top
+          </a>
+        </div>
+        <div style="margin-top:22px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY} (www.mrtech.top). All rights reserved.</div>
       </div>`;
   },
 
@@ -4948,6 +4988,16 @@ function row(a, b, key, i) {
 
 function render() {
   applyTheme();
+
+  const s = sum();
+  const hdrBalVal = document.getElementById("hdr-balance-val");
+  const hdrBalTitle = document.getElementById("hdr-bal-title");
+  if (hdrBalVal) {
+    hdrBalVal.textContent = "SAR " + f(s.net);
+  }
+  if (hdrBalTitle) {
+    hdrBalTitle.textContent = T3("ব্যালেন্স (হাতে)", "In Hand", "في اليد");
+  }
 
   const sbLinks = document.getElementById("sidebar-links");
   if (sbLinks) {
