@@ -1629,6 +1629,12 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 #au .gbtn { width:100%; padding:12px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:14px; }
 #au .gbtn b { font-size:16px; color:#4285F4; }
 #au button:disabled { opacity:.6; pointer-events:none; }
+
+@media (min-width: 900px) {
+  body:not(.mode-mobile) .pc-only-controls {
+    display: inline-flex !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -1762,6 +1768,20 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     <div class="s-nav-title" id="sb-menu-title">Main Navigation</div>
     <div id="sidebar-links"></div>
 
+      <!-- Desktop Sidebar Footer Controls -->
+    <div style="padding:14px; border-top:1px solid var(--bd); margin-top:auto; background:rgba(255,255,255,0.02);">
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.8px; color:var(--t3); font-weight:700; margin-bottom:8px;">
+        ⚙️ <span id="sb-pref-title">ডিসপ্লে ও ভাষা</span>
+      </div>
+      <div style="display:flex; gap:6px; margin-bottom:6px;">
+        <button class="s" onclick="cycleLang()" style="flex:1; padding:7px 4px; font-size:11.5px; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:4px;" title="ভাষা পরিবর্তন">
+          <span>🌐</span> <b id="sb-lang-txt">বাংলা</b>
+        </button>
+        <button class="s" onclick="toggleTheme()" style="flex:1; padding:7px 4px; font-size:11.5px; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:4px;" title="থিম পরিবর্তন">
+          <span id="sb-theme-icon">🌙</span> <span id="sb-theme-txt">ডার্ক</span>
+        </button>
+      </div>
+    </div>
   </aside>
 
   <!-- Content Stage -->
@@ -1782,6 +1802,15 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
       </div>
 
       <div class="header-controls-right" style="display:flex; align-items:center; gap:8px; margin-left:auto;">
+        <!-- PC / Desktop Quick Controls (Language & Theme for PC Users) -->
+        <div class="pc-only-controls" style="display:none; align-items:center; gap:8px; margin-right:4px;">
+          <button class="s" onclick="cycleLang()" style="padding:6px 11px; font-size:12.5px; border-radius:12px; display:inline-flex; align-items:center; gap:5px; cursor:pointer;" title="ভাষা পরিবর্তন">
+            <span>🌐</span> <b id="pc-lang-txt">বাংলা</b>
+          </button>
+          <button class="s" onclick="toggleTheme()" style="padding:6px 11px; font-size:12.5px; border-radius:12px; display:inline-flex; align-items:center; gap:5px; cursor:pointer;" title="ডার্ক / লাইট থিম">
+            <span id="pc-theme-icon">🌙</span> <span id="pc-theme-txt">ডার্ক</span>
+          </button>
+        </div>
         <div id="hdr-balance-pill" onclick="go('balance')" title="হাতে নিট ব্যালেন্স" style="display:inline-flex; align-items:center; gap:6px; padding:3px 4px; background:none; border:none; box-shadow:none; cursor:pointer;">
           <span style="font-size:15px; line-height:1;">💰</span>
           <div style="display:flex; flex-direction:column; align-items:flex-end; line-height:1.15;">
@@ -1847,8 +1876,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     <!-- Developer Info Footer -->
     <div style="padding:16px 18px 24px; text-align:center; border-top:1.5px solid var(--bd); margin-top:10px; background:rgba(0,0,0,0.25);">
       <div style="font-size:11px; color:var(--t3); margin-bottom:5px;">ডেভেলপার ও প্রযুক্তি সেবা</div>
-      <a href="https://www.mrtech.top" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-size:13.5px; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--gold-border); padding:6px 14px; border-radius:16px; background:rgba(214,170,84,0.12);">
-        🌐 www.mrtech.top
+      <a href="https://nexqiro.github.io/mr-tech/" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-size:13.5px; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--gold-border); padding:6px 14px; border-radius:16px; background:rgba(214,170,84,0.12);">
+        🌐 www.mrtech.com
       </a>
       <div style="font-size:10.5px; color:var(--t2); margin-top:4px;">MrTech Intelligent Systems</div>
     </div>
@@ -3312,9 +3341,13 @@ const V = {
               <div class="k">${T3("মোবাইল নম্বর", "Contact Phone")}</div>
               <input id="p3" value="${esc(p.contact || '')}" inputmode="tel">
             </div>
-            <div class="wide">
+            <div>
               <div class="k">${T3("পেশা / পদবী", "Profession")}</div>
               <input id="p4" value="${p.profession || ''}">
+            </div>
+            <div>
+              <div class="k">${T3("আপনার দেশ", "Your Country", "بلد الإقامة")}</div>
+              ${countrySelectHTML("p_country", p.country || "")}
             </div>
             <div>
               <div class="k">${T3("ডিফল্ট রেমিট্যান্স রেট (SAR → BDT)", "Default Remittance Rate")}</div>
@@ -3343,11 +3376,11 @@ const V = {
         <h3 class="gold-text" style="font-size:26px; letter-spacing:2px;">MYHOUR</h3>
         <div class="k" style="font-size:16px; margin:8px 0;">${T3("এই অ্যাপ তৈরি ও পরিচালনা করেছে " + COMPANY, "Created and owned by " + COMPANY, "تم إنشاؤه وإدارته بواسطة " + COMPANY)}</div>
         <div style="margin-top:14px; font-size:14px;">
-          <a href="https://www.mrtech.top" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--gold-border); padding:10px 22px; border-radius:24px; background:rgba(214,170,84,0.14); box-shadow:0 4px 14px rgba(0,0,0,0.3);">
-            🌐 www.mrtech.top
+          <a href="https://nexqiro.github.io/mr-tech/" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--gold-border); padding:10px 22px; border-radius:24px; background:rgba(214,170,84,0.14); box-shadow:0 4px 14px rgba(0,0,0,0.3);">
+            🌐 www.mrtech.com
           </a>
         </div>
-        <div style="margin-top:22px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY} (www.mrtech.top). All rights reserved.</div>
+        <div style="margin-top:22px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY} (<a href="https://nexqiro.github.io/mr-tech/" target="_blank" rel="noopener noreferrer" style="color:var(--gold); text-decoration:underline;">www.mrtech.com</a>). All rights reserved.</div>
       </div>`;
   },
 
@@ -3487,6 +3520,7 @@ function sp() {
   if (!PHONE_RE.test(ph)) return alert(T3("সঠিক মোবাইল নম্বর দিন", "Enter a valid mobile number"));
   Object.assign(S.profile, {
     name: nm,
+    country: val("p_country") || S.profile.country || "",
     iqama: val("p_iq").trim(),
     passport: val("p_pp").trim(),
     email: U ? U.email : S.profile.email,
@@ -3497,8 +3531,8 @@ function sp() {
   save();
   render();
   if (DB && U) {
-    DB.ref("users/" + U.uid).update({ name: nm, phone: ph }).catch(() => {
-      toast(T3("⚠️ নাম/মোবাইল অনলাইনে আপডেট হয়নি", "⚠️ Could not update name/phone online"));
+    DB.ref("users/" + U.uid).update({ name: nm, phone: ph, country: S.profile.country }).catch(() => {
+      toast(T3("⚠️ অনলাইনে আপডেট হয়নি", "⚠️ Could not update online"));
     });
   }
   toast(T3("✅ প্রোফাইল সংরক্ষিত হয়েছে", "✅ Profile Saved", "✅ تم حفظ الملف"));
@@ -4319,7 +4353,7 @@ function tsPdf(o) {
   g.textAlign = "center";
   g.fillStyle = "#FDE68A";
   g.font = `800 26px ${FF}`;
-  g.fillText("MYHOUR  ✦  SMART WORK HOURS & FINANCIAL SUITE  ✦  POWERED BY WWW.MRTECH.TOP", W / 2, fy + 14);
+  g.fillText("MYHOUR  ✦  SMART WORK HOURS & FINANCIAL SUITE  ✦  POWERED BY WWW.MRTECH.COM", W / 2, fy + 14);
 
   // 10. Generate High-Quality JPEG (0.98 Quality eliminates compression noise)
   const dataUrl = cv.toDataURL("image/jpeg", 0.98);
@@ -4643,6 +4677,33 @@ function googleBtn() {
     <button class="s gbtn" onclick="googleSignIn()"><b>G</b> ${T3("Google দিয়ে চালিয়ে যান", "Continue with Google")}</button>`;
 }
 
+const COUNTRY_LIST = [
+  "সৌদি আরব (Saudi Arabia)",
+  "বাংলাদেশ (Bangladesh)",
+  "সংযুক্ত আরব আমিরাত (UAE)",
+  "কাতার (Qatar)",
+  "কুয়েত (Kuwait)",
+  "ওমান (Oman)",
+  "বাহরাইন (Bahrain)",
+  "ভারত (India)",
+  "পাকিস্তান (Pakistan)",
+  "নেপাল (Nepal)",
+  "মালয়েশিয়া (Malaysia)",
+  "সিঙ্গাপুর (Singapore)",
+  "যুক্তরাষ্ট্র (USA)",
+  "যুক্তরাজ্য (UK)",
+  "কানাডা (Canada)",
+  "অন্যান্য দেশ (Other Country)"
+];
+
+function countrySelectHTML(id, sel) {
+  const opts = COUNTRY_LIST.map(c => `<option value="${c}" ${c === sel ? 'selected' : ''}>${c}</option>`).join("");
+  return `<select id="${id}" style="width:100%; box-sizing:border-box; padding:12px; margin-bottom:10px; border-radius:12px; background:var(--sf2, #0A1220); color:var(--t1, #F1F5F9); border:1.5px solid var(--bd, #203350); font-size:14px; outline:none;">
+    <option value="" disabled ${!sel ? 'selected' : ''}>🌍 ${T3("আপনার দেশ নির্বাচন করুন", "Select your country", "اختر بلدك")}</option>
+    ${opts}
+  </select>`;
+}
+
 function gate() {
   const el = document.getElementById("au");
   if (!el) return;
@@ -4689,6 +4750,7 @@ function gate() {
           </div>
           <input id="cp1" placeholder="${T3("আপনার নাম", "Your Name")}" autocomplete="name" value="${esc(PENDING_NAME)}">
           <input id="cp2" placeholder="${T3("মোবাইল নম্বর", "Mobile number")}" autocomplete="tel" inputmode="tel">
+          ${countrySelectHTML("cp_country")}
           <div class="er" id="aue">${esc(CP_ERR)}</div>
           <button class="big" onclick="completeProfile()">${T3("সংরক্ষণ করে শুরু করুন", "Save & Continue")}</button>
         </div>
@@ -4708,6 +4770,7 @@ function gate() {
           </div>
           <input id="au1" placeholder="${T3("আপনার নাম", "Your Name", "الاسم")}" autocomplete="name">
           <input id="au5" placeholder="${T3("মোবাইল নম্বর", "Mobile number", "رقم الجوال")}" autocomplete="tel" inputmode="tel">
+          ${countrySelectHTML("au_country")}
           <input id="au2" type="email" placeholder="${T3("ইমেইল", "Email", "البريد")}" autocomplete="email">
           ${pwdField("au3", "eye_su1", T3("পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)", "Password (min 6 chars)", "كلمة المرور"), "new-password")}
           ${pwdField("au4", "eye_su2", T3("পাসওয়ার্ড আবার লিখুন", "Confirm Password", "تأكيد كلمة المرور"), "new-password")}
@@ -4745,15 +4808,17 @@ function signup() {
   if (AUTH_BUSY) return;
   const n = val("au1").trim().replace(/\s+/g, " ");
   const ph = val("au5").replace(/[\s-]/g, "");
+  const c = val("au_country");
   const em = val("au2").trim().toLowerCase();
   const p = val("au3");
   if (n.length < 2) return authMsg(T3("আপনার নাম লিখুন", "Enter your name"));
   if (!PHONE_RE.test(ph)) return authMsg(T3("সঠিক মোবাইল নম্বর দিন", "Enter a valid mobile number"));
+  if (!c) return authMsg(T3("আপনার দেশ নির্বাচন করুন", "Please select your country", "يرجى اختيار بلدك"));
   if (!EMAIL_RE.test(em)) return authMsg(T3("সঠিক ইমেইল দিন", "Enter a valid email"));
   if (p.length < 6) return authMsg(T3("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের দিন", "Password must be at least 6 characters"));
   if (p !== val("au4")) return authMsg(T3("দুইটি পাসওয়ার্ড মেলেনি", "Passwords do not match"));
   authBusy(true);
-  SIGNUP_PENDING = { name: n, phone: ph };
+  SIGNUP_PENDING = { name: n, phone: ph, country: c };
   AUTH.createUserWithEmailAndPassword(em, p).catch((e) => {
     SIGNUP_PENDING = null;
     authBusy(false);
@@ -4793,12 +4858,16 @@ function forgotPassword() {
     .catch((e) => authMsg(authErr(e)));
 }
 
-async function saveUserRecord(name, phone) {
+async function saveUserRecord(name, phone, country) {
   const ref = DB.ref("users/" + U.uid);
-  const data = { name, phone, email: U.email };
+  const data = { name, phone, email: U.email, country: country || S.profile.country || "" };
   if (REC) await ref.update(data);
   else await ref.set(Object.assign({ createdAt: firebase.database.ServerValue.TIMESTAMP }, data));
   REC = data;
+  if (name) S.profile.name = name;
+  if (phone) S.profile.contact = phone;
+  if (country) S.profile.country = country;
+  save();
   try { localStorage.setItem("myhour_rec_" + U.uid, JSON.stringify(data)); } catch (e) {}
 }
 
@@ -4806,11 +4875,13 @@ async function completeProfile() {
   if (AUTH_BUSY) return;
   const n = val("cp1").trim().replace(/\s+/g, " ");
   const ph = val("cp2").replace(/[\s-]/g, "");
+  const c = val("cp_country");
   if (n.length < 2) return authMsg(T3("আপনার নাম লিখুন", "Enter your name"));
   if (!PHONE_RE.test(ph)) return authMsg(T3("সঠিক মোবাইল নম্বর দিন", "Enter a valid mobile number"));
+  if (!c) return authMsg(T3("আপনার দেশ নির্বাচন করুন", "Please select your country", "يرجى اختيار بلدك"));
   authBusy(true);
   try {
-    await saveUserRecord(n, ph);
+    await saveUserRecord(n, ph, c);
     authBusy(false);
     finishLogin();
   } catch (e) {
@@ -4841,7 +4912,7 @@ async function onAuthChanged(user) {
 
   if (SIGNUP_PENDING) {
     const sp0 = SIGNUP_PENDING; SIGNUP_PENDING = null;
-    try { await saveUserRecord(sp0.name, sp0.phone); }
+    try { await saveUserRecord(sp0.name, sp0.phone, sp0.country); }
     catch (e) { REC = null; PENDING_NAME = sp0.name; CP_ERR = T3("তথ্য সংরক্ষণ করা যায়নি, আবার চেষ্টা করুন", "Could not save your details, try again"); authBusy(false); gate(); return; }
   } else {
     let failed = false;
@@ -5143,7 +5214,13 @@ function loadAdminUsers() {
     ADM = [];
     s.forEach((c) => {
       const v = c.val() || {};
-      ADM.push({ name: v.name || "", phone: v.phone || "", email: v.email || "", at: v.createdAt || 0 });
+      ADM.push({
+        name: v.name || "",
+        phone: v.phone || "",
+        email: v.email || "",
+        country: v.country || "",
+        at: v.createdAt || 0
+      });
     });
     ADM.sort((a, b) => b.at - a.at);
     renderAdminList();
@@ -5157,14 +5234,22 @@ function renderAdminList() {
   const el = document.getElementById("adm-list");
   if (!el) return;
   const q = (val("adm-q") || "").trim().toLowerCase();
-  const list = ADM.filter(u => !q || (u.name + " " + u.phone + " " + u.email).toLowerCase().includes(q));
+  const list = ADM.filter(u => !q || (u.name + " " + u.phone + " " + u.email + " " + (u.country || "")).toLowerCase().includes(q));
   const cnt = document.getElementById("adm-count");
   if (cnt) cnt.textContent = ADM.length + " " + T3("জন ইউজার", "users");
   el.innerHTML = list.length ? list.map(u => `
-    <div class="r">
+    <div class="r" style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid var(--bd); flex-wrap:wrap; gap:8px;">
       <div>
-        <b>${esc(u.name)}</b>
-        <div class="k">${esc(u.phone)} · ${esc(u.email)}</div>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <b style="font-size:14.5px;">${esc(u.name || 'User')}</b>
+          ${u.country ? `<span style="background:rgba(214,170,84,0.18); color:var(--gold); border:1px solid var(--gold-border); padding:2px 8px; border-radius:12px; font-size:11px; font-weight:700;">🌍 ${esc(u.country)}</span>` : `<span style="background:rgba(255,255,255,0.06); color:var(--t3); font-size:10.5px; padding:2px 6px; border-radius:8px;">দেশ নেই</span>`}
+        </div>
+        <div class="k" style="font-size:12px; margin-top:4px;">
+          <span>📞 ${esc(u.phone || 'N/A')}</span> · <span>✉️ ${esc(u.email || 'N/A')}</span>
+        </div>
+      </div>
+      <div style="font-size:11px; color:var(--t3); text-align:right;">
+        ${u.at ? new Date(u.at).toLocaleDateString() : ''}
       </div>
     </div>`).join("") : `<p class="k" style="text-align:center; padding:16px;">${T3("কোনো ইউজার পাওয়া যায়নি", "No users found")}</p>`;
 }
