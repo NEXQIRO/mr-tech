@@ -1642,8 +1642,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 <!-- Centered PWA Install Popup Dialog (Middle of Mobile Screen) -->
 <div id="pwa-install-modal" class="pwa-modal-overlay" onclick="if(event.target===this)dismissPwaModal()">
   <div class="pwa-modal-card">
-    <div class="pwa-modal-icon" style="width:68px; height:68px; border-radius:50%; overflow:hidden; margin-bottom:12px; box-shadow:0 0 24px var(--gold-glow); background:radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C); padding:2px;">
-      <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:contain; border-radius:50%;">
+    <div class="pwa-modal-icon" style="width:72px; height:72px; border-radius:50%; overflow:hidden; margin-bottom:12px; box-shadow:0 0 20px var(--gold-glow); background:#F7F3E7; border:2px solid var(--gold); padding:0;">
+      <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
     </div>
     <h3 class="gold-text" style="margin:10px 0 6px; font-size:20px; letter-spacing:1px;" id="pwa-modal-title">MYHOUR ইনস্টল করুন</h3>
     <p style="font-size:13.5px; color:var(--t2); line-height:1.45; margin:0 0 20px;" id="pwa-modal-desc">
@@ -2057,6 +2057,37 @@ function save(skipCloudSync) {
 
 function syncToCloud() {
   if (!DB || !U || !U.uid || !S || CLOUD_SYNCING) return;
+
+  const localItems = (S.duty || []).length + (S.emp || []).length + (S.pay || []).length;
+  // Safety: If local state has zero items, check if cloud already has records before overwriting
+  if (localItems === 0) {
+    DB.ref("userData/" + U.uid).once("value").then((snap) => {
+      const v = snap.val();
+      if (v && v.state) {
+        try {
+          const rem = typeof v.state === "string" ? JSON.parse(v.state) : v.state;
+          const remItems = (rem.duty || []).length + (rem.emp || []).length + (rem.pay || []).length;
+          if (remItems > 0) {
+            // Remote has data! Pull it instead of overwriting!
+            CLOUD_SYNCING = true;
+            S = normalizeState(rem);
+            save(true);
+            CLOUD_SYNCING = false;
+            if (READY_APP) render();
+            return;
+          }
+        } catch (e) {}
+      }
+      // Cloud is also empty, safe to upload
+      doCloudUpload();
+    }).catch(() => { doCloudUpload(); });
+  } else {
+    doCloudUpload();
+  }
+}
+
+function doCloudUpload() {
+  if (!DB || !U || !U.uid || !S) return;
   const payload = {
     updatedAt: firebase.database.ServerValue.TIMESTAMP,
     clientTime: Date.now(),
@@ -2064,8 +2095,13 @@ function syncToCloud() {
     clientId: CLIENT_ID,
     state: JSON.stringify(S)
   };
-  DB.ref("userData/" + U.uid).set(payload).catch((err) => {
+  DB.ref("userData/" + U.uid).set(payload).then(() => {
+    // uploaded successfully
+  }).catch((err) => {
     console.warn("Cloud sync error:", err);
+    if (err && err.code === "PERMISSION_DENIED") {
+      toast(T3("⚠️ ফায়ারবেজ রুলস পারমিশন সমস্যা: ডাটাবেজ রুলস চেক করুন", "⚠️ Firebase permission denied: check database rules"), "error");
+    }
   });
 }
 
@@ -2147,7 +2183,7 @@ function loadLocalState(uid) {
   const fresh = !st;
   S = normalizeState(st);
   if (fresh) { S.profile.lang = pre.lang; S.profile.dark = pre.dark; }
-  save();
+  save(true); // CRITICAL: skipCloudSync=true so local empty state never overwrites remote cloud records on fresh install!
 
   const k = KEY;
   idbGet(k).then((str) => {
