@@ -757,20 +757,38 @@ section {
 }
 
 /* ==========================================================================
+/* Water Ripple Liquid Surface Canvas (Floating on Water Effect) */
+#waterRippleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+}
+
+/* ==========================================================================
    Skills Section
    ========================================================================== */
+#skills {
+  scroll-margin-top: 85px;
+}
+
 .skills-tabs {
   display: flex;
   justify-content: center;
   gap: 0.6rem;
   flex-wrap: wrap;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
 }
 
 .tab-btn {
   padding: 0.55rem 1.25rem;
   border-radius: var(--radius-full);
-  background: var(--bg-card);
+  background: rgba(14, 22, 38, 0.85);
   border: 1px solid var(--border-subtle);
   color: var(--text-muted);
   font-size: 0.86rem;
@@ -782,26 +800,30 @@ section {
 
 .tab-btn:hover,
 .tab-btn.active {
-  background: rgba(0, 240, 255, 0.12);
+  background: rgba(0, 240, 255, 0.14);
   border-color: var(--accent-cyan);
   color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.25);
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.15rem;
   width: 100%;
 }
 
 .skill-card {
-  background: var(--bg-card);
+  background: rgba(14, 22, 38, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 1.35rem;
+  padding: 0.95rem 1.15rem;
   transition: var(--transition-smooth);
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
 }
 
 .skill-card:hover {
@@ -814,8 +836,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.85rem;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .skill-info {
@@ -823,46 +844,89 @@ section {
   align-items: center;
   gap: 0.75rem;
   min-width: 0;
+  flex: 1;
+}
+
+.skill-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.12);
 }
 
 .skill-icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: var(--accent-cyan);
-  flex-shrink: 0;
+}
+
+.skill-meta-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .skill-name {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 700;
+  color: #FFFFFF;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.skill-badge {
-  font-size: 0.72rem;
+.skill-cat-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.skill-stat-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.skill-percent {
+  font-size: 0.84rem;
   font-weight: 700;
-  padding: 0.2rem 0.6rem;
+  color: var(--accent-cyan);
+  font-family: monospace;
+}
+
+.skill-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
   border-radius: var(--radius-full);
   background: rgba(139, 92, 246, 0.18);
   color: #DDD6FE;
+  border: 1px solid rgba(139, 92, 246, 0.35);
   text-transform: uppercase;
-  flex-shrink: 0;
+  letter-spacing: 0.5px;
 }
 
 .skill-bar-container {
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  height: 5px;
+  background: rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-top: auto;
+  position: relative;
 }
 
 .skill-progress {
   height: 100%;
   border-radius: var(--radius-full);
   background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
   transition: width 1s ease-in-out;
 }
 
@@ -1789,32 +1853,75 @@ textarea.form-control {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
-  .projects-grid,
-  .services-grid,
+  #skills,
+  #projects,
+  #services,
+  #journey,
+  #contact,
+  #about {
+    scroll-margin-top: 85px;
+    padding-top: 4.5rem;
+    padding-bottom: 2.5rem;
+  }
+  .skills-tabs {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.5rem;
+    padding: 0.4rem 0.25rem 0.8rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  .skills-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .skills-tabs .tab-btn {
+    font-size: 0.78rem;
+    padding: 0.42rem 0.85rem;
+    flex-shrink: 0;
+  }
   .skills-grid {
     grid-template-columns: 1fr;
-    gap: 1.15rem;
+    gap: 0.75rem;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
   }
-  .skill-card,
-  .project-card,
-  .service-card {
+  .skill-card {
+    padding: 0.8rem 1rem;
+    gap: 0.55rem;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
   }
-  .skills-tabs,
+  .skill-icon-box {
+    width: 34px;
+    height: 34px;
+  }
+  .skill-icon {
+    font-size: 1.15rem;
+  }
+  .skill-name {
+    font-size: 0.88rem;
+  }
+  .skill-percent {
+    font-size: 0.8rem;
+  }
+  .skill-badge {
+    font-size: 0.62rem;
+    padding: 0.12rem 0.45rem;
+  }
   .projects-filter {
     justify-content: center;
     gap: 0.45rem;
     padding: 0 0.25rem;
     margin-bottom: 2rem;
   }
-  .tab-btn,
   .project-filter-btn {
     font-size: 0.8rem;
     padding: 0.42rem 0.85rem;
@@ -1871,3 +1978,23 @@ textarea.form-control {
     gap: 1rem;
   }
 }
+
+/* ==========================================================================
+   Ambient Water Floating Elements (Floating on Water Effect)
+   ========================================================================== */
+@keyframes water-surface-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-3.5px); }
+  100% { transform: translateY(0px); }
+}
+
+.skill-card:nth-child(odd),
+.project-card:nth-child(odd) {
+  animation: water-surface-float 6.5s ease-in-out infinite;
+}
+
+.skill-card:nth-child(even),
+.project-card:nth-child(even) {
+  animation: water-surface-float 7.8s ease-in-out 1.2s infinite;
+}
+

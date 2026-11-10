@@ -72,7 +72,7 @@ window.INITIAL_SEED_DATA = {
       statusType: "completed",
       description: "High-throughput sports and interactive gaming platform featuring real-time odds calculation, dynamic betting slips, user wallet balance synchronization, and low-latency WebSocket communication.",
       technologies: ["React", "Node.js", "WebSocket", "Tailwind CSS", "REST APIs"],
-      image: "images/profile.jpg",
+      image: "images/project_mostwin.jpg",
       demoUrl: "https://example.com/demo/mostwin88",
       githubUrl: "https://github.com",
       featured: true,
@@ -86,7 +86,7 @@ window.INITIAL_SEED_DATA = {
       statusType: "production",
       description: "Modern SaaS digital agency management system featuring automated client onboarding flows, task delegation telemetry, invoice tracking, and secure encrypted messaging channels.",
       technologies: ["Next.js", "Tailwind CSS", "Firebase", "Node.js", "Chart.js"],
-      image: "images/profile.jpg",
+      image: "images/project_nexqiro.jpg",
       demoUrl: "https://example.com/demo/nexqiro",
       githubUrl: "https://github.com",
       featured: true,
@@ -100,7 +100,7 @@ window.INITIAL_SEED_DATA = {
       statusType: "enterprise",
       description: "Comprehensive administration control center with fine-grained role-based permissions (RBAC), user activity audits, real-time analytics visualizations, and secure database record operations.",
       technologies: ["JavaScript (ES6+)", "Firebase Realtime DB", "Firebase Auth", "HTML5/CSS3"],
-      image: "images/profile.jpg",
+      image: "images/project_admin.jpg",
       demoUrl: "https://example.com/demo/admin-panel",
       githubUrl: "https://github.com",
       featured: true,
@@ -114,7 +114,7 @@ window.INITIAL_SEED_DATA = {
       statusType: "demo",
       description: "Real-time multiplier crash game engine built with HTML5 Canvas, responsive curve trajectories, provably fair algorithms, high-precision timer loops, and dynamic bet cash-out logic.",
       technologies: ["JavaScript", "HTML5 Canvas", "Audio API", "CSS Animations"],
-      image: "images/profile.jpg",
+      image: "images/project_aviator.jpg",
       demoUrl: "https://example.com/demo/aviator",
       githubUrl: "https://github.com",
       featured: true,
@@ -128,7 +128,7 @@ window.INITIAL_SEED_DATA = {
       statusType: "active",
       description: "Native productivity and time-logging application built for software engineers and remote freelancers. Features Pomodoro tracking, client billing calculations, and cloud synchronization.",
       technologies: ["Kotlin / Compose", "Android", "Firebase RTDB", "Coroutines"],
-      image: "images/profile.jpg",
+      image: "images/project_myhour.jpg",
       demoUrl: "https://example.com/demo/myhour",
       githubUrl: "https://github.com",
       featured: true,
@@ -142,7 +142,7 @@ window.INITIAL_SEED_DATA = {
       statusType: "completed",
       description: "Classic tabletop games engineered with custom tactile 2D physics, token collision calculations, smooth pawn animations, and turn-based local and remote pass-and-play logic.",
       technologies: ["Canvas API", "Physics Math", "JavaScript", "Touch Gestures"],
-      image: "images/profile.jpg",
+      image: "images/project_ludo.jpg",
       demoUrl: "https://example.com/demo/ludo-carrom",
       githubUrl: "https://github.com",
       featured: false,
@@ -222,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypingEffect();
   initContactForm();
   initLiveChatBot();
+  initWaterRippleEffect();
 
   // Render initial seed immediately
   renderPortfolio(currentPortfolioData);
@@ -377,10 +378,18 @@ function renderSkills(skillsData) {
     <div class="skill-card">
       <div class="skill-header">
         <div class="skill-info">
-          <i class="${skill.icon || 'fa-solid fa-code'} skill-icon"></i>
-          <span class="skill-name">${skill.name}</span>
+          <div class="skill-icon-box">
+            <i class="${skill.icon || 'fa-solid fa-code'} skill-icon"></i>
+          </div>
+          <div class="skill-meta-text">
+            <span class="skill-name">${skill.name}</span>
+            <span class="skill-cat-label">${skill.category || 'Tech Stack'}</span>
+          </div>
         </div>
-        <span class="skill-badge">${skill.level || 'Expert'}</span>
+        <div class="skill-stat-right">
+          <span class="skill-percent">${skill.percent || 90}%</span>
+          <span class="skill-badge">${skill.level || 'Expert'}</span>
+        </div>
       </div>
       <div class="skill-bar-container">
         <div class="skill-progress" style="width: ${skill.percent || 90}%;"></div>
@@ -1083,4 +1092,195 @@ function initLiveChatBot() {
     });
   }
 }
+
+/**
+ * =========================================================================
+ * INTERACTIVE LIQUID WATER RIPPLE & CAUSTIC ENGINE
+ * Provides real water ripples upon screen touch, drag, and scroll,
+ * giving the tactile feeling of dipping a hand into living water.
+ * =========================================================================
+ */
+function initWaterRippleEffect() {
+  const canvas = document.getElementById('waterRippleCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  // Resize listener
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }, { passive: true });
+
+  // Ripple Pool
+  const ripples = [];
+  const MAX_RIPPLES = 25;
+  let lastSpawnTime = 0;
+
+  class WaterRipple {
+    constructor(x, y, intensity = 1.0, maxRadius = 260) {
+      this.x = x;
+      this.y = y;
+      this.radius = 4;
+      this.maxRadius = maxRadius;
+      this.intensity = intensity;
+      this.speed = 3.2;
+      this.rings = 3;
+      this.wavelength = 20;
+    }
+
+    update() {
+      this.radius += this.speed;
+      this.intensity *= 0.965; // Viscous damping of water
+      return this.intensity > 0.015 && this.radius < this.maxRadius;
+    }
+
+    draw(context) {
+      for (let r = 0; r < this.rings; r++) {
+        const ringRad = this.radius - r * this.wavelength;
+        if (ringRad > 1) {
+          const progress = ringRad / this.maxRadius;
+          const alpha = this.intensity * (1 - progress) * (0.85 - r * 0.22);
+          if (alpha <= 0.005) continue;
+
+          // Main aquatic wave crest
+          context.beginPath();
+          context.arc(this.x, this.y, ringRad, 0, Math.PI * 2);
+          context.lineWidth = 2.4 - progress * 1.2;
+          context.strokeStyle = `rgba(0, 240, 255, ${Math.min(1, alpha).toFixed(3)})`;
+          context.shadowColor = '#00F0FF';
+          context.shadowBlur = 10;
+          context.stroke();
+
+          // Specular water surface shine (top reflection)
+          context.beginPath();
+          context.arc(this.x, this.y, ringRad, -Math.PI * 0.85, -Math.PI * 0.15);
+          context.lineWidth = 1.6;
+          context.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.6).toFixed(3)})`;
+          context.stroke();
+
+          // Deep violet-cyan refraction trough
+          context.beginPath();
+          context.arc(this.x, this.y, Math.max(1, ringRad - 7), 0, Math.PI * 2);
+          context.lineWidth = 1.8;
+          context.strokeStyle = `rgba(139, 92, 246, ${(alpha * 0.45).toFixed(3)})`;
+          context.shadowBlur = 0;
+          context.stroke();
+        }
+      }
+    }
+  }
+
+  function addDrop(x, y, intensity = 1.0, maxRadius = 260) {
+    if (ripples.length >= MAX_RIPPLES) {
+      ripples.shift();
+    }
+    ripples.push(new WaterRipple(x, y, intensity, maxRadius));
+  }
+
+  // Touch Interaction (Mobile)
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) {
+      for (let i = 0; i < e.touches.length; i++) {
+        const t = e.touches[i];
+        addDrop(t.clientX, t.clientY, 1.0, 280);
+      }
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    const now = Date.now();
+    if (now - lastSpawnTime > 40 && e.touches.length > 0) {
+      lastSpawnTime = now;
+      const t = e.touches[0];
+      addDrop(t.clientX, t.clientY, 0.65, 180);
+    }
+  }, { passive: true });
+
+  // Mouse / Pointer Interaction (Desktop)
+  window.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') {
+      addDrop(e.clientX, e.clientY, 0.9, 260);
+    }
+  }, { passive: true });
+
+  window.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'mouse') {
+      const now = Date.now();
+      if (now - lastSpawnTime > 80) {
+        lastSpawnTime = now;
+        addDrop(e.clientX, e.clientY, 0.35, 140);
+      }
+    }
+  }, { passive: true });
+
+  // Scroll Ripple Wake ("Theme Floating on Water")
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const now = Date.now();
+    if (now - lastSpawnTime > 65) {
+      lastSpawnTime = now;
+      const scrollDiff = Math.abs(window.scrollY - lastScrollY);
+      lastScrollY = window.scrollY;
+      const wakeX = width * (0.2 + Math.random() * 0.6);
+      const wakeY = height * (0.4 + Math.random() * 0.4);
+      addDrop(wakeX, wakeY, Math.min(0.85, 0.3 + scrollDiff * 0.01), 220);
+    }
+  }, { passive: true });
+
+  // Ambient Floating Water Waves Animation Loop
+  let time = 0;
+  function animate() {
+    time += 0.025;
+    ctx.clearRect(0, 0, width, height);
+
+    // 1. Draw subtle ambient water caustics at base (giving liquid depth)
+    ctx.save();
+    ctx.shadowBlur = 0;
+    
+    // Wave Layer 1
+    ctx.beginPath();
+    ctx.moveTo(0, height);
+    for (let x = 0; x <= width; x += 30) {
+      const y = height - 45 + Math.sin(x * 0.007 + time) * 14 + Math.cos(x * 0.003 - time * 0.6) * 10;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(width, height);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(0, 240, 255, 0.025)';
+    ctx.fill();
+
+    // Wave Layer 2
+    ctx.beginPath();
+    ctx.moveTo(0, height);
+    for (let x = 0; x <= width; x += 30) {
+      const y = height - 30 + Math.sin(x * 0.005 - time * 1.2) * 12 + Math.cos(x * 0.008 + time * 0.8) * 8;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(width, height);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(139, 92, 246, 0.018)';
+    ctx.fill();
+    ctx.restore();
+
+    // 2. Update and draw interactive touch ripples
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rip = ripples[i];
+      if (rip.update()) {
+        rip.draw(ctx);
+      } else {
+        ripples.splice(i, 1);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
 
