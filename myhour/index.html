@@ -518,77 +518,61 @@ body.light .tx {
 }
 
 /* ==========================================================================
-   TOP PWA INSTALL NOTIFICATION BANNER
+   CENTERED PWA INSTALL MODAL (APPEARS IN MIDDLE OF MOBILE SCREEN)
    ========================================================================== */
-.pwa-banner {
+.pwa-modal-overlay {
   position: fixed;
-  top: max(10px, env(safe-area-inset-top, 10px));
-  left: 50%;
-  right: auto;
-  width: min(380px, calc(100% - 24px));
-  box-sizing: border-box;
-  background: linear-gradient(135deg, rgba(16, 26, 44, 0.96) 0%, rgba(8, 13, 24, 0.97) 100%);
-  border: 1px solid rgba(214, 170, 84, 0.65);
-  border-radius: 20px;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 0 16px rgba(214, 170, 84, 0.3);
-  padding: 6px 12px;
-  display: flex;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  justify-content: center;
   z-index: 99999;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -120%);
-  transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 20px;
 }
-.pwa-banner.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, 0);
+.pwa-modal-overlay.show {
+  display: flex !important;
+  animation: pwaPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
-.pwa-banner .pwa-banner-icon img {
-  width: 30px !important;
-  height: 30px !important;
+@keyframes pwaPop {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
 }
-.pwa-banner .pwa-banner-text #pwa-desc {
-  font-size: 11px !important;
-  line-height: 1.25;
+.pwa-modal-card {
+  width: 100%;
+  max-width: 360px;
+  background: linear-gradient(150deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 40%, rgba(4,8,18,0.85)), var(--sf);
+  border: 1.5px solid var(--gold);
+  border-radius: 24px;
+  padding: 26px 20px 20px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px var(--gold-glow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.pwa-banner .pwa-install-btn {
-  padding: 7px 10px;
-  font-size: 11px;
+body.light .pwa-modal-card {
+  background: #FFFFFF;
+  border-color: rgba(168,125,34,0.45);
+  box-shadow: 0 20px 40px rgba(15,27,45,0.25);
 }
-.pwa-banner .pwa-dismiss-btn {
-  padding: 5px 8px;
-  min-width: 28px;
-}
-.pwa-banner.show {
-  transform: translateY(0);
-}
-.pwa-banner-content {
+.pwa-modal-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
+  justify-content: center;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.8), 0 6px 18px var(--gold-glow);
+  margin-bottom: 8px;
 }
-.pwa-banner-text {
-  min-width: 0;
-}
-.pwa-banner-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.pwa-install-btn {
-  padding: 8px 16px;
-  font-size: 13px;
-  border-radius: 20px;
-  white-space: nowrap;
+.pwa-modal-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #0A1220;
 }
 
 /* ==========================================================================
@@ -844,7 +828,7 @@ main {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px 18px calc(86px + env(safe-area-inset-bottom, 12px));
+  padding: 16px 18px calc(112px + env(safe-area-inset-bottom, 24px));
   -webkit-overflow-scrolling: touch;
   width: 100%;
   box-sizing: border-box;
@@ -861,20 +845,24 @@ nav#nv {
   display: none;
   background: var(--sf);
   border-top: 1.5px solid var(--gold-border);
-  box-shadow: 0 -6px 20px rgba(0,0,0,0.45);
-  z-index: 35;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.55);
+  z-index: 40;
   flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: 6px 4px max(8px, env(safe-area-inset-bottom, 8px));
+  padding-top: 10px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 14px));
   position: relative;
-  align-items: flex-end;
-  min-height: 64px;
+  align-items: center;
+  min-height: 74px;
+  overflow: visible;
 }
 nav#nv div {
   flex: 1;
   text-align: center;
-  padding: 4px 2px 2px;
+  padding: 2px 2px 2px;
   font-size: 11px;
   color: var(--t2);
   cursor: pointer;
@@ -884,7 +872,7 @@ nav#nv div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   user-select: none;
 }
 nav#nv div span:last-child {
@@ -910,9 +898,13 @@ nav#nv .em {
 nav#nv div.nav-home-btn {
   padding-bottom: 2px;
 }
+nav#nv div.nav-home-btn {
+  position: relative;
+  overflow: visible;
+}
 nav#nv div.nav-home-btn .em {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
   border: 2px solid #FFF1C5;
@@ -920,7 +912,7 @@ nav#nv div.nav-home-btn .em {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -16px auto 2px;
+  margin: -16px auto 3px;
   color: #0A1220;
   font-size: 22px;
   flex-shrink: 0;
@@ -1641,22 +1633,24 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 </head>
 <body>
 
-<!-- Top PWA Install Notification Banner (Centered, Compact & Refined) -->
-<div id="pwa-install-banner" class="pwa-banner">
-  <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
-    <img src="./icon-192.png" alt="MYHOUR" width="28" height="28" style="border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.4); flex-shrink:0;">
-    <div style="min-width:0;">
-      <b class="gold-text" style="font-size:13px; display:block; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="pwa-title">MYHOUR ইনস্টল করুন</b>
-      <div style="font-size:10.5px; color:var(--t2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="pwa-desc">অ্যাপের মতো ফুলস্ক্রিনে ব্যবহার করুন</div>
+<!-- Centered PWA Install Popup Dialog (Middle of Mobile Screen) -->
+<div id="pwa-install-modal" class="pwa-modal-overlay" onclick="if(event.target===this)dismissPwaModal()">
+  <div class="pwa-modal-card">
+    <div class="pwa-modal-icon" style="width:68px; height:68px; border-radius:50%; overflow:hidden; margin-bottom:12px; box-shadow:0 0 24px var(--gold-glow); background:radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C); padding:2px;">
+      <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:contain; border-radius:50%;">
     </div>
-  </div>
-  <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
-    <button class="btn pwa-install-btn" style="padding:6px 12px; font-size:12px; border-radius:14px;" onclick="triggerPwaInstall()">
-      📥 ইনস্টল
-    </button>
-    <button class="x pwa-dismiss-btn" style="padding:4px 6px; font-size:13px;" onclick="dismissPwaBanner()" title="Close">
-      ✕
-    </button>
+    <h3 class="gold-text" style="margin:10px 0 6px; font-size:20px; letter-spacing:1px;" id="pwa-modal-title">MYHOUR ইনস্টল করুন</h3>
+    <p style="font-size:13.5px; color:var(--t2); line-height:1.45; margin:0 0 20px;" id="pwa-modal-desc">
+      আপনার মোবাইলে সম্পূর্ণ অ্যাপের মতো ফুলস্ক্রিনে সহজ ও দ্রুত ব্যবহার করতে এখনই অ্যাপটি ইনস্টল করুন।
+    </p>
+    <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+      <button class="btn" style="width:100%; padding:13px; font-size:15px; font-weight:800; border-radius:14px; box-shadow:0 4px 16px var(--gold-glow);" onclick="triggerPwaInstall()">
+        📥 ইনস্টল করুন (Install App)
+      </button>
+      <button class="s" style="width:100%; padding:10px; font-size:13px; border-radius:14px;" onclick="dismissPwaModal()">
+        পরে করব (Maybe Later)
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1665,8 +1659,9 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
   <div class="lo-wrapper">
     <div class="sp-orbit-1"></div>
     <div class="sp-orbit-2"></div>
-    <div class="lo">
-      <svg viewBox="0 0 110 110">
+    <div class="lo" style="overflow:hidden; padding:4px;">
+      <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:contain; border-radius:50%;">
+      <svg viewBox="0 0 110 110" style="display:none;">
         <defs>
           <radialGradient id="spGoldDial" cx="35%" cy="30%" r="70%">
             <stop offset="0%" stop-color="#FFF7DA"/>
@@ -1745,11 +1740,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
   <!-- Desktop Sidebar -->
   <aside id="sidebar">
     <div class="brand-box">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 7v5l3 2"/>
-        </svg>
+      <div class="brand-icon" style="width:46px; height:46px; border-radius:50%; overflow:hidden; box-shadow:0 0 12px var(--gold-glow); flex-shrink:0;">
+        <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:contain; border-radius:50%;">
       </div>
       <div>
         <div class="brand-title gold-text">MYHOUR</div>
@@ -1778,19 +1770,20 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
         <span id="bkb" class="bkb" onclick="event.stopPropagation(); goBack(1)" aria-label="Back">
           <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
         </span>
-        <div class="header-logo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v5l3 2"/>
-          </svg>
+        <div class="header-logo-icon" style="width:36px; height:36px; border-radius:50%; overflow:hidden; box-shadow:0 0 10px var(--gold-glow); flex-shrink:0;">
+          <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:contain; border-radius:50%;">
         </div>
         <b class="gold-text">MYHOUR</b>
       </div>
 
       <div class="header-controls-right" style="display:flex; align-items:center; gap:8px; margin-left:auto;">
-        <span id="view-mode-pill" class="tx" onclick="cycleViewMode()" title="Toggle View Mode">⚡ Auto</span>
-        <span id="lang-pill" class="tx" onclick="cycleLang()">বাংলা</span>
-        <span id="theme-pill" class="tx" onclick="toggleTheme()">🌙</span>
+        <div id="hdr-balance-pill" class="tx" onclick="go('balance')" title="হাতে নিট ব্যালেন্স" style="display:inline-flex; align-items:center; gap:7px; padding:5px 12px; background:linear-gradient(135deg, rgba(214,170,84,0.2), rgba(14,22,38,0.95)); border:1.5px solid var(--gold); border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25); cursor:pointer;">
+          <span style="font-size:15px; line-height:1;">💰</span>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; line-height:1.15;">
+            <span style="font-size:9px; text-transform:uppercase; letter-spacing:0.5px; color:var(--t2); font-weight:700;" id="hdr-bal-title">ব্যালেন্স</span>
+            <span style="font-size:13.5px; font-weight:800; color:var(--gold);" id="hdr-balance-val">SAR 0.00</span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -1813,11 +1806,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     <div class="dh">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div class="brand-icon" style="width:40px; height:40px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <path d="M12 7v5l3 2"/>
-            </svg>
+          <div class="brand-icon" style="width:42px; height:42px; border-radius:50%; overflow:hidden; box-shadow:0 0 12px var(--gold-glow); flex-shrink:0;">
+            <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:contain; border-radius:50%;">
           </div>
           <div>
             <b class="gold-text" style="font-size:20px; letter-spacing:2px;">MYHOUR</b>
@@ -1828,7 +1818,32 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
       </div>
       <div id="dr-user-info" style="font-size:13px; color:var(--t1); margin-top:8px;"></div>
     </div>
+    <!-- Quick Display & Preference Controls (Language, Theme, View Mode) -->
+    <div style="padding:14px 16px 12px; border-bottom:1.5px solid var(--bd); background:rgba(255,255,255,0.03);">
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.8px; color:var(--t3); font-weight:700; margin-bottom:10px;">
+        ⚙️ <span id="dr-pref-title">ডিসপ্লে ও ভাষা সেটিংস</span>
+      </div>
+      <div style="display:flex; gap:8px; margin-bottom:8px;">
+        <button class="s" onclick="cycleLang()" style="flex:1; padding:9px 6px; font-size:12px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:5px;" title="ভাষা পরিবর্তন">
+          <span>🌐</span> <b id="dr-lang-txt">বাংলা</b>
+        </button>
+        <button class="s" onclick="toggleTheme()" style="flex:1; padding:9px 6px; font-size:12px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:5px;" title="থিম পরিবর্তন">
+          <span id="dr-theme-icon">🌙</span> <span id="dr-theme-txt">ডার্ক</span>
+        </button>
+      </div>
+      <button class="s" onclick="cycleViewMode()" style="width:100%; padding:9px 8px; font-size:12px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:6px;" title="ভিউ মোড পরিবর্তন">
+        <span>🖥️</span> <span>ভিউ মোড:</span> <b id="dr-vm-txt">⚡ অটো</b>
+      </button>
+    </div>
     <div id="dr-links" style="padding:10px 0;"></div>
+    <!-- Developer Info Footer -->
+    <div style="padding:16px 18px 24px; text-align:center; border-top:1.5px solid var(--bd); margin-top:10px; background:rgba(0,0,0,0.25);">
+      <div style="font-size:11px; color:var(--t3); margin-bottom:5px;">ডেভেলপার ও প্রযুক্তি সেবা</div>
+      <a href="https://www.mrtech.top" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-size:13.5px; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--gold-border); padding:6px 14px; border-radius:16px; background:rgba(214,170,84,0.12);">
+        🌐 www.mrtech.top
+      </a>
+      <div style="font-size:10.5px; color:var(--t2); margin-top:4px;">MrTech Intelligent Systems</div>
+    </div>
   </div>
 </div>
 
@@ -2239,20 +2254,18 @@ function del(k, i) {
 }
 
 /* ==========================================================================
-   PWA INSTALLATION PROMPT CONTROLLER (SLIDES DOWN FROM TOP)
+   PWA INSTALLATION MODAL CONTROLLER (CENTERED IN MIDDLE OF MOBILE SCREEN)
    ========================================================================== */
 let deferredPwaPrompt = null;
+let pwaModalShownThisSession = false;
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPwaPrompt = e;
   setTimeout(() => {
-    showPwaBanner();
-  }, 2600);
+    showPwaModal();
+  }, 1600);
 });
-
-let pwaBannerHideTimer = null;
-let pwaBannerShownThisSession = false;
 
 function splashVisible() {
   const sp = document.getElementById("sp");
@@ -2261,30 +2274,27 @@ function splashVisible() {
   return cs.display !== "none" && cs.visibility !== "hidden" && parseFloat(cs.opacity) > 0.02;
 }
 
-function showPwaBanner() {
+function showPwaModal() {
   if (window.AndroidBridge) return;
-  if (splashVisible()) { setTimeout(showPwaBanner, 600); return; }
+  if (splashVisible()) { setTimeout(showPwaModal, 800); return; }
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
-  if (sessionStorage.getItem('pwa_dismissed') || pwaBannerShownThisSession) return;
+  if (sessionStorage.getItem('pwa_dismissed') || pwaModalShownThisSession) return;
 
-  const banner = document.getElementById('pwa-install-banner');
-  if (!banner) return;
+  const modal = document.getElementById('pwa-install-modal');
+  if (!modal) return;
 
-  pwaBannerShownThisSession = true;
-  banner.classList.add('show');
-
-  if (pwaBannerHideTimer) clearTimeout(pwaBannerHideTimer);
-  pwaBannerHideTimer = setTimeout(() => {
-    banner.classList.remove('show');
-  }, 5000);
+  pwaModalShownThisSession = true;
+  modal.classList.add('show');
 }
 
-function dismissPwaBanner() {
-  const banner = document.getElementById('pwa-install-banner');
-  if (banner) banner.classList.remove('show');
-  if (pwaBannerHideTimer) clearTimeout(pwaBannerHideTimer);
+function dismissPwaModal() {
+  const modal = document.getElementById('pwa-install-modal');
+  if (modal) modal.classList.remove('show');
   sessionStorage.setItem('pwa_dismissed', '1');
 }
+
+const showPwaBanner = showPwaModal;
+const dismissPwaBanner = dismissPwaModal;
 
 async function triggerPwaInstall() {
   if (deferredPwaPrompt) {
@@ -2294,7 +2304,7 @@ async function triggerPwaInstall() {
       toast(T3('✅ অ্যাপ ইনস্টল সম্পন্ন হচ্ছে...', '✅ Installing App...', '✅ جاري التثبيت...'));
     }
     deferredPwaPrompt = null;
-    dismissPwaBanner();
+    dismissPwaModal();
   } else {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if (isIOS) {
@@ -2306,7 +2316,7 @@ async function triggerPwaInstall() {
                "Tap the browser menu (⋮) and select 'Install app' or 'Add to Home screen'.",
                "افتح قائمة المتصفح (⋮) واختر 'تثبيت التطبيق'"));
     }
-    dismissPwaBanner();
+    dismissPwaModal();
   }
 }
 
@@ -2325,7 +2335,10 @@ function dismissSplash() {
   sp.style.transition = "opacity 0.4s ease";
   sp.style.opacity = "0";
   sp.style.pointerEvents = "none";
-  setTimeout(() => { sp.style.display = "none"; }, 400);
+  setTimeout(() => {
+    sp.style.display = "none";
+    setTimeout(showPwaModal, 800);
+  }, 400);
 }
 
 function openTourModal() {
@@ -2384,6 +2397,13 @@ function applyViewMode() {
     document.body.classList.add("mode-mobile");
   }
 
+  const vmTxt = document.getElementById("dr-vm-txt");
+  if (vmTxt) {
+    if (mode === "pc") vmTxt.textContent = "💻 " + T3("পিসি", "PC", "كمبيوتر");
+    else if (mode === "mobile") vmTxt.textContent = "📱 " + T3("মোবাইল", "Mobile", "جوال");
+    else vmTxt.textContent = "⚡ " + T3("অটো", "Auto", "تلقائي");
+  }
+
   const pill = document.getElementById("view-mode-pill");
   if (pill) {
     if (mode === "pc") pill.textContent = "💻 PC Web";
@@ -2424,6 +2444,18 @@ function applyTheme() {
   document.body.className = S.profile.dark ? "" : "light";
   applyViewMode();
   document.documentElement.dir = "ltr";
+
+  const drLang = document.getElementById("dr-lang-txt");
+  if (drLang) drLang.textContent = L() === "bn" ? "বাংলা" : "English";
+
+  const drIcon = document.getElementById("dr-theme-icon");
+  const drTxt = document.getElementById("dr-theme-txt");
+  if (drIcon) drIcon.textContent = S.profile.dark ? "🌙" : "☀️";
+  if (drTxt) drTxt.textContent = S.profile.dark ? T3("ডার্ক", "Dark", "داكن") : T3("লাইট", "Light", "فاتح");
+
+  const drPref = document.getElementById("dr-pref-title");
+  if (drPref) drPref.textContent = T3("ডিসপ্লে ও ভাষা সেটিংস", "Display & Language", "إعدادات العرض واللغة");
+
   const pill = document.getElementById("theme-pill");
   if (pill) pill.textContent = S.profile.dark ? "🌙" : "☀️";
   const lPill = document.getElementById("lang-pill");
@@ -3146,40 +3178,143 @@ const V = {
 
   profile() {
     const p = S.profile;
+    const s = sum();
+    const dutyDaysCount = new Set(S.duty.map(d => String(d.date))).size;
+
+    // Month-by-month duty hours breakdown
+    const dutyMonths = [...new Set(S.duty.map(d => String(d.date).slice(0, 7)))].sort().reverse();
+    const monthCards = dutyMonths.length === 0 
+      ? `<div class="sub" style="text-align:center; padding:18px; color:var(--t2);">
+           ${T3("এখনও কোনো ডিউটি এন্ট্রি দেওয়া হয়নি।", "No duty entries recorded yet.")}
+           <div style="margin-top:10px;"><button class="btn" onclick="go('duty')">➕ ${T3("ডিউটি রেকর্ড শুরু করুন", "Log First Duty")}</button></div>
+         </div>`
+      : dutyMonths.map(mk => {
+          const list = S.duty.filter(d => String(d.date).slice(0, 7) === mk);
+          const days = new Set(list.map(d => String(d.date))).size;
+          const totH = list.reduce((a, d) => a + N(d.tot), 0);
+          const normH = list.reduce((a, d) => a + N(d.norm), 0);
+          const otH = list.reduce((a, d) => a + N(d.ot), 0);
+          const earn = list.reduce((a, d) => a + calcDutyPay(d), 0);
+          return `
+            <div style="padding:14px; margin-bottom:10px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid var(--bd); display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <b class="gold-text" style="font-size:15px;">🗓️ ${mlabel(mk)}</b>
+                <div style="display:flex; gap:6px;">
+                  <button class="s" onclick="pd('${mk}')" style="font-size:11.5px; padding:6px 10px; border-radius:10px; font-weight:700;" title="A4 PDF টাইমশিট তৈরি">
+                    📄 ${T3("PDF টাইমশিট", "PDF Timesheet")}
+                  </button>
+                  <button class="s" onclick="go('duty')" style="font-size:11.5px; padding:6px 10px; border-radius:10px;" title="ডিউটি দেখুন">
+                    👁️ ${T3("ডিউটি তালিকা", "View Duty")}
+                  </button>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:8px; font-size:12px; margin-top:2px;">
+                <div style="background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px;">
+                  <span style="color:var(--t2); font-size:11px;">কাজের দিন:</span> <b>${days} দিন</b>
+                </div>
+                <div style="background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px;">
+                  <span style="color:var(--t2); font-size:11px;">মোট ঘণ্টা:</span> <b>${totH.toFixed(1)}h</b>
+                </div>
+                <div style="background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px;">
+                  <span style="color:var(--t2); font-size:11px;">ওভারটাইম:</span> <b style="color:var(--gold);">${otH.toFixed(1)}h</b>
+                </div>
+                <div style="background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px;">
+                  <span style="color:var(--t2); font-size:11px;">অর্জিত বেতন:</span> <b style="color:#6ee7b7;">SAR ${earn.toFixed(2)}</b>
+                </div>
+              </div>
+            </div>`;
+        }).join("");
+
     return `
-      <div class="card" style="max-width:680px; margin:auto;">
-        <h3>👤 ${t("nav_profile")}</h3>
-        <div class="fl">
-          <div class="wide">
-            <div class="k">${T3("আপনার নাম", "Your Name")}</div>
-            <input id="p1" value="${esc(p.name || '')}">
+      <div style="max-width:760px; margin:auto; display:flex; flex-direction:column; gap:16px;">
+        <!-- Profile Header with Hours Summary -->
+        <div class="card" style="padding:22px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:52px; height:52px; border-radius:50%; overflow:hidden; border:2px solid var(--gold); box-shadow:0 0 12px var(--gold-glow); flex-shrink:0;">
+                <img src="./app_logo.png" alt="Profile" style="width:100%; height:100%; object-fit:contain;">
+              </div>
+              <div>
+                <h3 style="margin:0; font-size:20px;" class="gold-text">${esc(p.name || t("nav_profile"))}</h3>
+                <div class="k" style="font-size:13px;">${esc(p.profession || T3("পেশা উল্লেখ নেই", "Profession not set"))}</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <span class="badge" style="background:rgba(16,185,129,0.15); color:#10B981; border:1px solid rgba(16,185,129,0.4); padding:4px 10px; border-radius:12px; font-size:12px; font-weight:700;">
+                ● ${T3("সক্রিয় প্রোফাইল", "Active Profile", "الملف النشط")}
+              </span>
+            </div>
           </div>
-          <div>
-            <div class="k">${T3("ইকামা নম্বর (PDF টাইমশিটের জন্য)", "Iqama No. (for timesheet PDF)")}</div>
-            <input id="p_iq" value="${p.iqama || ''}" placeholder="2xxxxxxxxx">
-          </div>
-          <div>
-            <div class="k">${T3("পাসপোর্ট নম্বর", "Passport No.")}</div>
-            <input id="p_pp" value="${p.passport || ''}" placeholder="E0xxxxxxx">
-          </div>
-          <div>
-            <div class="k">${T3("ইমেইল", "Email")}</div>
-            <input id="p2" value="${esc(U ? U.email : (p.email || ''))}" readonly style="opacity:.7;">
-          </div>
-          <div>
-            <div class="k">${T3("মোবাইল নম্বর", "Contact Phone")}</div>
-            <input id="p3" value="${esc(p.contact || '')}" inputmode="tel">
-          </div>
-          <div class="wide">
-            <div class="k">${T3("পেশা / পদবী", "Profession")}</div>
-            <input id="p4" value="${p.profession || ''}">
-          </div>
-          <div>
-            <div class="k">${T3("ডিফল্ট রেমিট্যান্স রেট (SAR → BDT)", "Default Remittance Rate")}</div>
-            <input id="p5" type="number" step="0.01" value="${p.rate || 32.5}">
+
+          <!-- 4 Fast Recorded Hours KPI Cards -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-top:14px;">
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.3); text-align:center;">
+              <div style="font-size:11px; color:var(--t2); font-weight:700;">🕒 মোট কাজের সময়</div>
+              <div style="font-size:18px; font-weight:800; color:#60a5fa; margin-top:3px;">${f(s.h)}h</div>
+              <div style="font-size:10px; color:var(--t3);">সর্বমোট ডিউটি</div>
+            </div>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.3); text-align:center;">
+              <div style="font-size:11px; color:var(--t2); font-weight:700;">⚡ মোট ওভারটাইম</div>
+              <div style="font-size:18px; font-weight:800; color:#fbbf24; margin-top:3px;">${f(s.ot)}h</div>
+              <div style="font-size:10px; color:var(--t3);">অতিরিক্ত সময়</div>
+            </div>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); text-align:center;">
+              <div style="font-size:11px; color:var(--t2); font-weight:700;">📅 মোট কাজের দিন</div>
+              <div style="font-size:18px; font-weight:800; color:#34d399; margin-top:3px;">${dutyDaysCount}</div>
+              <div style="font-size:10px; color:var(--t3);">রেকর্ডকৃত দিন</div>
+            </div>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(214,170,84,0.15); border:1.5px solid var(--gold); text-align:center;">
+              <div style="font-size:11px; color:var(--t2); font-weight:700;">💵 সর্বমোট অর্জিত বেতন</div>
+              <div style="font-size:17px; font-weight:800; color:var(--gold); margin-top:3px;">SAR ${s.e.toFixed(2)}</div>
+              <div style="font-size:10px; color:var(--t3);">ডিউটি আয়</div>
+            </div>
           </div>
         </div>
-        <button class="btn" style="width:100%; margin-top:16px;" onclick="sp()">${t("btn_save")}</button>
+
+        <!-- Month-by-Month Recorded Hours Section -->
+        <div class="card" style="padding:20px;">
+          <div class="rh" style="margin-bottom:14px;">
+            <h3 class="gold-text" style="margin:0; font-size:18px;">📊 ${T3("রেকর্ডকৃত ঘণ্টার পূর্ণাঙ্গ বিবরণী", "All Recorded Hours Breakdown", "سجل الساعات المسجلة")}</h3>
+            <span class="sub" style="font-size:12px;">${dutyMonths.length} ${T3("টি মাস পাওয়া গেছে", "months found")}</span>
+          </div>
+          <div>${monthCards}</div>
+        </div>
+
+        <!-- Profile Form Edit Section -->
+        <div class="card" style="padding:22px;">
+          <h3 class="gold-text" style="margin-top:0; margin-bottom:14px; font-size:18px;">⚙️ ${T3("ব্যক্তিগত ও চাকরি তথ্য এডিট", "Edit Profile & Job Details", "تعديل البيانات الشخصية")}</h3>
+          <div class="fl">
+            <div class="wide">
+              <div class="k">${T3("আপনার নাম", "Your Name")}</div>
+              <input id="p1" value="${esc(p.name || '')}">
+            </div>
+            <div>
+              <div class="k">${T3("ইকামা নম্বর (PDF টাইমশিটের জন্য)", "Iqama No. (for timesheet PDF)")}</div>
+              <input id="p_iq" value="${p.iqama || ''}" placeholder="2xxxxxxxxx">
+            </div>
+            <div>
+              <div class="k">${T3("পাসপোর্ট নম্বর", "Passport No.")}</div>
+              <input id="p_pp" value="${p.passport || ''}" placeholder="E0xxxxxxx">
+            </div>
+            <div>
+              <div class="k">${T3("ইমেইল", "Email")}</div>
+              <input id="p2" value="${esc(U ? U.email : (p.email || ''))}" readonly style="opacity:.7;">
+            </div>
+            <div>
+              <div class="k">${T3("মোবাইল নম্বর", "Contact Phone")}</div>
+              <input id="p3" value="${esc(p.contact || '')}" inputmode="tel">
+            </div>
+            <div class="wide">
+              <div class="k">${T3("পেশা / পদবী", "Profession")}</div>
+              <input id="p4" value="${p.profession || ''}">
+            </div>
+            <div>
+              <div class="k">${T3("ডিফল্ট রেমিট্যান্স রেট (SAR → BDT)", "Default Remittance Rate")}</div>
+              <input id="p5" type="number" step="0.01" value="${p.rate || 32.5}">
+            </div>
+          </div>
+          <button class="btn" style="width:100%; margin-top:18px; padding:12px; font-size:15px; font-weight:800;" onclick="sp()">${t("btn_save")}</button>
+        </div>
       </div>`;
   },
 
@@ -3199,7 +3334,12 @@ const V = {
         <div style="font-size:56px; margin-bottom:12px;">⏱️</div>
         <h3 class="gold-text" style="font-size:26px; letter-spacing:2px;">MYHOUR</h3>
         <div class="k" style="font-size:16px; margin:8px 0;">${T3("এই অ্যাপ তৈরি ও পরিচালনা করেছে " + COMPANY, "Created and owned by " + COMPANY, "تم إنشاؤه وإدارته بواسطة " + COMPANY)}</div>
-        <div style="margin-top:20px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY}. All rights reserved.</div>
+        <div style="margin-top:14px; font-size:14px;">
+          <a href="https://www.mrtech.top" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--gold-border); padding:10px 22px; border-radius:24px; background:rgba(214,170,84,0.14); box-shadow:0 4px 14px rgba(0,0,0,0.3);">
+            🌐 www.mrtech.top
+          </a>
+        </div>
+        <div style="margin-top:22px; font-size:13px; color:var(--t2);">© ${new Date().getFullYear()} ${COMPANY} (www.mrtech.top). All rights reserved.</div>
       </div>`;
   },
 
@@ -3900,192 +4040,281 @@ function pdfFrom(jpg, w, h) {
 }
 
 function tsPdf(o) {
-  const W = 1654, H = 2339, M = 88;
+  // Ultra High Definition 300 DPI A4 Canvas (2480 x 3508 pixels)
+  // Ensures all branding, text, and marketing copy is razor-sharp with ZERO blur.
+  const W = 2480, H = 3508, M = 120;
   const cv = document.createElement("canvas");
-  cv.width = W; cv.height = H;
+  cv.width = W;
+  cv.height = H;
   const g = cv.getContext("2d");
+  g.imageSmoothingEnabled = true;
+  g.imageSmoothingQuality = "high";
+
   const FF = '"Segoe UI", Roboto, "Noto Sans Bengali", Arial, sans-serif';
-  const navy = "#101A2D", navy2 = "#172944", gold = "#E8B84F";
-  const ink = "#17243A", muted = "#64748B", line = "#DCE4EF";
   const TW = W - 2 * M;
 
-  const roundRect = (x, y, w, h, r, fill, stroke) => {
+  const roundRect = (x, y, w, h, r, fill, stroke, strokeW = 2) => {
     g.beginPath();
     g.roundRect(x, y, w, h, r);
     if (fill) { g.fillStyle = fill; g.fill(); }
-    if (stroke) { g.strokeStyle = stroke; g.lineWidth = 2; g.stroke(); }
-  };
-  const fit2 = (q, mw) => {
-    q = String(q == null ? "-" : q);
-    if (g.measureText(q).width <= mw) return q;
-    while (q.length > 1 && g.measureText(q + "…").width > mw) q = q.slice(0, -1);
-    return q + "…";
-  };
-  const label = (txt, x, y, color = muted, size = 25) => {
-    g.fillStyle = color; g.font = `600 ${size}px ${FF}`;
-    g.textAlign = "left"; g.fillText(txt, x, y);
-  };
-  const value = (txt, x, y, color = ink, size = 31, align = "left") => {
-    g.fillStyle = color; g.font = `700 ${size}px ${FF}`;
-    g.textAlign = align; g.fillText(txt, x, y);
+    if (stroke) { g.strokeStyle = stroke; g.lineWidth = strokeW; g.stroke(); }
   };
 
-  // Clean premium paper background.
-  g.fillStyle = "#F4F7FC";
+  const fitText = (txt, maxW) => {
+    txt = String(txt == null ? "-" : txt);
+    if (g.measureText(txt).width <= maxW) return txt;
+    while (txt.length > 1 && g.measureText(txt + "…").width > maxW) txt = txt.slice(0, -1);
+    return txt + "…";
+  };
+
+  // 1. Crisp Professional Background
+  g.fillStyle = "#F8FAFC";
   g.fillRect(0, 0, W, H);
 
-  // Brand header with navy/gold premium gradient.
-  const hg = g.createLinearGradient(0, 0, W, 360);
-  hg.addColorStop(0, "#0B1425");
-  hg.addColorStop(0.58, "#172B49");
-  hg.addColorStop(1, "#203D60");
+  // 2. Deep Executive Navy & Royal Gradient Header Banner
+  const hg = g.createLinearGradient(0, 0, W, 500);
+  hg.addColorStop(0, "#07111F");
+  hg.addColorStop(0.5, "#0E2442");
+  hg.addColorStop(1, "#173B68");
   g.fillStyle = hg;
-  g.fillRect(0, 0, W, 365);
+  g.fillRect(0, 0, W, 510);
 
-  // Decorative color accents.
-  g.fillStyle = "rgba(232,184,79,0.10)";
-  g.beginPath(); g.arc(W - 70, 25, 270, 0, Math.PI * 2); g.fill();
-  g.fillStyle = "rgba(49,130,206,0.13)";
-  g.beginPath(); g.arc(W - 5, 320, 205, 0, Math.PI * 2); g.fill();
+  // Subtle decorative ambient circles in header
+  g.fillStyle = "rgba(214, 170, 84, 0.12)";
+  g.beginPath(); g.arc(W - 120, 60, 380, 0, Math.PI * 2); g.fill();
+  g.fillStyle = "rgba(59, 130, 246, 0.15)";
+  g.beginPath(); g.arc(W - 40, 420, 300, 0, Math.PI * 2); g.fill();
 
-  // MYHOUR clock logo, drawn as vector artwork for reliable PDF embedding.
-  const lx = M + 78, ly = 112;
-  const lg = g.createRadialGradient(lx - 15, ly - 18, 8, lx, ly, 66);
-  lg.addColorStop(0, "#FFF3C4");
-  lg.addColorStop(0.55, "#E8B84F");
-  lg.addColorStop(1, "#A66D18");
-  g.shadowColor = "rgba(232,184,79,0.38)";
-  g.shadowBlur = 24;
-  g.fillStyle = lg; g.beginPath(); g.arc(lx, ly, 62, 0, Math.PI * 2); g.fill();
-  g.shadowBlur = 0;
-  g.strokeStyle = "#FFF7DE"; g.lineWidth = 7;
-  g.beginPath(); g.arc(lx, ly, 43, 0, Math.PI * 2); g.stroke();
-  g.lineCap = "round"; g.lineWidth = 8;
-  g.beginPath(); g.moveTo(lx, ly - 23); g.lineTo(lx, ly + 2); g.lineTo(lx + 19, ly + 14); g.stroke();
+  // Golden accent bottom border for header
+  g.fillStyle = "#D4A33B";
+  g.fillRect(0, 506, W, 6);
 
+  // 3. Official App Logo Artwork (Vector clock & growth arrow + circular gold rim)
+  const lx = M + 95, ly = 160, lr = 75;
+  const goldGrad = g.createRadialGradient(lx - 20, ly - 25, 10, lx, ly, lr);
+  goldGrad.addColorStop(0, "#FFF6D6");
+  goldGrad.addColorStop(0.6, "#D4A33B");
+  goldGrad.addColorStop(1, "#8A5A08");
+
+  g.fillStyle = goldGrad;
+  g.beginPath(); g.arc(lx, ly, lr, 0, Math.PI * 2); g.fill();
+
+  // Inner ring
+  g.strokeStyle = "#FFFFFF"; g.lineWidth = 6;
+  g.beginPath(); g.arc(lx, ly, lr - 12, 0, Math.PI * 2); g.stroke();
+
+  // Clock hands
+  g.lineCap = "round"; g.strokeStyle = "#FFFFFF"; g.lineWidth = 9;
+  g.beginPath();
+  g.moveTo(lx, ly - 32);
+  g.lineTo(lx, ly + 2);
+  g.lineTo(lx + 24, ly + 18);
+  g.stroke();
+
+  // Growth arrow
+  g.strokeStyle = "#38BDF8"; g.lineWidth = 8;
+  g.beginPath();
+  g.moveTo(lx - 30, ly + 26);
+  g.lineTo(lx - 6, ly + 6);
+  g.lineTo(lx + 14, ly + 20);
+  g.lineTo(lx + 42, ly - 16);
+  g.stroke();
+
+  // 4. Branding & Crisp Marketing Headlines
   g.textAlign = "left";
-  g.fillStyle = "#FFF4D4";
-  g.font = `900 76px ${FF}`;
-  g.fillText("MYHOUR", M + 170, 105);
-  g.fillStyle = "#D8E4F3";
-  g.font = `500 29px ${FF}`;
-  g.fillText("WORK HOURS & SALARY MANAGER", M + 174, 151);
+  g.fillStyle = "#FFF2CC";
+  g.font = `900 86px ${FF}`;
+  g.fillText("MYHOUR", M + 205, 155);
 
-  // Marketing / brand message.
-  g.fillStyle = gold;
-  g.font = `700 23px ${FF}`;
-  g.fillText("SMART ATTENDANCE  •  ACCURATE WORK HOURS  •  CLEAR SALARY RECORDS", M + 174, 198);
+  g.fillStyle = "#38BDF8";
+  g.font = `800 36px ${FF}`;
+  g.fillText("আমার ঘণ্টা", M + 580, 153);
 
-  // Document title and period.
+  g.fillStyle = "#CBD5E1";
+  g.font = `700 32px ${FF}`;
+  g.fillText("WORK HOURS & SALARY MANAGEMENT SUITE", M + 208, 208);
+
+  // Marketing Tagline Pill
+  roundRect(M + 205, 226, 1200, 48, 12, "rgba(214,170,84,0.18)", "#D4A33B", 2);
+  g.fillStyle = "#FDE68A";
+  g.font = `800 24px ${FF}`;
+  g.fillText("✦ SMART ATTENDANCE  •  ACCURATE OVERTIME  •  VERIFIED SALARY RECORDS ✦", M + 225, 258);
+
+  // Bangla marketing line
+  g.fillStyle = "#E2E8F0";
+  g.font = `600 24px ${FF}`;
+  g.fillText("আপনার কাজের প্রতিটি মুহূর্তের সঠিক হিসাব ও শতভাগ নিশ্চিত বেতন স্লিপ", M + 208, 310);
+
+  // Document Title & Month Badge
   g.fillStyle = "#FFFFFF";
-  g.font = `800 48px ${FF}`;
-  g.fillText("OFFICIAL MONTHLY TIMESHEET", M, 286);
+  g.font = `900 58px ${FF}`;
+  g.fillText("OFFICIAL MONTHLY TIMESHEET", M, 435);
+
   g.textAlign = "right";
-  g.fillStyle = "#F6D98E";
-  g.font = `700 31px ${FF}`;
-  g.fillText(o.monthLabel || "", W - M, 286);
+  roundRect(W - M - 480, 385, 480, 68, 16, "rgba(255,255,255,0.15)", "#FDE68A", 2.5);
+  g.fillStyle = "#FFFBEB";
+  g.font = `800 36px ${FF}`;
+  g.fillText(o.monthLabel || "", W - M - 24, 432);
 
-  // Company / employee information panel.
-  const infoY = 405, infoH = 225;
-  roundRect(M, infoY, TW, infoH, 24, "#FFFFFF", "#E1E8F0");
-  const half = TW / 2;
-  const fields = [
-    ["COMPANY / PROJECT", `${o.company || "-"} / ${o.project || "-"}`, M + 32, infoY + 48, half - 55],
-    ["EMPLOYEE NAME", o.name || "-", M + 32, infoY + 137, half - 55],
-    ["IQAMA NUMBER", o.iqama || "-", M + half + 28, infoY + 48, half - 55],
-    ["PASSPORT NUMBER", o.passport || "-", M + half + 28, infoY + 137, half - 55]
+  // 5. 4 Executive Summary KPI Cards (Sky, Amber, Emerald, Gold)
+  const kpiY = 540, kpiH = 135, kpiW = (TW - 45) / 4;
+  const kpis = [
+    { title: "TOTAL HOURS", val: `${f(o.total)}h`, sub: "কাজের মোট সময়", bg: "#EFF6FF", bd: "#3B82F6", c: "#1D4ED8" },
+    { title: "OVERTIME (OT)", val: `${f(o.days.reduce((a, d) => a + (d.ot || 0), 0))}h`, sub: "অতিরিক্ত ডিউটি", bg: "#FFFBEB", bd: "#F59E0B", c: "#B45309" },
+    { title: "HOURLY RATE", val: `${f(o.rate)} SAR`, sub: "ঘণ্টা প্রতি রেট", bg: "#ECFDF5", bd: "#10B981", c: "#047857" },
+    { title: "TOTAL SALARY", val: `SAR ${f(o.salary)}`, sub: "সর্বমোট বেতন", bg: "#FFFDF0", bd: "#D4A33B", c: "#8A5A08" }
   ];
-  fields.forEach(([k, v, x, y, maxW]) => {
-    label(k, x, y, "#8190A5", 21);
-    g.font = `700 29px ${FF}`;
-    g.fillStyle = ink;
-    g.textAlign = "left";
-    g.fillText(fit2(v, maxW), x, y + 43);
-  });
-  g.strokeStyle = "#E8EDF4"; g.lineWidth = 2;
-  g.beginPath(); g.moveTo(M + half, infoY + 24); g.lineTo(M + half, infoY + infoH - 24); g.stroke();
 
-  // Attendance table.
-  const top = 675;
-  const headerH = 66;
+  kpis.forEach((k, i) => {
+    const kx = M + i * (kpiW + 15);
+    roundRect(kx, kpiY, kpiW, kpiH, 18, k.bg, k.bd, 2.5);
+    g.textAlign = "left";
+    g.fillStyle = "#64748B";
+    g.font = `700 22px ${FF}`;
+    g.fillText(k.title, kx + 22, kpiY + 38);
+    g.fillStyle = k.c;
+    g.font = `900 38px ${FF}`;
+    g.fillText(fitText(k.val, kpiW - 40), kx + 22, kpiY + 85);
+    g.fillStyle = "#475569";
+    g.font = `600 20px ${FF}`;
+    g.fillText(k.sub, kx + 22, kpiY + 116);
+  });
+
+  // 6. Employee & Organization Profile Grid Card
+  const infoY = 705, infoH = 220;
+  roundRect(M, infoY, TW, infoH, 20, "#FFFFFF", "#CBD5E1", 2);
+  const half = TW / 2;
+
+  const infoFields = [
+    ["COMPANY / PROJECT (কোম্পানি / প্রজেক্ট)", `${o.company || "-"} / ${o.project || "-"}`, M + 36, infoY + 50, half - 70],
+    ["EMPLOYEE NAME (কর্মীর পূর্ণ নাম)", o.name || "-", M + 36, infoY + 140, half - 70],
+    ["IQAMA NUMBER (ইকামা নম্বর)", o.iqama || "-", M + half + 36, infoY + 50, half - 70],
+    ["PASSPORT NUMBER (পাসপোর্ট নম্বর)", o.passport || "-", M + half + 36, infoY + 140, half - 70]
+  ];
+
+  infoFields.forEach(([k, v, x, y, maxW]) => {
+    g.textAlign = "left";
+    g.fillStyle = "#64748B";
+    g.font = `700 22px ${FF}`;
+    g.fillText(k, x, y);
+    g.fillStyle = "#0F172A";
+    g.font = `800 34px ${FF}`;
+    g.fillText(fitText(v, maxW), x, y + 44);
+  });
+
+  // Divider between columns
+  g.strokeStyle = "#E2E8F0"; g.lineWidth = 2.5;
+  g.beginPath();
+  g.moveTo(M + half, infoY + 24);
+  g.lineTo(M + half, infoY + infoH - 24);
+  g.stroke();
+
+  // 7. Attendance & Hours Table
+  const top = 955;
+  const headerH = 75;
   const summaryRows = 3;
   const rowCount = o.days.length + summaryRows;
-  const footerReserve = 285;
+  const footerReserve = 340;
   const available = H - top - footerReserve - headerH;
-  const rh = Math.min(49, available / rowCount);
-  const cols = [275, 300, 190, TW - 275 - 300 - 190];
+  const rh = Math.min(58, available / rowCount);
+
+  // Columns: Date (360), Day (360), Hours (260), Notes (Rest)
+  const cols = [360, 360, 260, TW - 360 - 360 - 260];
   const xs = [M, M + cols[0], M + cols[0] + cols[1], M + cols[0] + cols[1] + cols[2], M + TW];
 
-  roundRect(M, top, TW, headerH, 13, "#172B49", null);
-  const headers = ["DATE", "DAY", "HOURS", "COMMENT / NOTES"];
-  g.font = `800 23px ${FF}`;
+  roundRect(M, top, TW, headerH, 16, "#0F233D", null);
+  const headers = ["DATE (তারিখ)", "DAY (দিন)", "HOURS (ঘণ্টা)", "DUTY DETAILS / NOTES (কাজের বিবরণ)"];
+  g.font = `800 25px ${FF}`;
   g.fillStyle = "#FFFFFF";
-  headers.forEach((t, i) => {
+  headers.forEach((hTxt, i) => {
     g.textAlign = i === 2 ? "center" : "left";
-    g.fillText(t, i === 2 ? xs[i] + cols[i] / 2 : xs[i] + 18, top + headerH / 2 + 1);
+    const hx = i === 2 ? xs[i] + cols[i] / 2 : xs[i] + 24;
+    g.fillText(hTxt, hx, top + headerH / 2 + 8);
   });
 
-  const drawTableRow = (y, cells, opts = {}) => {
+  const drawRow = (y, cells, opts = {}) => {
     g.fillStyle = opts.fill || "#FFFFFF";
     g.fillRect(M, y, TW, rh);
-    g.strokeStyle = line; g.lineWidth = 1.5;
+    g.strokeStyle = "#E2E8F0"; g.lineWidth = 1.5;
     g.beginPath(); g.moveTo(M, y + rh); g.lineTo(M + TW, y + rh); g.stroke();
+
     if (opts.topLine) {
-      g.strokeStyle = "#D5A63D"; g.lineWidth = 3;
+      g.strokeStyle = "#D4A33B"; g.lineWidth = 4;
       g.beginPath(); g.moveTo(M, y); g.lineTo(M + TW, y); g.stroke();
     }
-    g.font = `${opts.bold ? "800" : "500"} ${Math.round(Math.min(25, rh * 0.48))}px ${FF}`;
-    g.fillStyle = opts.color || ink;
-    cells.forEach((txt, i) => {
-      if (txt == null) return;
+
+    g.font = `${opts.bold ? "800" : "600"} ${Math.round(Math.min(30, rh * 0.52))}px ${FF}`;
+    g.fillStyle = opts.color || "#1E293B";
+
+    cells.forEach((cellTxt, i) => {
+      if (cellTxt == null) return;
       g.textAlign = i === 2 ? "center" : "left";
-      const x = i === 2 ? xs[i] + cols[i] / 2 : xs[i] + 18;
-      const max = cols[i] - 34;
-      g.fillText(fit2(txt, max), x, y + rh / 2 + 1);
+      const x = i === 2 ? xs[i] + cols[i] / 2 : xs[i] + 24;
+      const maxW = cols[i] - 40;
+      g.fillText(fitText(cellTxt, maxW), x, y + rh / 2 + 9);
     });
   };
 
   o.days.forEach((d, i) => {
     const isFriday = d.day === "Friday";
-    const fill = isFriday ? "#FFF8E8" : (i % 2 ? "#F5F8FC" : "#FFFFFF");
-    drawTableRow(top + headerH + i * rh,
-      [d.date, d.day, d.h ? f(d.h) : "-", d.note || (isFriday && !d.h ? "Weekly off" : "")],
-      { fill, color: d.h ? ink : "#9AA7B8" });
+    const fill = isFriday ? "#FFFBEB" : (i % 2 ? "#F8FAFC" : "#FFFFFF");
+    const color = isFriday ? "#B45309" : (d.h ? "#0F172A" : "#94A3B8");
+    const noteTxt = d.note || (isFriday && !d.h ? "★ WEEKLY OFF (সাপ্তাহিক ছুটি)" : "");
+    drawRow(top + headerH + i * rh,
+      [d.date, d.day, d.h ? `${f(d.h)} hrs` : "-", noteTxt],
+      { fill, color }
+    );
   });
 
+  // Summary Rows
   const sy = top + headerH + o.days.length * rh;
-  drawTableRow(sy, ["TOTAL WORKING HOURS", "", f(o.total), "HOURS"], {
-    fill: "#EAF2FF", bold: true, color: "#173B69", topLine: true
+  drawRow(sy, ["TOTAL WORKING HOURS (সর্বমোট কাজের সময়)", "", `${f(o.total)} HOURS`, "MONTHLY VERIFIED"], {
+    fill: "#EFF6FF", bold: true, color: "#1D4ED8", topLine: true
   });
-  drawTableRow(sy + rh, ["HOURLY RATE", "", f(o.rate), "SAR / HOUR"], {
-    fill: "#F0F7F5", bold: true, color: "#166B5B"
+  drawRow(sy + rh, ["HOURLY RATE (ঘণ্টা প্রতি চুক্তি অনুযায়ী রেট)", "", `${f(o.rate)} SAR/h`, "APPROVED RATE"], {
+    fill: "#F0FDF4", bold: true, color: "#047857"
   });
-  drawTableRow(sy + 2 * rh, ["TOTAL MONTHLY SALARY", "", f(o.salary), "SAR"], {
-    fill: "#FFF2CF", bold: true, color: "#8A5A08"
+  drawRow(sy + 2 * rh, ["NET PAYABLE SALARY (মোট প্রদেয় বেতন)", "", `SAR ${f(o.salary)}`, "OFFICIAL AMOUNT"], {
+    fill: "#FEF3C7", bold: true, color: "#92400E"
   });
 
-  // Signatures and premium footer.
-  const sigY = H - 190;
-  g.strokeStyle = "#7C8CA3"; g.lineWidth = 2;
+  // 8. Official Signature Lines & Stamp
+  const sigY = H - 240;
+  g.strokeStyle = "#94A3B8"; g.lineWidth = 2.5;
   g.beginPath();
-  g.moveTo(M + 20, sigY); g.lineTo(M + 510, sigY);
-  g.moveTo(W - M - 510, sigY); g.lineTo(W - M - 20, sigY);
+  g.moveTo(M + 30, sigY); g.lineTo(M + 620, sigY);
+  g.moveTo(W - M - 620, sigY); g.lineTo(W - M - 30, sigY);
   g.stroke();
-  label("EMPLOYEE SIGNATURE", M + 20, sigY + 34, "#52647B", 22);
+
+  g.fillStyle = "#475569"; g.font = `700 24px ${FF}`;
+  g.textAlign = "left";
+  g.fillText("EMPLOYEE SIGNATURE (কর্মীর স্বাক্ষর)", M + 30, sigY + 40);
+
   g.textAlign = "right";
-  g.fillStyle = "#52647B"; g.font = `600 22px ${FF}`;
-  g.fillText("SUPERVISOR / APPROVED BY", W - M - 20, sigY + 34);
+  g.fillText("SUPERVISOR / COMPANY APPROVAL (অনুমোদনকারী)", W - M - 30, sigY + 40);
 
-  const fy = H - 88;
-  const fg = g.createLinearGradient(M, fy - 25, W - M, fy + 30);
-  fg.addColorStop(0, "#101A2D"); fg.addColorStop(1, "#203D60");
-  roundRect(M, fy - 24, TW, 54, 14, fg, null);
+  // Digital Verification Badge in Center
+  roundRect(W / 2 - 260, sigY - 26, 520, 52, 12, "rgba(214,170,84,0.15)", "#D4A33B", 2);
   g.textAlign = "center";
-  g.fillStyle = "#F6D98E";
-  g.font = `700 21px ${FF}`;
-  g.fillText("MYHOUR  |  WORK SMARTER. TRACK CLEARER. GET PAID RIGHT.", W / 2, fy + 3);
+  g.fillStyle = "#8A5A08";
+  g.font = `800 21px ${FF}`;
+  g.fillText("✓ VERIFIED BY MYHOUR • AUTHENTIC RECORD", W / 2, sigY + 8);
 
-  const dataUrl = cv.toDataURL("image/jpeg", 0.94);
+  // 9. Premium Marketing Footer Banner
+  const fy = H - 105;
+  const fg = g.createLinearGradient(M, fy, W - M, fy);
+  fg.addColorStop(0, "#07111F");
+  fg.addColorStop(0.5, "#0F233D");
+  fg.addColorStop(1, "#173B68");
+  roundRect(M, fy - 32, TW, 74, 18, fg, "#D4A33B", 2.5);
+
+  g.textAlign = "center";
+  g.fillStyle = "#FDE68A";
+  g.font = `800 26px ${FF}`;
+  g.fillText("MYHOUR  ✦  SMART WORK HOURS & FINANCIAL SUITE  ✦  POWERED BY WWW.MRTECH.TOP", W / 2, fy + 14);
+
+  // 10. Generate High-Quality JPEG (0.98 Quality eliminates compression noise)
+  const dataUrl = cv.toDataURL("image/jpeg", 0.98);
   const jpegBase64 = dataUrl.split(",")[1];
   const jpegBinary = atob(jpegBase64);
   const jpegBytes = new Uint8Array(jpegBinary.length);
@@ -4949,6 +5178,16 @@ function row(a, b, key, i) {
 function render() {
   applyTheme();
 
+  const s = sum();
+  const hdrBalVal = document.getElementById("hdr-balance-val");
+  const hdrBalTitle = document.getElementById("hdr-bal-title");
+  if (hdrBalVal) {
+    hdrBalVal.textContent = "SAR " + f(s.net);
+  }
+  if (hdrBalTitle) {
+    hdrBalTitle.textContent = T3("ব্যালেন্স (হাতে)", "In Hand", "في اليد");
+  }
+
   const sbLinks = document.getElementById("sidebar-links");
   if (sbLinks) {
     sbLinks.innerHTML = navList().map(([route, transKey, icon]) => `
@@ -4976,6 +5215,10 @@ function render() {
         <span class="em">${IC[icon]}</span>
         <span>${t(transKey)}</span>
       </div>`).join("") + `
+      <div class="di" onclick="closeDrawer(); showPwaModal();" style="color:var(--gold); font-weight:700;">
+        <span class="em">📥</span>
+        <span>${T3("অ্যাপ ইনস্টল করুন", "Install App", "تثبيت التطبيق")}</span>
+      </div>
       <div class="di" onclick="logout()" style="color:var(--dg);">
         <span class="em">🚪</span>
         <span>${T3("লগআউট", "Logout", "خروج")}</span>
