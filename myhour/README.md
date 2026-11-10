@@ -1,5 +1,42 @@
-# MYHOUR
-Work hours, overtime and salary manager. Created and owned by MrTech.
+# 🚀 MYHOUR PWA - GitHub Pages Deployment
 
-Site files (repo root): `index.html`, `manifest.json`, `sw.js`, `icon-192.png`, `icon-512.png`.
-Setup notes and Firebase rules are in `setup/`.
+এই ফোল্ডারে থাকা ফাইলগুলো সরাসরি GitHub-এ আপলোড করলেই আপনার **MYHOUR** PWA ওয়েবসাইট ও মোবাইল অ্যাপ হিসেবে লাইভ হয়ে যাবে।
+
+---
+
+## 📂 কোন কোন ফাইল আপলোড করতে হবে (Total 5 Files)
+
+GitHub রিপোজিটরির রুট (Root) ফোল্ডারে এই ৫টি ফাইল আপলোড করুন:
+
+1. **`index.html`** — সম্পূর্ণ MYHOUR ওয়েব অ্যাপ্লিকেশন (PWA, লাইভ স্যালারি ক্যালকুলেটর, রেসপন্সিভ ৫-বাটন বটম বার, ৩D গোল্ডেন থিম, অফিশিয়াল A4 PDF টাইমশিট জেনারেটর ও ক্লাউড সিঙ্ক)।
+2. **`manifest.json`** — PWA কনফিগারেশন ফাইল (মোবাইলে ফুলস্ক্রিন অ্যাপ মোডে ইনস্টল করার জন্য)।
+3. **`sw.js`** — সার্ভিস ওয়ার্কার (ইন্টারনেট ছাড়াও অফলাইনে দ্রুত লোড ও ক্যাশ করার জন্য)।
+4. **`icon-192.png`** — ১৯২x১৯২ রেজোলিউশন গোল্ডেন ক্লক অ্যাপ আইকন।
+5. **`icon-512.png`** — ৫১২x৫১২ রেজোলিউশন হাই-ডেফিনিশন অ্যাপ আইকন।
+
+---
+
+## 🌐 GitHub-এ লাইভ করার সহজ নিয়ম (Step-by-Step)
+
+### ধাপ ১: GitHub-এ ফাইল আপলোড
+1. [GitHub](https://github.com)-এ আপনার রিপোজিটরিতে যান (যেমন: `mr-tech` বা `myhour`)।
+2. **Add file** -> **Upload files** চাপুন।
+3. এই ফোল্ডারের (`github_pwa/`) **৫টি ফাইল** ড্র্যাগ করে আপলোড করুন এবং **Commit changes** দিন।
+
+### ধাপ ২: GitHub Pages চালু করুন
+1. রিপোজিটরির **Settings** ট্যাবে যান।
+2. বাঁ পাশের মেনু থেকে **Pages**-এ ক্লিক করুন।
+3. **Build and deployment** সেকশনে:
+   - Source: **Deploy from a branch**
+   - Branch: `main` (বা `master`), ফোল্ডার: `/ (root)`
+4. **Save** চাপুন।
+
+১-২ মিনিটের মধ্যে আপনার PWA লাইভ হয়ে যাবে:
+👉 `https://<your-username>.github.io/<repo-name>/`
+
+---
+
+## 📱 যেকোনো ডিভাইসে PWA ইনস্টল করার সুবিধা:
+- **Android / Chrome:** ব্রাউজারে সাইট খুললেই উপরে "MYHOUR ইনস্টল করুন" ব্যানার আসবে অথবা ৩-ডট মেনু থেকে **Install App** দিলেই মোবাইলের হোম স্ক্রিনে আলাদা অ্যাপ হিসেবে যুক্ত হবে।
+- **iPhone / iOS:** Safari-তে ওপেন করে **Share** বাটনে চাপ দিয়ে **Add to Home Screen** চাপলেই পিউর আইওএস অ্যাপের মতো ফুলস্ক্রিনে চলবে।
+- **PC / Laptop:** ব্রাউজারের অ্যাড্রেস বারের ডানে **Install** আইকনে ক্লিক করলেই ডেস্কটপ উইন্ডো অ্যাপ হিসেবে কাজ করবে।
