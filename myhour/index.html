@@ -333,7 +333,7 @@ body.light .sc .v { filter: none !important; }
    ========================================================================== */
 .kpi-row {
   display: grid !important;
-  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
   gap: 10px;
   width: 100%;
   margin-bottom: 16px;
@@ -345,13 +345,13 @@ body.light .sc .v { filter: none !important; }
   box-sizing: border-box;
 }
 .kpi-row .card.sc .k {
-  font-size: clamp(10px, 0.76vw, 13px) !important;
+  font-size: clamp(9px, 0.72vw, 13px) !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .kpi-row .card.sc .v {
-  font-size: clamp(13px, 1.1vw, 19px) !important;
+  font-size: clamp(12px, 1.0vw, 18px) !important;
   font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
@@ -359,12 +359,12 @@ body.light .sc .v { filter: none !important; }
   letter-spacing: -0.2px;
 }
 .kpi-row .card.sc .sub {
-  font-size: clamp(9px, 0.65vw, 11px) !important;
+  font-size: clamp(8.5px, 0.62vw, 11px) !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-@media (max-width: 959px) {
+@media (max-width: 1200px) {
   .kpi-row {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 8px;
@@ -376,6 +376,21 @@ body.light .sc .v { filter: none !important; }
     gap: 6px;
   }
 }
+
+/* Balance KPI Glow Theme */
+.sc-bal {
+  background: linear-gradient(150deg, rgba(214,170,84,0.22), rgba(255,255,255,0.03) 40%, rgba(32,22,6,0.72)), var(--cd) !important;
+  border-color: rgba(214,170,84,0.55) !important;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.4), 0 10px 24px rgba(0,0,0,0.5), 0 0 14px var(--gold-glow) !important;
+}
+.sc-bal .v {
+  background: linear-gradient(180deg, #FFF9E6, #FCD34D 48%, #D97706);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+.sc-bal .k { color: #FDE68A !important; }
 
 /* 4-Column Balanced Grid for Duty & Salary headers */
 .kpi-row-4 {
@@ -507,28 +522,27 @@ body.light .tx {
    ========================================================================== */
 .pwa-banner {
   position: fixed;
-  top: max(8px, env(safe-area-inset-top));
+  top: max(10px, env(safe-area-inset-top, 10px));
   left: 50%;
   right: auto;
-  width: min(560px, calc(100% - 24px));
-  min-height: 58px;
+  width: min(380px, calc(100% - 24px));
   box-sizing: border-box;
-  background: linear-gradient(135deg, rgba(20, 32, 54, 0.98) 0%, rgba(8, 14, 26, 0.98) 100%);
-  border: 1px solid rgba(232, 184, 79, 0.75);
-  border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38), 0 0 14px var(--gold-glow);
-  padding: 8px 11px;
+  background: linear-gradient(135deg, rgba(16, 26, 44, 0.96) 0%, rgba(8, 13, 24, 0.97) 100%);
+  border: 1px solid rgba(214, 170, 84, 0.65);
+  border-radius: 20px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 0 16px rgba(214, 170, 84, 0.3);
+  padding: 6px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 9px;
+  gap: 8px;
   z-index: 99999;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -145%);
-  transition: transform 0.35s ease, opacity 0.3s ease;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  transform: translate(-50%, -120%);
+  transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .pwa-banner.show {
   opacity: 1;
@@ -747,13 +761,45 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  gap: 16px;
+  padding: 0 16px;
+  gap: 12px;
   flex-shrink: 0;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   z-index: 30;
   width: 100%;
+  box-sizing: border-box;
+}
+.header-brand-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+.header-brand-right .header-logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1.5px 2px rgba(255,255,255,0.8), 0 2px 8px var(--gold-glow);
+  flex-shrink: 0;
+}
+.header-brand-right .header-logo-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #0A1220;
+}
+.header-brand-right b {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
 }
 body.light header {
   background: #FFFFFF;
@@ -799,9 +845,10 @@ main {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 20px 24px;
+  padding: 18px 20px calc(20px + env(safe-area-inset-bottom, 10px));
   -webkit-overflow-scrolling: touch;
   width: 100%;
+  box-sizing: border-box;
 }
 
 #content-root {
@@ -810,7 +857,7 @@ main {
   margin: 0 auto;
 }
 
-/* 3. MOBILE BOTTOM NAVIGATION (Hidden on PC) */
+/* 3. MOBILE BOTTOM NAVIGATION (Hidden on PC, fixed in safe viewport) */
 nav#nv {
   display: none;
   background: var(--sf);
@@ -819,16 +866,20 @@ nav#nv {
   z-index: 35;
   flex-shrink: 0;
   width: 100%;
+  box-sizing: border-box;
+  padding-bottom: max(6px, env(safe-area-inset-bottom, 6px));
+  position: relative;
 }
 nav#nv div {
   flex: 1;
   text-align: center;
-  padding: 8px 2px 10px;
-  font-size: 11px;
+  padding: 8px 2px 6px;
+  font-size: 10.5px;
   color: var(--t2);
   cursor: pointer;
   font-weight: 600;
   transition: all 0.15s ease;
+  min-width: 0;
 }
 nav#nv div.on {
   color: var(--gold);
@@ -836,12 +887,13 @@ nav#nv div.on {
 }
 nav#nv .em {
   display: block;
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 2px;
+  line-height: 1.1;
 }
-nav#nv div:nth-child(3) .em {
-  width: 48px;
-  height: 48px;
+nav#nv div.nav-home-btn .em {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
   border: 2px solid #FFF1C5;
@@ -849,8 +901,9 @@ nav#nv div:nth-child(3) .em {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -16px auto 2px;
+  margin: -14px auto 2px;
   color: #0A1220;
+  font-size: 22px;
 }
 
 /* 4. MODALS & BOTTOM SHEETS */
@@ -1441,14 +1494,16 @@ body.light #dr > div {
 /* Responsive adjustments */
 @media (max-width: 959px) {
   #sidebar { display: none; }
-  .bars { display: flex; }
+  .bars { display: none; }
   nav#nv { display: flex; }
   header {
-    padding-top: calc(10px + env(safe-area-inset-top, 0px));
-    height: calc(60px + env(safe-area-inset-top, 0px));
+    padding-top: max(8px, env(safe-area-inset-top, 8px));
+    height: calc(58px + max(8px, env(safe-area-inset-top, 8px)));
+    padding-left: 14px;
+    padding-right: 14px;
   }
-  nav#nv {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+  main {
+    padding: 14px 14px calc(24px + env(safe-area-inset-bottom, 12px));
   }
   #md {
     align-items: flex-end;
@@ -1550,22 +1605,20 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 </head>
 <body>
 
-<!-- Top PWA Install Notification Banner (Sliding down from top) -->
+<!-- Top PWA Install Notification Banner (Centered, Compact & Refined) -->
 <div id="pwa-install-banner" class="pwa-banner">
-  <div class="pwa-banner-content">
-    <div class="pwa-banner-icon">
-      <img src="./icon-192.png" alt="MYHOUR" width="36" height="36" style="border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.5); display:block;">
-    </div>
-    <div class="pwa-banner-text">
-      <b class="gold-text" style="font-size:14px; letter-spacing:0.5px;" id="pwa-title">MYHOUR অ্যাপ ইনস্টল করুন</b>
-      <div style="font-size:12px; color:var(--t2);" id="pwa-desc">মোবাইল বা পিসিতে ফুল অ্যাপের মতো ব্যবহার করুন — অফলাইনেও চলবে!</div>
+  <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
+    <img src="./icon-192.png" alt="MYHOUR" width="28" height="28" style="border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.4); flex-shrink:0;">
+    <div style="min-width:0;">
+      <b class="gold-text" style="font-size:13px; display:block; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="pwa-title">MYHOUR ইনস্টল করুন</b>
+      <div style="font-size:10.5px; color:var(--t2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="pwa-desc">অ্যাপের মতো ফুলস্ক্রিনে ব্যবহার করুন</div>
     </div>
   </div>
-  <div class="pwa-banner-actions">
-    <button class="btn pwa-install-btn" onclick="triggerPwaInstall()">
-      📥 ইনস্টল করুন
+  <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+    <button class="btn pwa-install-btn" style="padding:6px 12px; font-size:12px; border-radius:14px;" onclick="triggerPwaInstall()">
+      📥 ইনস্টল
     </button>
-    <button class="x pwa-dismiss-btn" onclick="dismissPwaBanner()" title="Close">
+    <button class="x pwa-dismiss-btn" style="padding:4px 6px; font-size:13px;" onclick="dismissPwaBanner()" title="Close">
       ✕
     </button>
   </div>
@@ -1683,22 +1736,24 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 
   <!-- Content Stage -->
   <div id="stage">
-    <!-- Top Header -->
+    <!-- Top Header (Clean Controls on Left, Logo + MYHOUR on Far Right) -->
     <header>
-      <div style="display:flex; align-items:center; gap:12px;">
+      <div style="display:flex; align-items:center; gap:8px;">
         <span id="bkb" class="bkb" onclick="goBack(1)" aria-label="Back">
           <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
         </span>
-        <span class="bars" onclick="openDrawer()">
-          <i></i><i></i><i></i>
-        </span>
-        <b class="gold-text">MYHOUR</b>
-      </div>
-
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span id="view-mode-pill" class="tx" onclick="cycleViewMode()" title="Toggle View Mode">⚡ Auto View</span>
         <span id="lang-pill" class="tx" onclick="cycleLang()">বাংলা</span>
         <span id="theme-pill" class="tx" onclick="toggleTheme()">🌙</span>
+      </div>
+
+      <div class="header-brand-right" onclick="go('dashboard')" title="MYHOUR Home">
+        <div class="header-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
+          </svg>
+        </div>
+        <b class="gold-text">MYHOUR</b>
       </div>
     </header>
 
@@ -1793,6 +1848,8 @@ const TR = {
   total_ot_hours: { en: "Overtime Hours", bn: "ওভারটাইম ঘণ্টা", ar: "ساعات الإضافي (OT)" },
   active_employment: { en: "Active Employment", bn: "বর্তমান সক্রিয় কাজ", ar: "العمل الحالي" },
   net_savings: { en: "Net Balance In Hand", bn: "হাতে সঞ্চিত ব্যালেন্স", ar: "الرصيد المتبقي الصافي" },
+  nav_balance: { en: "Net Balance", bn: "ব্যালেন্স হিসাব", ar: "صافي الرصيد" },
+  balance_actual: { en: "Actual Balance", bn: "প্রকৃত ব্যালেন্স", ar: "الرصيد الفعلي" },
   btn_add_duty: { en: "Log Today's Duty", bn: "নতুন ডিউটি এন্ট্রি", ar: "تسجيل دوام جديد" },
   btn_add_employment: { en: "Add Employment", bn: "নতুন কাজ যোগ করুন", ar: "إضافة عمل جديد" },
   btn_add_payment: { en: "Record Salary Payment", bn: "বেতন রিসিভ রেকর্ড", ar: "تسجيل استلام راتب" },
@@ -1849,6 +1906,8 @@ let REC = null;          // this user's online record { name, phone, email }
 let IS_ADMIN = false;
 let KEY = null;          // local storage key of the signed-in user
 let READY_APP = false;   // true once signed in AND profile complete
+let CLOUD_SYNCING = false;
+let CLOUD_SAVE_TIMER = null;
 
 const openIDB = () => new Promise((resolve) => {
   try {
@@ -1882,7 +1941,7 @@ const idbPut = async (k, v) => {
   } catch (e) {}
 };
 
-function save() {
+function save(skipCloudSync) {
   if (!S || !KEY) return;
   const json = JSON.stringify(S);
   try { localStorage.setItem(KEY, json); } catch (e) {}
@@ -1892,6 +1951,63 @@ function save() {
       window.AndroidBridge.saveToNative(json);
     }
   } catch (e) {}
+
+  if (skipCloudSync !== true && DB && U && U.uid) {
+    if (CLOUD_SAVE_TIMER) clearTimeout(CLOUD_SAVE_TIMER);
+    CLOUD_SAVE_TIMER = setTimeout(() => {
+      syncToCloud();
+    }, 400);
+  }
+}
+
+function syncToCloud() {
+  if (!DB || !U || !U.uid || !S || CLOUD_SYNCING) return;
+  const payload = {
+    updatedAt: firebase.database.ServerValue.TIMESTAMP,
+    seq: S.seq || 1,
+    state: JSON.stringify(S)
+  };
+  DB.ref("userData/" + U.uid).set(payload).catch((err) => {
+    console.warn("Cloud sync error:", err);
+  });
+}
+
+function startCloudSync(uid) {
+  if (!DB || !uid) return;
+  const userRef = DB.ref("userData/" + uid);
+  userRef.off();
+  userRef.on("value", (snap) => {
+    const val = snap.val();
+    if (!val || !val.state) {
+      // First time on cloud: upload existing local data to cloud immediately
+      syncToCloud();
+      return;
+    }
+    try {
+      const remoteState = typeof val.state === "string" ? JSON.parse(val.state) : val.state;
+      if (remoteState && typeof remoteState === "object") {
+        // If remote has newer sequence or more entries, merge/adopt remote state
+        const localSeq = (S && S.seq) || 0;
+        const remoteSeq = remoteState.seq || val.seq || 0;
+        if (remoteSeq >= localSeq || !S.emp.length && remoteState.emp && remoteState.emp.length) {
+          CLOUD_SYNCING = true;
+          S = normalizeState(remoteState);
+          save(true); // save locally without bouncing back to cloud
+          CLOUD_SYNCING = false;
+          if (READY_APP) render();
+        }
+      }
+    } catch (e) {
+      console.warn("Error parsing remote state:", e);
+    }
+  }, (err) => {
+    console.warn("Cloud sync listener error:", err);
+  });
+}
+
+function stopCloudSync(uid) {
+  if (!DB || !uid) return;
+  try { DB.ref("userData/" + uid).off(); } catch (e) {}
 }
 
 function normalizeState(st) {
@@ -1959,7 +2075,7 @@ const val = (id) => { const el = document.getElementById(id); return el ? el.val
 const IC = {
   info: "ℹ️", shield: "🛡️", home: "🏠", dashboard: "📊", date_range: "⏱️", payments: "💵",
   send: "📤", menu_book: "📖", work: "💼", calendar_month: "📅",
-  trending_up: "📈", cloud_done: "☁️", person: "👤"
+  trending_up: "📈", cloud_done: "☁️", person: "👤", balance: "💰"
 };
 
 const BN = [
@@ -1967,6 +2083,7 @@ const BN = [
   ["employment", "nav_employment", "work"],
   ["dashboard", "nav_dashboard", "home"],
   ["salary", "nav_salary", "payments"],
+  ["balance", "nav_balance", "balance"],
   ["finance", "nav_remittance", "send"]
 ];
 
@@ -1976,6 +2093,7 @@ const DR = [
   ["employment", "nav_employment", "work"],
   ["schedule", "nav_schedule", "calendar_month"],
   ["salary", "nav_salary", "payments"],
+  ["balance", "nav_balance", "balance"],
   ["finance", "nav_remittance", "send"],
   ["reports", "nav_reports", "trending_up"],
   ["backup", "nav_backup", "cloud_done"],
@@ -2013,9 +2131,13 @@ function sum() {
   const ex = S.exp.reduce((a, d) => a + N(d.amt), 0);
   const h = S.duty.reduce((a, d) => a + N(d.tot), 0);
   const ot = S.duty.reduce((a, d) => a + N(d.ot), 0);
-  const ln = S.loan.filter(l => l.type !== "Loan Given").reduce((a, l) => a + Math.max(0, N(l.amt) - N(l.rep)), 0);
-  const net = p - rs - ex;
-  return { e, p, o: Math.max(0, e - p), h, ot, rs, rb, ex, ln, net };
+  const advLoanTaken = S.loan.filter(l => l.type === "Company Advance" || l.type === "Personal Loan Taken")
+                             .reduce((a, l) => a + Math.max(0, N(l.amt) - N(l.rep)), 0);
+  const loanGiven = S.loan.filter(l => l.type === "Loan Given")
+                          .reduce((a, l) => a + Math.max(0, N(l.amt) - N(l.rep)), 0);
+  const net = p + advLoanTaken - rs - ex - loanGiven;
+  const o = Math.max(0, e - p);
+  return { e, p, o, h, ot, rs, rb, ex, advLoanTaken, loanGiven, net };
 }
 
 function toast(m, type) {
@@ -2291,9 +2413,7 @@ function go(route, isBack) {
 
   const isSub = cur !== "dashboard";
   const bkb = document.getElementById("bkb");
-  const bars = document.querySelector(".bars");
   if (bkb) bkb.style.display = isSub ? "flex" : "none";
-  if (bars) bars.style.display = isSub ? "none" : "flex";
 
   render();
 }
@@ -2322,33 +2442,38 @@ const V = {
     const hasActive = S.emp.some(e => e.status === "Active");
     const pv = t("privacy_guarantee");
 
-    // All 5 KPI cards in .kpi-row: EXACTLY ONE LINE on Desktop/PC!
+    // 6 Financial KPI Cards (All 5 original + 6th Real Net Balance)
     const statCards = `
       <div class="kpi-row">
-        <div class="card sc sc-earn">
+        <div class="card sc sc-earn" onclick="go(\'duty\')" style="cursor:pointer;" title="${T3("দৈনিক ডিউটি ও কাজের আয়", "Daily duty & earnings")}">
           <div class="k">${t("total_earnings")}</div>
           <div class="v">SAR ${s.e.toFixed(2)}</div>
           <div class="sub">${f(s.h)}h (${f(s.ot)}h OT)</div>
         </div>
-        <div class="card sc sc-rec">
+        <div class="card sc sc-rec" onclick="go(\'salary\')" style="cursor:pointer;" title="${T3("নগদ ও ব্যাংক প্রাপ্ত বেতন", "Received Salary")}">
           <div class="k">${t("total_received")}</div>
           <div class="v">SAR ${s.p.toFixed(2)}</div>
           <div class="sub">${T3("নগদ ও ব্যাংকে গৃহীত", "Received", "المستلم")}</div>
         </div>
-        <div class="card sc sc-due">
+        <div class="card sc sc-due" onclick="go(\'salary\')" style="cursor:pointer;" title="${T3("কোম্পানির নিকট পাওনা", "Pending Dues")}">
           <div class="k">${t("outstanding_salary")}</div>
           <div class="v">SAR ${s.o.toFixed(2)}</div>
           <div class="sub">${T3("কোম্পানির নিকট বাকি", "Due from company", "المستحق")}</div>
         </div>
-        <div class="card sc sc-rem">
+        <div class="card sc sc-rem" onclick="go(\'finance\')" style="cursor:pointer;" title="${T3("দেশে রেমিট্যান্স", "Home Remittance")}">
           <div class="k">${T3("দেশে রেমিট্যান্স", "Home Remittance", "الحوالات")}</div>
           <div class="v">SAR ${s.rs.toFixed(2)}</div>
           <div class="sub">BDT ${f(s.rb)}</div>
         </div>
-        <div class="card sc sc-exp">
+        <div class="card sc sc-exp" onclick="go(\'finance\')" style="cursor:pointer;" title="${T3("ব্যক্তিগত খরচ", "Personal Expenses")}">
           <div class="k">${T3("ব্যক্তিগত খরচ", "Personal Expenses", "المصاريف")}</div>
           <div class="v">SAR ${s.ex.toFixed(2)}</div>
           <div class="sub">${s.ex > 0 ? f(S.exp.length) + " " + T3("টি এন্ট্রি", "entries") : T3("কোনো খরচ নেই", "No expense")}</div>
+        </div>
+        <div class="card sc sc-bal" onclick="go(\'balance\')" style="cursor:pointer;" title="${T3("প্রকৃত সঞ্চিত নগদ ব্যালেন্স", "Actual Net Cash Balance")}">
+          <div class="k">💰 ${T3("প্রকৃত ব্যালেন্স", "Net Balance", "الرصيد الصافي")}</div>
+          <div class="v">SAR ${s.net.toFixed(2)}</div>
+          <div class="sub">${s.net >= 0 ? "✅ " + T3("হাতে সঞ্চিত", "In Hand", "في اليد") : "⚠️ " + T3("ঘাটতি", "Deficit", "عجز")}</div>
         </div>
       </div>`;
 
@@ -2734,6 +2859,144 @@ const V = {
               <input id="c4" type="number" placeholder="Repaid" value="0">`,
               "addLoan()")}
             <div class="lst">${loanList || `<p class="k" style="text-align:center; padding:12px;">${T3("কোনো ঋণ বা অগ্রিম নেই", "No loans recorded", "لا توجد سلف")}</p>`}</div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  balance() {
+    const s = sum();
+    const isDeficit = s.net < 0;
+    const dutyCount = S.duty.length;
+    const payCount = S.pay.length;
+    const remCount = S.rem.length;
+    const expCount = S.exp.length;
+    const loanCount = S.loan.length;
+
+    return `
+      <div class="rh" style="margin-bottom:14px;">
+        <h3 class="gold-text" style="font-size:22px; margin:0;">💰 ${T3("প্রকৃত ব্যালেন্স ও আর্থিক হিসাব বিবরণী", "Actual Net Balance & Financial Statement", "كشف الحساب والارباح الفعلي")}</h3>
+        <span class="k">${T3("স্বয়ংক্রিয় রিয়েলটাইম হিসাব", "Real-time calculation")}</span>
+      </div>
+
+      <!-- Master Balance Highlight Card -->
+      <div class="card" style="padding:22px 24px; margin-bottom:18px; border:2px solid var(--gold); background:linear-gradient(135deg, rgba(214,170,84,0.18) 0%, rgba(14,22,38,0.92) 100%);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div class="k" style="font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--gold-2);">
+              ✦ ${T3("বর্তমান প্রকৃত সঞ্চিত ব্যালেন্স (হাতে নগদ)", "Current Real Net Balance (In Hand Cash)", "الرصيد الفعلي المتوفر حالياً")}
+            </div>
+            <div style="font-size:clamp(26px, 3.2vw, 42px); font-weight:900; color:${isDeficit ? 'var(--dg)' : 'var(--gold)'}; margin:4px 0 2px;">
+              SAR ${f(s.net)}
+            </div>
+            <div style="font-size:13px; color:var(--t2);">
+              ${isDeficit ? "⚠️ " + T3("খরচ ও রেমিট্যান্স আপনার প্রাপ্ত বেতনের চেয়ে বেশি হয়েছে", "Expenses & remittance exceed received salary") : "✅ " + T3("প্রাপ্ত মোট বেতন ও অগ্রিম থেকে খরচ ও রেমিট্যান্স বাদ দেওয়ার পর অবশিষ্ট প্রকৃত সঞ্চয়", "Net available funds calculated from all recorded salary, advances, remittance and expenses")}
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn" onclick="go(\'salary\')">💵 ${T3("বেতন রেকর্ড", "Salary")}</button>
+            <button class="s" onclick="go(\'finance\')">📤 ${T3("রেমিট্যান্স ও খরচ", "Finance")}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Breakdown Flow -->
+      <div class="pc-split">
+        <div class="pc-col-main">
+          <div class="card">
+            <h3 style="margin-bottom:14px; font-size:17px; color:var(--gold);">
+              📈 ${T3("আর্থিক প্রবাহ ও ব্যালেন্স হিসাব সূত্র", "Financial Flow & Balance Formula", "معادلة احتساب الرصيد")}
+            </h3>
+            
+            <div class="r" style="padding:12px 0;">
+              <div>
+                <b style="color:var(--ok);">➕ ${T3("নগদ ও ব্যাংকে গৃহীত বেতন", "Total Received Salary")}</b>
+                <div class="k">${payCount} ${T3("টি প্রাপ্ত বেতন রেকর্ড", "payment records")}</div>
+              </div>
+              <b style="font-size:17px; color:var(--ok);">+ SAR ${f(s.p)}</b>
+            </div>
+
+            ${s.advLoanTaken > 0 ? `
+            <div class="r" style="padding:12px 0;">
+              <div>
+                <b style="color:var(--cy);">➕ ${T3("কোম্পানি অগ্রিম ও ব্যক্তিগত ঋণ গ্রহণ (অবশিষ্ট)", "Company Advances & Borrowed Loans (Net)")}</b>
+                <div class="k">${T3("হাতে আসা নগদ ঋণ বা অগ্রিম", "Cash inflow from loans/advances")}</div>
+              </div>
+              <b style="font-size:17px; color:var(--cy);">+ SAR ${f(s.advLoanTaken)}</b>
+            </div>` : ""}
+
+            <div class="r" style="padding:12px 0;">
+              <div>
+                <b style="color:var(--wn);">➖ ${T3("দেশে প্রেরিত মোট রেমিট্যান্স", "Total Remittance Sent")}</b>
+                <div class="k">${remCount} ${T3("টি রেমিট্যান্স · সমপরিমাণ BDT " + f(s.rb), "entries")}</div>
+              </div>
+              <b style="font-size:17px; color:var(--wn);">- SAR ${f(s.rs)}</b>
+            </div>
+
+            <div class="r" style="padding:12px 0;">
+              <div>
+                <b style="color:var(--dg);">➖ ${T3("মোট ব্যক্তিগত খরচ", "Total Personal Expenses")}</b>
+                <div class="k">${expCount} ${T3("টি খরচ এন্ট্রি (খাবার, থাকা, মোবাইল ইত্যাদি)", "expense entries")}</div>
+              </div>
+              <b style="font-size:17px; color:var(--dg);">- SAR ${f(s.ex)}</b>
+            </div>
+
+            ${s.loanGiven > 0 ? `
+            <div class="r" style="padding:12px 0;">
+              <div>
+                <b style="color:var(--t2);">➖ ${T3("অন্যকে দেওয়া ধার / ঋণ (বাকি)", "Loans Given to Others")}</b>
+                <div class="k">${T3("অন্যের কাছে পাওনা যা এখনো ফেরত আসেনি", "Pending repayment")}</div>
+              </div>
+              <b style="font-size:17px; color:var(--t2);">- SAR ${f(s.loanGiven)}</b>
+            </div>` : ""}
+
+            <div class="r" style="padding:14px 0; border-top:2px solid var(--gold-border); border-bottom:none; margin-top:6px;">
+              <div>
+                <b style="font-size:16px; color:var(--gold);">💰 ${T3("প্রকৃত হাতে থাকা মোট ব্যালেন্স", "Net Available Cash Balance")}</b>
+                <div class="k">${T3("আয় + ঋণ গ্রহণ − রেমিট্যান্স − খরচ − প্রদত্ত ঋণ", "Income + Inflow − Remittance − Expenses − Outflow")}</div>
+              </div>
+              <b style="font-size:20px; color:${isDeficit ? 'var(--dg)' : 'var(--gold)'};">SAR ${f(s.net)}</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc-col-side">
+          <div class="card">
+            <h3 style="margin-bottom:12px; font-size:16px; color:var(--gold);">
+              💼 ${T3("কাজের বকেয়া ও সম্ভাব্য সম্পদ", "Work Dues & Total Worth")}
+            </h3>
+            
+            <div class="r">
+              <div>
+                <b>${t("total_earnings")}</b>
+                <div class="k">${dutyCount} ${T3("টি ডিউটি · " + f(s.h) + " ঘণ্টা", "duties")}</div>
+              </div>
+              <b style="color:var(--gold); font-size:15px;">SAR ${f(s.e)}</b>
+            </div>
+
+            <div class="r">
+              <div>
+                <b style="color:var(--wn);">${t("outstanding_salary")}</b>
+                <div class="k">${T3("কোম্পানির কাছে পাওনা যা এখনো পাননি", "Unpaid by employer")}</div>
+              </div>
+              <b style="color:var(--wn); font-size:15px;">SAR ${f(s.o)}</b>
+            </div>
+
+            <div class="r">
+              <div>
+                <b>${T3("সম্ভাব্য মোট সম্পদ (ব্যালেন্স + বকেয়া)", "Total Worth (In Hand + Dues)")}</b>
+                <div class="k">${T3("বকেয়া বেতন আদায় হলে আপনার মোট সম্পদ", "Projected total with dues")}</div>
+              </div>
+              <b style="color:var(--ok); font-size:16px;">SAR ${f(s.net + s.o)}</b>
+            </div>
+          </div>
+
+          <div class="card pv">
+            <span class="em">🔒</span>
+            <div style="font-size:13px; line-height:1.5;">
+              ${T3("এই ব্যালেন্স হিসাবটি ডেমো বা স্ট্যাটিক কোনো সংখ্যা নয়। আপনার সকল প্রকৃত ডিউটি আয়, নিয়োগকর্তা থেকে প্রাপ্ত নগদ পেমেন্ট, দেশে পাঠানো রেমিট্যান্স এবং প্রতিটি খরচ থেকে লাইভ রিয়েলটাইমে গণনা করা হয়েছে।",
+                   "This balance is not static or demo data. It is computed in real time from your actual logged salary, advances, remittances and expenses.")}
+            </div>
           </div>
         </div>
       </div>`;
@@ -4026,7 +4289,7 @@ function authErr(e) {
     "auth/too-many-requests": ["অনেকবার চেষ্টা হয়েছে, একটু পরে আবার করুন", "Too many attempts, try again later"],
     "auth/user-disabled": ["এই অ্যাকাউন্ট বন্ধ করা আছে", "This account is disabled"],
     "auth/account-exists-with-different-credential": ["এই ইমেইল অন্য পদ্ধতিতে খোলা আছে", "Email registered with another method"],
-    "auth/unauthorized-domain": ["এই ডোমেইন Firebase-এ অনুমোদিত নয়", "Domain not authorized in Firebase"]
+    "auth/unauthorized-domain": ["এই ডোমেইনটি Firebase Authorized Domains-এ যুক্ত নেই। Firebase Console -> Authentication -> Settings -> Authorized Domains-এ এই ওয়েবসাইটের ডোমেইন যোগ করুন।", "Domain not authorized in Firebase. Add this domain to Firebase Console -> Authentication -> Settings -> Authorized Domains."]
   }[c];
   return m ? T3(m[0], m[1]) : T3("সমস্যা হয়েছে: ", "Error: ") + (c || (e && e.message) || "");
 }
@@ -4259,6 +4522,7 @@ async function completeProfile() {
 async function onAuthChanged(user) {
   AUTH_READY = true;
   if (!user) {
+    if (U && U.uid) stopCloudSync(U.uid);
     stopSuppliers();
     U = null; REC = null; IS_ADMIN = false; KEY = null; READY_APP = false; AM = "li";
     const pre = { lang: S.profile.lang, dark: S.profile.dark };
@@ -4307,6 +4571,7 @@ function finishLogin() {
   ST.length = 0;
   IS_ADMIN = U.verified && ADMIN_EMAILS.includes(U.email);
   startSuppliers();
+  startCloudSync(U.uid);
   DB.ref("admins/" + U.uid).once("value")
     .then((s) => { if (s.val() === true && !IS_ADMIN) { IS_ADMIN = true; render(); } })
     .catch(() => {});
@@ -4328,6 +4593,9 @@ function resetAccount() {
   S = JSON.parse(JSON.stringify(D0));
   Object.assign(S.profile, keep);
   save();
+  if (DB && U && U.uid) {
+    DB.ref("userData/" + U.uid).remove().catch(() => {});
+  }
   render();
 }
 
@@ -4623,8 +4891,8 @@ function render() {
 
   const nv = document.getElementById("nv");
   if (nv) {
-    nv.innerHTML = BN.map(([route, transKey, icon]) => `
-      <div class="${route === cur ? 'on' : ''}" onclick="go('${route}')">
+    nv.innerHTML = BN.map(([route, transKey, icon], idx) => `
+      <div class="${route === cur ? 'on' : ''} ${route === 'dashboard' ? 'nav-home-btn' : ''}" onclick="go('${route}')">
         <span class="em">${IC[icon]}</span>
         <span>${t(transKey)}</span>
       </div>`).join("");
