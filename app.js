@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initTypingEffect();
   initContactForm();
+  initLiveChatBot();
 
   // Render initial seed immediately
   renderPortfolio(currentPortfolioData);
@@ -714,3 +715,372 @@ function showToast(message, type = 'success') {
     setTimeout(() => toast.remove(), 300);
   }, 4500);
 }
+
+/**
+ * =========================================================================
+ * CONVERSATIONAL LEAD QUALIFICATION BOT & BIDIRECTIONAL LIVE CHAT WIDGET
+ * Step 1: Client Country
+ * Step 2: Client Name
+ * Step 3: Contact Option (WhatsApp / Telegram / Email)
+ * Step 4: Specific Contact Details
+ * Step 5: Unlocked Free-form Live Chat with real-time Admin CMS Sync
+ * =========================================================================
+ */
+function initLiveChatBot() {
+  const triggerBtn = document.getElementById('chatTrigger');
+  const chatDialog = document.getElementById('chatDialog');
+  const closeBtn = document.getElementById('chatCloseBtn');
+  const heroChatBtn = document.getElementById('heroLiveChatBtn');
+  const chipsContainer = document.getElementById('chatQuickChips');
+  const messagesContainer = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSendBtn');
+
+  if (!triggerBtn || !chatDialog || !messagesContainer || !chatInput || !sendBtn) {
+    return;
+  }
+
+  // Session ID Management
+  let sessionId = localStorage.getItem('MR_CHAT_SESSION_ID');
+  if (!sessionId) {
+    sessionId = 'chat_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+    localStorage.setItem('MR_CHAT_SESSION_ID', sessionId);
+  }
+
+  // Lead State Management
+  const DEFAULT_LEAD_STATE = {
+    step: 'COUNTRY', // 'COUNTRY' | 'NAME' | 'METHOD' | 'VALUE' | 'LIVE_CHAT'
+    country: '',
+    name: '',
+    contactMethod: '',
+    contactValue: '',
+    registered: false
+  };
+
+  let leadData = DEFAULT_LEAD_STATE;
+  try {
+    const savedLead = localStorage.getItem('MR_CHAT_LEAD_DATA_' + sessionId);
+    if (savedLead) leadData = { ...DEFAULT_LEAD_STATE, ...JSON.parse(savedLead) };
+  } catch (e) {
+    console.warn("Could not load lead state:", e);
+  }
+
+  // Conversation History
+  let chatHistory = [];
+  try {
+    const savedHistory = localStorage.getItem('MR_CHAT_HISTORY_' + sessionId);
+    if (savedHistory) chatHistory = JSON.parse(savedHistory);
+  } catch (e) {
+    console.warn("Could not load chat history:", e);
+  }
+
+  // Render existing history or trigger first prompt
+  if (chatHistory.length > 0) {
+    chatHistory.forEach(item => renderBubble(item.sender, item.text, item.time, false));
+    updateChipsForCurrentStep();
+  } else {
+    // Initial Bot Greeting
+    addBotMessage(
+      "Hello! Welcome to MR TECH 👋 I am Mijanur's interactive assistant.\nWhich country are you contacting us from? 🌍",
+      true
+    );
+    updateChipsForCurrentStep();
+  }
+
+  // Toggle Chat Dialog
+  const openChat = () => {
+    chatDialog.classList.add('open');
+    chatInput.focus();
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    const pulse = triggerBtn.querySelector('.badge-pulse');
+    if (pulse) pulse.style.display = 'none';
+  };
+
+  const closeChat = () => {
+    chatDialog.classList.remove('open');
+  };
+
+  triggerBtn.addEventListener('click', () => {
+    if (chatDialog.classList.contains('open')) {
+      closeChat();
+    } else {
+      openChat();
+    }
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeChat);
+  if (heroChatBtn) heroChatBtn.addEventListener('click', openChat);
+
+  // Send message on Enter or Click
+  const submitMessage = () => {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    chatInput.value = '';
+    handleUserInput(text);
+  };
+
+  sendBtn.addEventListener('click', submitMessage);
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitMessage();
+    }
+  });
+
+  /**
+   * Main Conversational State Machine
+   */
+  function handleUserInput(input) {
+    // 1. Append user's message
+    addUserMessage(input);
+
+    // 2. Process based on current step
+    switch (leadData.step) {
+      case 'COUNTRY':
+        leadData.country = input;
+        leadData.step = 'NAME';
+        saveLeadState();
+
+        setTimeout(() => {
+          addBotMessage(`Great to meet you from ${leadData.country}! 🌟\nMay I please have your full name? 👤`);
+          updateChipsForCurrentStep();
+        }, 400);
+        break;
+
+      case 'NAME':
+        leadData.name = input;
+        leadData.step = 'METHOD';
+        saveLeadState();
+
+        setTimeout(() => {
+          addBotMessage(`Nice to connect with you, ${leadData.name}! 🤝\nWhich contact option do you prefer for direct communication? 📱`);
+          updateChipsForCurrentStep();
+        }, 400);
+        break;
+
+      case 'METHOD':
+        // Recognize choice
+        let normalizedMethod = 'WhatsApp';
+        const lower = input.toLowerCase();
+        if (lower.includes('telegram')) normalizedMethod = 'Telegram';
+        else if (lower.includes('email') || lower.includes('mail')) normalizedMethod = 'Email';
+        else normalizedMethod = 'WhatsApp';
+
+        leadData.contactMethod = normalizedMethod;
+        leadData.step = 'VALUE';
+        saveLeadState();
+
+        setTimeout(() => {
+          let prompt = '';
+          if (normalizedMethod === 'WhatsApp') {
+            prompt = `Awesome! Please enter your WhatsApp number (with country code, e.g. +8801... or +1...): 💬`;
+          } else if (normalizedMethod === 'Telegram') {
+            prompt = `Great! Please share your Telegram username or mobile handle (e.g. @username): ✈️`;
+          } else {
+            prompt = `Perfect! Please enter your Email address (e.g. name@domain.com): ✉️`;
+          }
+          addBotMessage(prompt);
+          updateChipsForCurrentStep();
+        }, 400);
+        break;
+
+      case 'VALUE':
+        leadData.contactValue = input;
+        leadData.step = 'LIVE_CHAT';
+        leadData.registered = true;
+        saveLeadState();
+
+        // Sync lead registration to Firebase Realtime Database
+        syncLeadMetadata();
+
+        setTimeout(() => {
+          addBotMessage(
+            `Thank you, ${leadData.name}! 🎉 Your details are securely saved, and Mijanur has been notified in real time.\n\nYou are now in Live Chat mode with Mijanur. Tell us about your project, website, or app idea:`
+          );
+          updateChipsForCurrentStep();
+        }, 400);
+        break;
+
+      case 'LIVE_CHAT':
+      default:
+        // Direct live message to Firebase Realtime Database
+        if (window.MR_FIREBASE) {
+          window.MR_FIREBASE.sendChatMessage(sessionId, {
+            sender: 'customer',
+            senderName: leadData.name || 'Visitor',
+            text: input
+          }, {
+            customerName: leadData.name || 'Visitor',
+            customerCountry: leadData.country || 'Global',
+            customerContactMethod: leadData.contactMethod || 'Direct',
+            customerContactValue: leadData.contactValue || '',
+            customerEmail: leadData.contactMethod === 'Email' ? leadData.contactValue : ''
+          });
+        }
+        break;
+    }
+  }
+
+  /**
+   * Save Lead State to LocalStorage
+   */
+  function saveLeadState() {
+    localStorage.setItem('MR_CHAT_LEAD_DATA_' + sessionId, JSON.stringify(leadData));
+  }
+
+  /**
+   * Sync complete lead registration to Firebase Realtime Database
+   */
+  function syncLeadMetadata() {
+    if (window.MR_FIREBASE) {
+      window.MR_FIREBASE.sendChatMessage(sessionId, {
+        sender: 'customer',
+        senderName: leadData.name || 'Visitor',
+        text: `[New Lead Details] Country: ${leadData.country} | Preferred Contact: ${leadData.contactMethod} (${leadData.contactValue})`
+      }, {
+        customerName: leadData.name,
+        customerCountry: leadData.country,
+        customerContactMethod: leadData.contactMethod,
+        customerContactValue: leadData.contactValue,
+        customerEmail: leadData.contactMethod === 'Email' ? leadData.contactValue : '',
+        status: 'active'
+      });
+    }
+  }
+
+  /**
+   * Quick Chips Generator
+   */
+  function updateChipsForCurrentStep() {
+    if (!chipsContainer) return;
+    chipsContainer.innerHTML = '';
+
+    if (leadData.step === 'COUNTRY') {
+      const countries = [
+        { label: '🇧🇩 Bangladesh', val: 'Bangladesh' },
+        { label: '🇺🇸 United States', val: 'United States' },
+        { label: '🇦🇪 UAE', val: 'UAE' },
+        { label: '🇸🇦 Saudi Arabia', val: 'Saudi Arabia' },
+        { label: '🇬🇧 United Kingdom', val: 'United Kingdom' },
+        { label: '🇨🇦 Canada', val: 'Canada' },
+        { label: '🇮🇳 India', val: 'India' },
+        { label: '🌍 Other Country', val: 'International' }
+      ];
+      renderChips(countries);
+      chatInput.placeholder = 'Type your country or tap an option...';
+    } else if (leadData.step === 'NAME') {
+      chipsContainer.style.display = 'none';
+      chatInput.placeholder = 'Enter your full name...';
+    } else if (leadData.step === 'METHOD') {
+      const methods = [
+        { label: 'WhatsApp', val: 'WhatsApp', icon: 'fa-brands fa-whatsapp' },
+        { label: 'Telegram', val: 'Telegram', icon: 'fa-brands fa-telegram' },
+        { label: 'Email', val: 'Email', icon: 'fa-solid fa-envelope' }
+      ];
+      renderChips(methods);
+      chatInput.placeholder = 'Select WhatsApp, Telegram, or Email...';
+    } else if (leadData.step === 'VALUE') {
+      chipsContainer.style.display = 'none';
+      if (leadData.contactMethod === 'WhatsApp') {
+        chatInput.placeholder = 'Enter WhatsApp number (e.g. +880...)';
+      } else if (leadData.contactMethod === 'Telegram') {
+        chatInput.placeholder = 'Enter Telegram @username or number';
+      } else {
+        chatInput.placeholder = 'Enter your email address';
+      }
+    } else if (leadData.step === 'LIVE_CHAT') {
+      const liveOptions = [
+        { label: '💻 Web Application', val: 'I would like to discuss building a custom Web Application.' },
+        { label: '📱 Android App', val: 'I need a native Android Mobile App with Kotlin & Compose.' },
+        { label: '⚡ Custom Dashboard', val: 'I need a Realtime Admin Dashboard with Firebase.' },
+        {
+          label: '💬 Direct WhatsApp',
+          action: () => {
+            const cleanNum = (currentPortfolioData.profile?.whatsapp || '+8801700000000').replace(/[^0-9]/g, '');
+            window.open(`https://wa.me/${cleanNum}?text=${encodeURIComponent(`Hello Mijanur, I am ${leadData.name} from ${leadData.country}. I would like to discuss a project.`)}`, '_blank');
+          }
+        }
+      ];
+      renderChips(liveOptions);
+      chatInput.placeholder = 'Type your project details or message...';
+    }
+  }
+
+  function renderChips(chips) {
+    chipsContainer.innerHTML = '';
+    chipsContainer.style.display = 'flex';
+    chips.forEach(item => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quick-chip';
+      btn.innerHTML = `${item.icon ? `<i class="${item.icon}"></i> ` : ''}${item.label}`;
+      btn.onclick = () => {
+        if (item.action) {
+          item.action();
+        } else {
+          handleUserInput(item.val || item.label);
+        }
+      };
+      chipsContainer.appendChild(btn);
+    });
+  }
+
+  /**
+   * DOM Rendering for bubbles
+   */
+  function addBotMessage(text, shouldSave = true) {
+    renderBubble('admin', text, new Date().toISOString(), shouldSave);
+  }
+
+  function addUserMessage(text, shouldSave = true) {
+    renderBubble('customer', text, new Date().toISOString(), shouldSave);
+  }
+
+  function renderBubble(sender, text, isoTime, shouldSave = true) {
+    const wrapper = document.createElement('div');
+    wrapper.className = `chat-bubble-wrapper ${sender}`;
+
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${sender}`;
+    bubble.innerHTML = text.replace(/\n/g, '<br>');
+
+    const timeEl = document.createElement('div');
+    timeEl.className = 'chat-timestamp';
+    const timeFormatted = new Date(isoTime || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    timeEl.textContent = (sender === 'customer' ? (leadData.name || 'You') : 'Mijanur Rahman') + ' • ' + timeFormatted;
+
+    wrapper.appendChild(bubble);
+    wrapper.appendChild(timeEl);
+    messagesContainer.appendChild(wrapper);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    if (shouldSave) {
+      chatHistory.push({ sender, text, time: isoTime });
+      localStorage.setItem('MR_CHAT_HISTORY_' + sessionId, JSON.stringify(chatHistory));
+    }
+  }
+
+  // Real-time listener for incoming messages from Admin (Mijanur)
+  if (window.MR_FIREBASE) {
+    window.MR_FIREBASE.listenToChatSession(sessionId, (remoteMessages) => {
+      if (!remoteMessages || !remoteMessages.length) return;
+
+      remoteMessages.forEach(msg => {
+        if (msg.sender === 'admin') {
+          // Check if already rendered
+          const exists = chatHistory.some(h => h.sender === 'admin' && h.text === msg.text);
+          if (!exists) {
+            renderBubble('admin', msg.text, msg.timestamp || new Date().toISOString(), true);
+
+            // If dialog is closed, trigger pulse
+            if (!chatDialog.classList.contains('open')) {
+              const pulse = triggerBtn.querySelector('.badge-pulse');
+              if (pulse) pulse.style.display = 'block';
+            }
+          }
+        }
+      });
+    });
+  }
+}
+

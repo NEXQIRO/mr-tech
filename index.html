@@ -97,10 +97,10 @@
                 <span>View Real Projects</span>
                 <i class="fa-solid fa-code"></i>
               </a>
-              <a href="#contact" class="btn btn-gold" id="heroHireBtn">
-                <i class="fa-solid fa-paper-plane"></i>
-                <span>Hire Me / Let's Talk</span>
-              </a>
+              <button type="button" class="btn btn-gold" id="heroLiveChatBtn">
+                <i class="fa-solid fa-comments"></i>
+                <span>Live Chat With Me</span>
+              </button>
               <a href="https://wa.me/8801700000000" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="heroWhatsappBtn">
                 <i class="fa-brands fa-whatsapp"></i>
                 <span>Direct WhatsApp</span>
@@ -381,11 +381,48 @@
     </section>
   </main>
 
-  <!-- Quick Floating WhatsApp / Direct Contact Trigger -->
-  <a href="https://wa.me/8801700000000" target="_blank" rel="noopener noreferrer" class="quick-contact-trigger" id="quickContactTrigger" aria-label="Direct WhatsApp Chat with Mijanur">
-    <i class="fa-brands fa-whatsapp"></i>
+  <!-- Quick Floating Live Chat Trigger -->
+  <button class="livechat-trigger" id="chatTrigger" aria-label="Open Live Chat with Mijanur">
+    <i class="fa-solid fa-comments"></i>
     <span class="badge-pulse"></span>
-  </a>
+  </button>
+
+  <!-- Live Chat Dialog with Conversational Lead Bot -->
+  <div class="livechat-dialog" id="chatDialog" role="dialog" aria-labelledby="chatAgentName" aria-modal="true">
+    <div class="chat-header">
+      <div class="chat-agent-info">
+        <img src="images/profile.jpg" alt="Mijanur Rahman" class="chat-agent-avatar" id="chatAgentAvatar">
+        <div>
+          <div class="chat-agent-title" id="chatAgentName">Mijanur Rahman</div>
+          <div class="chat-agent-subtitle">
+            <span class="status-dot"></span>
+            <span id="chatAgentStatus">Online • Typically replies in minutes</span>
+          </div>
+        </div>
+      </div>
+      <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close Chat">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Quick suggestion / option chips -->
+    <div class="chat-quick-chips" id="chatQuickChips">
+      <!-- Populated dynamically by bot based on current step -->
+    </div>
+
+    <!-- Chat Messages Stream -->
+    <div class="chat-messages-container" id="chatMessages">
+      <!-- Welcome message and interactive conversation bubbles will appear here -->
+    </div>
+
+    <!-- Chat Input Bar -->
+    <div class="chat-input-bar">
+      <input type="text" id="chatInput" placeholder="Type your response..." autocomplete="off">
+      <button class="chat-send-btn" id="chatSendBtn" aria-label="Send message">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
 
   <!-- 8. Footer Section -->
   <footer class="footer">

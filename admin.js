@@ -501,12 +501,21 @@ function renderChatThreads() {
     const isUnread = !!meta.unreadForAdmin;
     const isActive = activeChatSessionId === c.sessionId;
     const timeStr = meta.updatedAt ? formatTimeAgo(meta.updatedAt) : 'Just now';
+    const country = meta.customerCountry ? `<span style="font-size: 0.72rem; color: #22D3EE;"><i class="fa-solid fa-earth-americas"></i> ${meta.customerCountry}</span>` : '';
+    const contactIcon = meta.customerContactMethod === 'WhatsApp' ? '<i class="fa-brands fa-whatsapp" style="color: #25D366;"></i>' :
+                        meta.customerContactMethod === 'Telegram' ? '<i class="fa-brands fa-telegram" style="color: #229ED9;"></i>' :
+                        '<i class="fa-solid fa-envelope" style="color: #A78BFA;"></i>';
+    const contactMethodLabel = meta.customerContactMethod ? `<span style="font-size: 0.72rem; color: var(--admin-text-muted);">${contactIcon} ${meta.customerContactMethod}</span>` : '';
 
     return `
       <li class="chat-thread-item ${isActive ? 'active' : ''}" onclick="selectChatSession('${c.sessionId}')">
         <div class="chat-thread-top">
           <span class="chat-thread-name">${meta.customerName || 'Customer'}</span>
           <span class="chat-thread-time">${timeStr}</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; margin: 3px 0 4px;">
+          ${country}
+          ${contactMethodLabel ? `<span style="color: var(--admin-text-muted); font-size: 0.7rem;">•</span> ${contactMethodLabel}` : ''}
         </div>
         <div class="chat-thread-preview">${meta.lastMessage || 'Started conversation'}</div>
         ${isUnread ? `<span class="chat-thread-unread-chip">● New Message</span>` : ''}
@@ -530,10 +539,69 @@ function selectChatSession(sessionId) {
   const nameEl = document.getElementById('activeVisitorName');
   const sessEl = document.getElementById('activeVisitorSessionId');
   const initEl = document.getElementById('activeVisitorInitial');
+  const detailsEl = document.getElementById('activeVisitorLeadDetails');
+  const directLinkEl = document.getElementById('activeVisitorDirectLinkContainer');
 
-  if (nameEl) nameEl.textContent = `${meta.customerName || 'Customer'} (${meta.customerEmail || 'No email'})`;
+  if (nameEl) nameEl.textContent = `${meta.customerName || 'Customer'}`;
   if (sessEl) sessEl.textContent = `Session: ${sessionId} • Status: ${meta.status || 'Active'}`;
   if (initEl) initEl.textContent = (meta.customerName || 'C').charAt(0).toUpperCase();
+
+  // Populate Lead Badges
+  if (detailsEl) {
+    const badges = [];
+    if (meta.customerCountry) {
+      badges.push(`
+        <span style="background: rgba(34, 211, 238, 0.12); color: #22D3EE; border: 1px solid rgba(34, 211, 238, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 0.74rem; font-weight: 600;">
+          <i class="fa-solid fa-earth-americas"></i> ${meta.customerCountry}
+        </span>
+      `);
+    }
+    if (meta.customerContactMethod && meta.customerContactValue) {
+      const isWa = meta.customerContactMethod === 'WhatsApp';
+      const isTg = meta.customerContactMethod === 'Telegram';
+      const icon = isWa ? 'fa-brands fa-whatsapp' : (isTg ? 'fa-brands fa-telegram' : 'fa-solid fa-envelope');
+      const color = isWa ? '#25D366' : (isTg ? '#229ED9' : '#A78BFA');
+      badges.push(`
+        <span style="background: rgba(255, 255, 255, 0.05); color: ${color}; border: 1px solid rgba(255, 255, 255, 0.15); padding: 2px 8px; border-radius: 4px; font-size: 0.74rem; font-weight: 600;">
+          <i class="${icon}"></i> ${meta.customerContactMethod}: <strong>${meta.customerContactValue}</strong>
+        </span>
+      `);
+    } else if (meta.customerEmail) {
+      badges.push(`
+        <span style="background: rgba(255, 255, 255, 0.05); color: #A78BFA; border: 1px solid rgba(255, 255, 255, 0.15); padding: 2px 8px; border-radius: 4px; font-size: 0.74rem; font-weight: 600;">
+          <i class="fa-solid fa-envelope"></i> ${meta.customerEmail}
+        </span>
+      `);
+    }
+    detailsEl.innerHTML = badges.join('');
+  }
+
+  // Populate direct contact button
+  if (directLinkEl) {
+    let directBtnHtml = '';
+    if (meta.customerContactMethod === 'WhatsApp' && meta.customerContactValue) {
+      const cleanNum = meta.customerContactValue.replace(/[^0-9]/g, '');
+      directBtnHtml = `
+        <a href="https://wa.me/${cleanNum}" target="_blank" class="btn btn-sm btn-primary" style="font-size: 0.78rem; background: #25D366; border-color: #25D366; color: #040711; font-weight: 700;">
+          <i class="fa-brands fa-whatsapp"></i> <span>Open WhatsApp</span>
+        </a>
+      `;
+    } else if (meta.customerContactMethod === 'Telegram' && meta.customerContactValue) {
+      const handle = meta.customerContactValue.replace(/^@/, '');
+      directBtnHtml = `
+        <a href="https://t.me/${handle}" target="_blank" class="btn btn-sm btn-primary" style="font-size: 0.78rem; background: #229ED9; border-color: #229ED9; color: #FFFFFF; font-weight: 700;">
+          <i class="fa-brands fa-telegram"></i> <span>Open Telegram</span>
+        </a>
+      `;
+    } else if (meta.customerContactValue && meta.customerContactValue.includes('@')) {
+      directBtnHtml = `
+        <a href="mailto:${meta.customerContactValue}?subject=MR TECH Inquiry Follow-up" class="btn btn-sm btn-outline" style="font-size: 0.78rem;">
+          <i class="fa-solid fa-envelope"></i> <span>Send Email</span>
+        </a>
+      `;
+    }
+    directLinkEl.innerHTML = directBtnHtml;
+  }
 
   // Mark as read by admin
   if (window.MR_FIREBASE) {

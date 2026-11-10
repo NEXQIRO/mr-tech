@@ -117,12 +117,7 @@
           <span>Timeline / Journey</span>
         </button>
       </li>
-      <li class="admin-nav-item">
-        <button data-panel="resume">
-          <i class="fa-solid fa-file-pdf"></i>
-          <span>CV & Resume</span>
-        </button>
-      </li>
+
       <li class="admin-nav-item">
         <button data-panel="inbox">
           <i class="fa-solid fa-inbox"></i>
@@ -307,9 +302,11 @@
                 <div>
                   <h4 style="font-size: 1rem; font-weight: 700;" id="activeVisitorName">Select a Customer Chat</h4>
                   <p style="font-size: 0.78rem; color: var(--admin-text-muted);" id="activeVisitorSessionId">No session selected</p>
+                  <div id="activeVisitorLeadDetails" style="margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap;"></div>
                 </div>
               </div>
-              <div style="display: flex; gap: 0.5rem;">
+              <div style="display: flex; gap: 0.5rem; align-items: center;" id="activeVisitorActions">
+                <span id="activeVisitorDirectLinkContainer"></span>
                 <button class="btn btn-outline btn-sm" id="resolveChatBtn" style="font-size: 0.78rem;">
                   <i class="fa-solid fa-check-circle"></i>
                   <span>Mark Resolved</span>
@@ -586,42 +583,7 @@
         </div>
       </section>
 
-      <!-- ====================================================================
-           8. RESUME & CV MANAGEMENT PANEL
-           ==================================================================== -->
-      <section class="cms-panel" id="panel-resume">
-        <div class="cms-card">
-          <div class="cms-card-header">
-            <h3 class="cms-card-title">Curriculum Vitae (CV) Settings</h3>
-            <button class="btn btn-primary btn-sm" id="saveCvSettingsBtn">
-              <i class="fa-solid fa-floppy-disk"></i>
-              <span>Save CV Link</span>
-            </button>
-          </div>
 
-          <div class="form-group">
-            <label class="cms-label" for="cvDownloadUrlInput">Current CV Download URL</label>
-            <input type="text" id="cvDownloadUrlInput" class="cms-input" value="database-schema.json">
-            <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 0.4rem;">
-              Can be a direct PDF link, Google Drive link, Firebase Storage URL, or local path.
-            </p>
-          </div>
-
-          <div style="padding: 1.5rem; background: var(--admin-input-bg); border-radius: 8px; border: 1px dashed var(--admin-card-border); margin-top: 1.5rem; text-align: center;">
-            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--admin-accent-cyan); margin-bottom: 0.75rem;"></i>
-            <h4>Upload New Resume File (PDF / DOC)</h4>
-            <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">
-              Upload to Firebase Cloud Storage or save as local document.
-            </p>
-            <input type="file" id="cvFileInput" accept=".pdf,.doc,.docx,.json" style="display: none;">
-            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('cvFileInput').click();">
-              <i class="fa-solid fa-folder-open"></i>
-              <span>Select File</span>
-            </button>
-            <span id="cvFileNameLabel" style="font-size: 0.85rem; margin-left: 0.75rem; color: var(--admin-accent-cyan);"></span>
-          </div>
-        </div>
-      </section>
 
       <!-- ====================================================================
            9. MESSAGES INBOX PANEL
