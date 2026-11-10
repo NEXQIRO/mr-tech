@@ -770,18 +770,17 @@ header {
   width: 100%;
   box-sizing: border-box;
 }
-.header-brand-right {
+.header-brand-left {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-left: auto;
+  gap: 10px;
   cursor: pointer;
   user-select: none;
   text-decoration: none;
 }
-.header-brand-right .header-logo-icon {
-  width: 32px;
-  height: 32px;
+.header-brand-left .header-logo-icon {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #FFE89E, #D4A33B 70%, #9A6F1C);
   display: flex;
@@ -790,15 +789,15 @@ header {
   box-shadow: inset 0 1.5px 2px rgba(255,255,255,0.8), 0 2px 8px var(--gold-glow);
   flex-shrink: 0;
 }
-.header-brand-right .header-logo-icon svg {
-  width: 18px;
-  height: 18px;
+.header-brand-left .header-logo-icon svg {
+  width: 20px;
+  height: 20px;
   stroke: #0A1220;
 }
-.header-brand-right b {
-  font-size: 19px;
+.header-brand-left b {
+  font-size: 20px;
   font-weight: 900;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
   white-space: nowrap;
 }
 body.light header {
@@ -845,7 +844,7 @@ main {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 18px 20px calc(20px + env(safe-area-inset-bottom, 10px));
+  padding: 16px 18px calc(86px + env(safe-area-inset-bottom, 12px));
   -webkit-overflow-scrolling: touch;
   width: 100%;
   box-sizing: border-box;
@@ -857,7 +856,7 @@ main {
   margin: 0 auto;
 }
 
-/* 3. MOBILE BOTTOM NAVIGATION (Hidden on PC, fixed in safe viewport) */
+/* 3. MOBILE BOTTOM NAVIGATION (5 items, perfectly proportioned, never cut off) */
 nav#nv {
   display: none;
   background: var(--sf);
@@ -867,19 +866,36 @@ nav#nv {
   flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
-  padding-bottom: max(6px, env(safe-area-inset-bottom, 6px));
+  padding: 6px 4px max(8px, env(safe-area-inset-bottom, 8px));
   position: relative;
+  align-items: flex-end;
+  min-height: 64px;
 }
 nav#nv div {
   flex: 1;
   text-align: center;
-  padding: 8px 2px 6px;
-  font-size: 10.5px;
+  padding: 4px 2px 2px;
+  font-size: 11px;
   color: var(--t2);
   cursor: pointer;
   font-weight: 600;
   transition: all 0.15s ease;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  user-select: none;
+}
+nav#nv div span:last-child {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1.25;
+  margin-top: 2px;
+  font-size: 11px;
 }
 nav#nv div.on {
   color: var(--gold);
@@ -887,9 +903,12 @@ nav#nv div.on {
 }
 nav#nv .em {
   display: block;
-  font-size: 22px;
-  margin-bottom: 2px;
+  font-size: 20px;
   line-height: 1.1;
+  margin-bottom: 1px;
+}
+nav#nv div.nav-home-btn {
+  padding-bottom: 2px;
 }
 nav#nv div.nav-home-btn .em {
   width: 44px;
@@ -901,9 +920,10 @@ nav#nv div.nav-home-btn .em {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -14px auto 2px;
+  margin: -16px auto 2px;
   color: #0A1220;
   font-size: 22px;
+  flex-shrink: 0;
 }
 
 /* 4. MODALS & BOTTOM SHEETS */
@@ -1014,6 +1034,7 @@ body.light #dr > div {
 }
 #tst.show { opacity: 1; transform: translate(-50%, 0); }
 #tst.del { background: var(--dg); }
+#tst.info { background: linear-gradient(135deg, #0284C7, #06B6D4); color: #FFF; box-shadow: 0 10px 30px rgba(6,182,212,0.5); }
 
 /* ==========================================================================
    7. AUTH OVERLAY (NORMAL COMPACT SIZE + LANGUAGE SELECTOR)
@@ -1493,9 +1514,9 @@ body.light #dr > div {
 
 /* Responsive adjustments */
 @media (max-width: 959px) {
-  #sidebar { display: none; }
+  #sidebar { display: none !important; }
   .bars { display: none; }
-  nav#nv { display: flex; }
+  nav#nv { display: flex !important; }
   header {
     padding-top: max(8px, env(safe-area-inset-top, 8px));
     height: calc(58px + max(8px, env(safe-area-inset-top, 8px)));
@@ -1503,7 +1524,7 @@ body.light #dr > div {
     padding-right: 14px;
   }
   main {
-    padding: 14px 14px calc(24px + env(safe-area-inset-bottom, 12px));
+    padding: 14px 14px calc(86px + env(safe-area-inset-bottom, 12px));
   }
   #md {
     align-items: flex-end;
@@ -1519,6 +1540,11 @@ body.light #dr > div {
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 }
 
+@media (min-width: 960px) {
+  body:not(.mode-mobile) #sidebar { display: flex !important; }
+  body:not(.mode-mobile) nav#nv { display: none !important; }
+}
+
 /* Force PC or Mobile modes when explicitly toggled */
 body.mode-pc #sidebar { display: flex !important; }
 body.mode-pc .bars { display: none !important; }
@@ -1529,7 +1555,17 @@ body.mode-pc .mb { border-radius: 24px !important; max-width: 580px !important; 
 
 body.mode-mobile #sidebar { display: none !important; }
 body.mode-mobile .bars { display: flex !important; }
-body.mode-mobile nav#nv { display: flex !important; }
+body.mode-mobile nav#nv {
+  display: flex !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  border-radius: 18px 18px 0 0 !important;
+}
+body.mode-mobile #stage {
+  max-width: 640px !important;
+  margin: 0 auto !important;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8) !important;
+}
 body.mode-mobile .pc-split { flex-direction: column !important; }
 body.mode-mobile #md { align-items: flex-end !important; padding: 0 !important; }
 body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none !important; }
@@ -1736,17 +1772,12 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 
   <!-- Content Stage -->
   <div id="stage">
-    <!-- Top Header (Clean Controls on Left, Logo + MYHOUR on Far Right) -->
+    <!-- Top Header (MYHOUR Logo & Name on the LEFT, Controls on the Right) -->
     <header>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span id="bkb" class="bkb" onclick="goBack(1)" aria-label="Back">
+      <div class="header-brand-left" onclick="go('dashboard')" title="MYHOUR Home">
+        <span id="bkb" class="bkb" onclick="event.stopPropagation(); goBack(1)" aria-label="Back">
           <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
         </span>
-        <span id="lang-pill" class="tx" onclick="cycleLang()">বাংলা</span>
-        <span id="theme-pill" class="tx" onclick="toggleTheme()">🌙</span>
-      </div>
-
-      <div class="header-brand-right" onclick="go('dashboard')" title="MYHOUR Home">
         <div class="header-logo-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="9"/>
@@ -1754,6 +1785,12 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
           </svg>
         </div>
         <b class="gold-text">MYHOUR</b>
+      </div>
+
+      <div class="header-controls-right" style="display:flex; align-items:center; gap:8px; margin-left:auto;">
+        <span id="view-mode-pill" class="tx" onclick="cycleViewMode()" title="Toggle View Mode">⚡ Auto</span>
+        <span id="lang-pill" class="tx" onclick="cycleLang()">বাংলা</span>
+        <span id="theme-pill" class="tx" onclick="toggleTheme()">🌙</span>
       </div>
     </header>
 
@@ -1774,17 +1811,20 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 <div id="dr" onclick="if(event.target===this)closeDrawer()">
   <div id="drawer-inner">
     <div class="dh">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div class="brand-icon" style="width:40px; height:40px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v5l3 2"/>
-          </svg>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="brand-icon" style="width:40px; height:40px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+          </div>
+          <div>
+            <b class="gold-text" style="font-size:20px; letter-spacing:2px;">MYHOUR</b>
+            <div style="font-size:11px; color:var(--t2);">Your Time. Your Earnings.</div>
+          </div>
         </div>
-        <div>
-          <b class="gold-text" style="font-size:20px; letter-spacing:2px;">MYHOUR</b>
-          <div style="font-size:11px; color:var(--t2);">Your Time. Your Earnings.</div>
-        </div>
+        <button class="x" onclick="closeDrawer()" style="font-size:18px; color:var(--gold); padding:4px 8px; cursor:pointer;" aria-label="Close menu">✕</button>
       </div>
       <div id="dr-user-info" style="font-size:13px; color:var(--t1); margin-top:8px;"></div>
     </div>
@@ -1823,6 +1863,7 @@ const COMPANY = "MrTech";
    TRANSLATION DICTIONARY (Bengali, English, Arabic)
    ========================================================================== */
 const TR = {
+  nav_menu: { en: "Menu", bn: "মেনু", ar: "القائمة" },
   nav_guide: { en: "How to Use", bn: "ব্যবহার নির্দেশিকা", ar: "طريقة الاستخدام" },
   nav_about: { en: "About MrTech", bn: "MrTech সম্পর্কে", ar: "عن MrTech" },
   nav_admin: { en: "Admin Panel", bn: "অ্যাডমিন প্যানেল", ar: "لوحة المشرف" },
@@ -1897,7 +1938,9 @@ const D0 = {
   rem: [],
   loan: [],
   exp: [],
-  seq: 1
+  seq: 1,
+  rev: 1,
+  updatedAt: 0
 };
 
 let S = JSON.parse(JSON.stringify(D0));
@@ -1908,6 +1951,16 @@ let KEY = null;          // local storage key of the signed-in user
 let READY_APP = false;   // true once signed in AND profile complete
 let CLOUD_SYNCING = false;
 let CLOUD_SAVE_TIMER = null;
+
+const CLIENT_ID = (function() {
+  let id = "";
+  try { id = sessionStorage.getItem("myhour_cid"); } catch (e) {}
+  if (!id) {
+    id = "dev_" + Math.random().toString(36).slice(2, 9) + "_" + Date.now();
+    try { sessionStorage.setItem("myhour_cid", id); } catch (e) {}
+  }
+  return id;
+})();
 
 const openIDB = () => new Promise((resolve) => {
   try {
@@ -1943,6 +1996,10 @@ const idbPut = async (k, v) => {
 
 function save(skipCloudSync) {
   if (!S || !KEY) return;
+  if (skipCloudSync !== true) {
+    S.rev = (S.rev || 0) + 1;
+    S.updatedAt = Date.now();
+  }
   const json = JSON.stringify(S);
   try { localStorage.setItem(KEY, json); } catch (e) {}
   idbPut(KEY, json);
@@ -1952,11 +2009,11 @@ function save(skipCloudSync) {
     }
   } catch (e) {}
 
-  if (skipCloudSync !== true && DB && U && U.uid) {
+  if (skipCloudSync !== true && DB && U && U.uid && !CLOUD_SYNCING) {
     if (CLOUD_SAVE_TIMER) clearTimeout(CLOUD_SAVE_TIMER);
     CLOUD_SAVE_TIMER = setTimeout(() => {
       syncToCloud();
-    }, 400);
+    }, 300);
   }
 }
 
@@ -1964,7 +2021,9 @@ function syncToCloud() {
   if (!DB || !U || !U.uid || !S || CLOUD_SYNCING) return;
   const payload = {
     updatedAt: firebase.database.ServerValue.TIMESTAMP,
-    seq: S.seq || 1,
+    clientTime: Date.now(),
+    rev: S.rev || 1,
+    clientId: CLIENT_ID,
     state: JSON.stringify(S)
   };
   DB.ref("userData/" + U.uid).set(payload).catch((err) => {
@@ -1979,22 +2038,26 @@ function startCloudSync(uid) {
   userRef.on("value", (snap) => {
     const val = snap.val();
     if (!val || !val.state) {
-      // First time on cloud: upload existing local data to cloud immediately
-      syncToCloud();
+      if ((S.duty && S.duty.length) || (S.emp && S.emp.length)) syncToCloud();
       return;
     }
+    // Ignore echo of this device's own upload
+    if (val.clientId === CLIENT_ID) return;
+
     try {
       const remoteState = typeof val.state === "string" ? JSON.parse(val.state) : val.state;
       if (remoteState && typeof remoteState === "object") {
-        // If remote has newer sequence or more entries, merge/adopt remote state
-        const localSeq = (S && S.seq) || 0;
-        const remoteSeq = remoteState.seq || val.seq || 0;
-        if (remoteSeq >= localSeq || !S.emp.length && remoteState.emp && remoteState.emp.length) {
+        const localStr = JSON.stringify(S);
+        const remoteStr = typeof val.state === "string" ? val.state : JSON.stringify(remoteState);
+        if (localStr !== remoteStr) {
           CLOUD_SYNCING = true;
           S = normalizeState(remoteState);
           save(true); // save locally without bouncing back to cloud
           CLOUD_SYNCING = false;
-          if (READY_APP) render();
+          if (READY_APP) {
+            render();
+            toast(T3("☁️ অন্য ডিভাইস থেকে ডেটা রিয়েলটাইমে সিঙ্ক হয়েছে", "☁️ Data synced in real-time from other device", "☁️ تم مزامنة البيانات مباشرة"), "info");
+          }
         }
       }
     } catch (e) {
@@ -2017,6 +2080,8 @@ function normalizeState(st) {
   st.profile = Object.assign({}, base.profile, st.profile || {});
   ["emp", "duty", "sched", "pay", "rem", "loan", "exp"].forEach(k => { if (!Array.isArray(st[k])) st[k] = []; });
   st.seq = st.seq || 1;
+  st.rev = st.rev || 1;
+  st.updatedAt = st.updatedAt || 0;
   return st;
 }
 
@@ -2075,7 +2140,7 @@ const val = (id) => { const el = document.getElementById(id); return el ? el.val
 const IC = {
   info: "ℹ️", shield: "🛡️", home: "🏠", dashboard: "📊", date_range: "⏱️", payments: "💵",
   send: "📤", menu_book: "📖", work: "💼", calendar_month: "📅",
-  trending_up: "📈", cloud_done: "☁️", person: "👤", balance: "💰"
+  trending_up: "📈", cloud_done: "☁️", person: "👤", balance: "💰", menu: "☰"
 };
 
 const BN = [
@@ -2083,8 +2148,7 @@ const BN = [
   ["employment", "nav_employment", "work"],
   ["dashboard", "nav_dashboard", "home"],
   ["salary", "nav_salary", "payments"],
-  ["balance", "nav_balance", "balance"],
-  ["finance", "nav_remittance", "send"]
+  ["menu", "nav_menu", "menu"]
 ];
 
 const DR = [
@@ -4561,20 +4625,54 @@ async function onAuthChanged(user) {
   finishLogin();
 }
 
-function finishLogin() {
-  S.profile.name = REC.name;
-  S.profile.contact = REC.phone;
-  S.profile.email = U.email;
-  save();
+async function finishLogin() {
   READY_APP = true;
   authBusy(false);
   ST.length = 0;
   IS_ADMIN = U.verified && ADMIN_EMAILS.includes(U.email);
   startSuppliers();
+
+  // Multi-Device Cloud Sync: First check if cloud already has saved records for this account
+  if (DB && U && U.uid) {
+    try {
+      const cloudSnap = await DB.ref("userData/" + U.uid).once("value");
+      const cloudVal = cloudSnap.val();
+      if (cloudVal && cloudVal.state) {
+        const remoteState = typeof cloudVal.state === "string" ? JSON.parse(cloudVal.state) : cloudVal.state;
+        if (remoteState && typeof remoteState === "object") {
+          const localItems = (S.duty || []).length + (S.emp || []).length + (S.pay || []).length;
+          const remoteItems = (remoteState.duty || []).length + (remoteState.emp || []).length + (remoteState.pay || []).length;
+          if (remoteItems >= localItems || (remoteState.rev || 0) >= (S.rev || 0)) {
+            CLOUD_SYNCING = true;
+            S = normalizeState(remoteState);
+            save(true); // save to local device storage without sending back
+            CLOUD_SYNCING = false;
+          }
+        }
+      } else {
+        // First device on this account: upload local state
+        syncToCloud();
+      }
+    } catch (e) {
+      console.warn("Initial cloud check error:", e);
+    }
+  }
+
+  // Ensure authenticated user profile fields
+  if (REC) {
+    S.profile.name = REC.name || S.profile.name;
+    S.profile.contact = REC.phone || S.profile.contact;
+    S.profile.email = U.email;
+    save(true);
+  }
+
+  // Activate real-time bidirectional cloud sync listener
   startCloudSync(U.uid);
+
   DB.ref("admins/" + U.uid).once("value")
     .then((s) => { if (s.val() === true && !IS_ADMIN) { IS_ADMIN = true; render(); } })
     .catch(() => {});
+
   gate();
   go("dashboard", true);
 }
@@ -4891,11 +4989,17 @@ function render() {
 
   const nv = document.getElementById("nv");
   if (nv) {
-    nv.innerHTML = BN.map(([route, transKey, icon], idx) => `
-      <div class="${route === cur ? 'on' : ''} ${route === 'dashboard' ? 'nav-home-btn' : ''}" onclick="go('${route}')">
-        <span class="em">${IC[icon]}</span>
-        <span>${t(transKey)}</span>
-      </div>`).join("");
+    nv.innerHTML = BN.map(([route, transKey, icon]) => {
+      const isHome = route === "dashboard";
+      const isMenu = route === "menu";
+      const isSelected = (route === cur && !isMenu);
+      const clickHandler = isMenu ? "openDrawer()" : `go('${route}')`;
+      return `
+        <div class="${isSelected ? 'on' : ''} ${isHome ? 'nav-home-btn' : ''}" onclick="${clickHandler}">
+          <span class="em">${IC[icon]}</span>
+          <span>${t(transKey)}</span>
+        </div>`;
+    }).join("");
   }
 
   FM = [];
