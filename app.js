@@ -1,3 +1,19 @@
+// ===== লোডে অটো-স্ক্রল বন্ধ (Auto-scroll fix) =====
+(function () {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto'; // লোডের সময় smooth scroll বন্ধ
+  if (location.hash) {
+    // URL থেকে #hash মুছে ফেলা
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  window.scrollTo(0, 0);
+  window.addEventListener('load', () => {
+    window.scrollTo(0, 0);
+    setTimeout(() => { root.style.scrollBehavior = ''; }, 800); // smooth আবার চালু
+  });
+})();
+
 /**
  * MR TECH — Public Portfolio Client Application
  * Author: Mijanur Rahman (Web & Mobile App Developer)
@@ -1168,6 +1184,3 @@ function initBubbleTouchEffect() {
     }
   }, { passive: true });
 }
-
-
-
