@@ -1882,19 +1882,21 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 /* ==========================================================================
-   FIREBASE CONFIG (project: mrtech-7e537)
+   FIREBASE CONFIG (project: myhour-d59d2)
    ========================================================================== */
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyC8hKqviJJzheFlEfL_q6AJnelNFk-6mTE",
-  authDomain: "mrtech-7e537.firebaseapp.com",
-  databaseURL: "https://mrtech-7e537-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "mrtech-7e537",
-  storageBucket: "mrtech-7e537.firebasestorage.app",
-  messagingSenderId: "103240954590",
-  appId: "1:103240954590:web:56fcbcdffef47638a4c84f"
+  apiKey: "AIzaSyA0sVcgOOFzdPtvVN_Mc2vOBu4tIFAggCo",
+  authDomain: "myhour-d59d2.firebaseapp.com",
+  databaseURL: "https://myhour-d59d2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "myhour-d59d2",
+  storageBucket: "myhour-d59d2.firebasestorage.app",
+  messagingSenderId: "875519839452",
+  appId: "1:875519839452:web:b600f025c5ee9545e9b819",
+  measurementId: "G-LXHR28PDD8"
 };
-// Admin = verified Google/email account below, or any uid listed under "admins" in the database.
-const ADMIN_EMAILS = ["mijanbabu2015@gmail.com"];
+// Admin = UID listed below, or any uid listed under "admin" / "admins" in the database.
+const ADMIN_UIDS = ["MOu75wQie4cUii2fEXstTY64hy22"];
+const ADMIN_EMAILS = [];
 const COMPANY = "MrTech";
 
 /* ==========================================================================
@@ -2055,18 +2057,26 @@ function save(skipCloudSync) {
   }
 }
 
-function syncToCloud() {
-  if (!DB || !U || !U.uid || !S || CLOUD_SYNCING) return;
+function countStateItems(st) {
+  if (!st || typeof st !== "object") return 0;
+  return ["emp", "duty", "sched", "pay", "rem", "loan", "exp"].reduce(
+    (sum, k) => sum + (Array.isArray(st[k]) ? st[k].length : 0),
+    0
+  );
+}
 
-  const localItems = (S.duty || []).length + (S.emp || []).length + (S.pay || []).length;
+function syncToCloud() {
+  if (!DB || !U || !U.uid || !S || CLOUD_SYNCING) return Promise.resolve();
+
+  const localItems = countStateItems(S);
   // Safety: If local state has zero items, check if cloud already has records before overwriting
   if (localItems === 0) {
-    DB.ref("userData/" + U.uid).once("value").then((snap) => {
+    return DB.ref("userData/" + U.uid).once("value").then((snap) => {
       const v = snap.val();
       if (v && v.state) {
         try {
           const rem = typeof v.state === "string" ? JSON.parse(v.state) : v.state;
-          const remItems = (rem.duty || []).length + (rem.emp || []).length + (rem.pay || []).length;
+          const remItems = countStateItems(rem);
           if (remItems > 0) {
             // Remote has data! Pull it instead of overwriting!
             CLOUD_SYNCING = true;
@@ -2079,15 +2089,14 @@ function syncToCloud() {
         } catch (e) {}
       }
       // Cloud is also empty, safe to upload
-      doCloudUpload();
-    }).catch(() => { doCloudUpload(); });
-  } else {
-    doCloudUpload();
+      return doCloudUpload();
+    }).catch(() => doCloudUpload());
   }
+  return doCloudUpload();
 }
 
 function doCloudUpload() {
-  if (!DB || !U || !U.uid || !S) return;
+  if (!DB || !U || !U.uid || !S) return Promise.resolve();
   const payload = {
     updatedAt: firebase.database.ServerValue.TIMESTAMP,
     clientTime: Date.now(),
@@ -2095,7 +2104,7 @@ function doCloudUpload() {
     clientId: CLIENT_ID,
     state: JSON.stringify(S)
   };
-  DB.ref("userData/" + U.uid).set(payload).then(() => {
+  return DB.ref("userData/" + U.uid).set(payload).then(() => {
     // uploaded successfully
   }).catch((err) => {
     console.warn("Cloud sync error:", err);
@@ -4625,9 +4634,10 @@ function initFirebase() {
   if (!window.firebase) { SETUP_ERR = "sdk"; return false; }
   if (!FIREBASE_CONFIG.apiKey || /PASTE/.test(FIREBASE_CONFIG.apiKey)) { SETUP_ERR = "config"; return false; }
   try {
-    firebase.initializeApp(FIREBASE_CONFIG);
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
     AUTH = firebase.auth();
     DB = firebase.database();
+    if (AUTH && typeof AUTH.useDeviceLanguage === "function") AUTH.useDeviceLanguage();
     return true;
   } catch (e) { SETUP_ERR = "config"; return false; }
 }
@@ -4646,6 +4656,8 @@ function authErr(e) {
     "auth/too-many-requests": ["অনেকবার চেষ্টা হয়েছে, একটু পরে আবার করুন", "Too many attempts, try again later"],
     "auth/user-disabled": ["এই অ্যাকাউন্ট বন্ধ করা আছে", "This account is disabled"],
     "auth/account-exists-with-different-credential": ["এই ইমেইল অন্য পদ্ধতিতে খোলা আছে", "Email registered with another method"],
+    "auth/operation-not-allowed": ["Firebase Console-এ Authentication -> Sign-in method থেকে Google এবং Email/Password চালু করুন।", "Enable Google & Email/Password in Firebase Console -> Authentication -> Sign-in method."],
+    "auth/internal-error": ["Google সাইন-ইন সম্পন্ন করা যায়নি। Firebase Console-এ Google Sign-In ও Authorized Domains চেক করুন।", "Google Sign-In failed. Check Google Sign-In provider and Authorized Domains in Firebase Console."],
     "auth/unauthorized-domain": ["এই ডোমেইনটি Firebase Authorized Domains-এ যুক্ত নেই। Firebase Console -> Authentication -> Settings -> Authorized Domains-এ এই ওয়েবসাইটের ডোমেইন যোগ করুন।", "Domain not authorized in Firebase. Add this domain to Firebase Console -> Authentication -> Settings -> Authorized Domains."]
   }[c];
   return m ? T3(m[0], m[1]) : T3("সমস্যা হয়েছে: ", "Error: ") + (c || (e && e.message) || "");
@@ -4694,9 +4706,10 @@ function pwdField(id, eye, ph, ac) {
 }
 
 function googleBtn() {
+  const gIcon = `<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>`;
   return `
     <div class="or-div"><span>${T3("অথবা", "or")}</span></div>
-    <button class="s gbtn" onclick="googleSignIn()"><b>G</b> ${T3("Google দিয়ে চালিয়ে যান", "Continue with Google")}</button>`;
+    <button type="button" class="s gbtn" onclick="googleSignIn()">${gIcon} <span>${T3("Google দিয়ে সাইন-ইন / লগইন করুন", "Continue with Google")}</span></button>`;
 }
 
 const COUNTRY_LIST = [
@@ -4862,13 +4875,29 @@ function login() {
 }
 
 function googleSignIn() {
-  if (AUTH_BUSY) return;
+  if (AUTH_BUSY || !AUTH) return;
+  authMsg("");
+  authBusy(true);
   const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope("email");
+  provider.addScope("profile");
   provider.setCustomParameters({ prompt: "select_account" });
   AUTH.signInWithPopup(provider).catch((e) => {
-    const redirectCodes = ["auth/popup-blocked", "auth/operation-not-supported-in-this-environment", "auth/web-storage-unsupported"];
-    if (redirectCodes.includes(e.code)) { AUTH.signInWithRedirect(provider); return; }
-    authMsg(authErr(e));
+    const redirectCodes = [
+      "auth/popup-blocked",
+      "auth/operation-not-supported-in-this-environment",
+      "auth/web-storage-unsupported"
+    ];
+    if (e && redirectCodes.includes(e.code)) {
+      AUTH.signInWithRedirect(provider).catch((err) => {
+        authBusy(false);
+        authMsg(authErr(err));
+      });
+      return;
+    }
+    authBusy(false);
+    const msg = authErr(e);
+    if (msg) authMsg(msg);
   });
 }
 
@@ -4923,7 +4952,7 @@ function sendResetEmail() {
           <b style="color:var(--gold); display:block; margin-bottom:6px; font-size:13.5px;">⚠️ মেইল খুঁজে না পেলে করণীয় (গুরুত্বপূর্ণ):</b>
           ১. গুগল সিকিউরিটির কারণে এই মেইলটি ইনবক্সে না এসে সরাসরি <b>'Spam' (স্প্যাম)</b> বা <b>'Junk'</b> ফোল্ডারে যায়。<br>
           ২. আপনার <b>Gmail অ্যাপ</b> ওপেন করে বামপাশের মেনু (≡) থেকে <b>'Spam' (স্প্যাম)</b> ফোল্ডার চেক করুন。<br>
-          ৩. <b>noreply@mrtech-7e537.firebaseapp.com</b> থেকে আসা মেইলটি ওপেন করে <b>'Report not spam'</b> বা লিংকে ক্লিক করে নতুন পাসওয়ার্ড দিন।
+          ৩. <b>noreply@myhour-d59d2.firebaseapp.com</b> থেকে আসা মেইলটি ওপেন করে <b>'Report not spam'</b> বা লিংকে ক্লিক করে নতুন পাসওয়ার্ড দিন।
         </div>
 
         <button class="btn" onclick="closeModal()" style="width:100%; padding:12px; font-size:14px; font-weight:800; border-radius:12px;">
@@ -4943,7 +4972,8 @@ function sendResetEmail() {
 
 async function saveUserRecord(name, phone, country) {
   const ref = DB.ref("users/" + U.uid);
-  const data = { name, phone, email: U.email, country: country || S.profile.country || "" };
+  const email = U.email || (AUTH && AUTH.currentUser && AUTH.currentUser.email) || "";
+  const data = { name, phone, email, country: country || S.profile.country || "" };
   if (REC) await ref.update(data);
   else await ref.set(Object.assign({ createdAt: firebase.database.ServerValue.TIMESTAMP }, data));
   REC = data;
@@ -5020,7 +5050,7 @@ async function finishLogin() {
   READY_APP = true;
   authBusy(false);
   ST.length = 0;
-  IS_ADMIN = U.verified && ADMIN_EMAILS.includes(U.email);
+  IS_ADMIN = ADMIN_UIDS.includes(U.uid) || (U.verified && ADMIN_EMAILS.includes(U.email));
   startSuppliers();
 
   // Multi-Device Cloud Sync: First check if cloud already has saved records for this account
@@ -5031,13 +5061,15 @@ async function finishLogin() {
       if (cloudVal && cloudVal.state) {
         const remoteState = typeof cloudVal.state === "string" ? JSON.parse(cloudVal.state) : cloudVal.state;
         if (remoteState && typeof remoteState === "object") {
-          const localItems = (S.duty || []).length + (S.emp || []).length + (S.pay || []).length;
-          const remoteItems = (remoteState.duty || []).length + (remoteState.emp || []).length + (remoteState.pay || []).length;
-          if (remoteItems >= localItems || (remoteState.rev || 0) >= (S.rev || 0)) {
+          const localItems = countStateItems(S);
+          const remoteItems = countStateItems(remoteState);
+          if ((remoteItems > 0 && localItems === 0) || remoteItems >= localItems || (remoteState.rev || 0) >= (S.rev || 0)) {
             CLOUD_SYNCING = true;
             S = normalizeState(remoteState);
             save(true); // save to local device storage without sending back
             CLOUD_SYNCING = false;
+          } else {
+            syncToCloud();
           }
         }
       } else {
@@ -5053,6 +5085,7 @@ async function finishLogin() {
   if (REC) {
     S.profile.name = REC.name || S.profile.name;
     S.profile.contact = REC.phone || S.profile.contact;
+    if (REC.country) S.profile.country = REC.country;
     S.profile.email = U.email;
     save(true);
   }
@@ -5060,17 +5093,30 @@ async function finishLogin() {
   // Activate real-time bidirectional cloud sync listener
   startCloudSync(U.uid);
 
-  DB.ref("admins/" + U.uid).once("value")
-    .then((s) => { if (s.val() === true && !IS_ADMIN) { IS_ADMIN = true; render(); } })
-    .catch(() => {});
+  Promise.all([
+    DB.ref("admins/" + U.uid).once("value").catch(() => null),
+    DB.ref("admin/" + U.uid).once("value").catch(() => null)
+  ]).then(([s1, s2]) => {
+    if (((s1 && s1.val() === true) || (s2 && s2.val() === true)) && !IS_ADMIN) {
+      IS_ADMIN = true;
+      render();
+    }
+  });
 
   gate();
   go("dashboard", true);
 }
 
-function logout(skipConfirm) {
+async function logout(skipConfirm) {
   if (skipConfirm !== true && !confirm(T3("লগআউট করতে চান?", "Log out?", "تسجيل الخروج؟"))) return;
-  save();
+  if (CLOUD_SAVE_TIMER) {
+    clearTimeout(CLOUD_SAVE_TIMER);
+    CLOUD_SAVE_TIMER = null;
+  }
+  save(true);
+  if (DB && U && U.uid) {
+    try { await syncToCloud(); } catch (e) {}
+  }
   if (AUTH) AUTH.signOut();
 }
 
