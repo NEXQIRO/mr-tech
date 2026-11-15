@@ -1386,14 +1386,24 @@ textarea.form-control {
   justify-content: center;
   color: #FFFFFF;
   font-size: 1.5rem;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   outline: none;
 }
 
 .livechat-trigger:hover {
   transform: scale(1.08) translateY(-2px);
   box-shadow: 0 12px 35px rgba(0, 240, 255, 0.6);
+}
+
+.livechat-trigger.dragging {
+  cursor: grabbing;
+  transform: scale(1.12);
+  transition: none;
+  box-shadow: 0 16px 42px rgba(0, 240, 255, 0.72), 0 0 0 3px rgba(0, 240, 255, 0.3);
 }
 
 .livechat-trigger .badge-pulse {

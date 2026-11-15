@@ -984,6 +984,100 @@ function initLiveChatBot() {
     lockSmsChat();
   }
 
+  // ===== Draggable Live Chat Floating Icon (Move anywhere on display) =====
+  let justDragged = false;
+  const POS_KEY = 'MR_CHAT_TRIGGER_POS';
+
+  function clampPosition(left, top) {
+    const margin = 8;
+    const w = triggerBtn.offsetWidth || 58;
+    const h = triggerBtn.offsetHeight || 58;
+    const maxLeft = Math.max(margin, window.innerWidth - w - margin);
+    const maxTop = Math.max(margin, window.innerHeight - h - margin);
+    return {
+      left: Math.min(Math.max(margin, left), maxLeft),
+      top: Math.min(Math.max(margin, top), maxTop)
+    };
+  }
+
+  function applyTriggerPosition(left, top) {
+    const clamped = clampPosition(left, top);
+    triggerBtn.style.left = `${clamped.left}px`;
+    triggerBtn.style.top = `${clamped.top}px`;
+    triggerBtn.style.right = 'auto';
+    triggerBtn.style.bottom = 'auto';
+    return clamped;
+  }
+
+  // Restore saved position if available
+  try {
+    const savedPos = localStorage.getItem(POS_KEY);
+    if (savedPos) {
+      const parsed = JSON.parse(savedPos);
+      if (typeof parsed.left === 'number' && typeof parsed.top === 'number') {
+        applyTriggerPosition(parsed.left, parsed.top);
+      }
+    }
+  } catch (_) {}
+
+  window.addEventListener('resize', () => {
+    if (triggerBtn.style.left && triggerBtn.style.top) {
+      const clamped = applyTriggerPosition(
+        parseFloat(triggerBtn.style.left),
+        parseFloat(triggerBtn.style.top)
+      );
+      try { localStorage.setItem(POS_KEY, JSON.stringify(clamped)); } catch (_) {}
+    }
+  });
+
+  let dragState = null;
+
+  triggerBtn.addEventListener('pointerdown', (e) => {
+    if (e.button !== undefined && e.button !== 0 && e.pointerType === 'mouse') return;
+    const rect = triggerBtn.getBoundingClientRect();
+    dragState = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      originLeft: rect.left,
+      originTop: rect.top,
+      moved: false
+    };
+    try { triggerBtn.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+
+  triggerBtn.addEventListener('pointermove', (e) => {
+    if (!dragState || e.pointerId !== dragState.pointerId) return;
+    const dx = e.clientX - dragState.startX;
+    const dy = e.clientY - dragState.startY;
+    if (!dragState.moved && Math.hypot(dx, dy) > 5) {
+      dragState.moved = true;
+      triggerBtn.classList.add('dragging');
+    }
+    if (dragState.moved) {
+      e.preventDefault();
+      applyTriggerPosition(dragState.originLeft + dx, dragState.originTop + dy);
+    }
+  });
+
+  function finishDrag(e) {
+    if (!dragState || e.pointerId !== dragState.pointerId) return;
+    const wasMoved = dragState.moved;
+    try { triggerBtn.releasePointerCapture(e.pointerId); } catch (_) {}
+    triggerBtn.classList.remove('dragging');
+    if (wasMoved) {
+      justDragged = true;
+      setTimeout(() => { justDragged = false; }, 60);
+      const rect = triggerBtn.getBoundingClientRect();
+      const clamped = applyTriggerPosition(rect.left, rect.top);
+      try { localStorage.setItem(POS_KEY, JSON.stringify(clamped)); } catch (_) {}
+    }
+    dragState = null;
+  }
+
+  triggerBtn.addEventListener('pointerup', finishDrag);
+  triggerBtn.addEventListener('pointercancel', finishDrag);
+
   const openChat = () => {
     chatDialog.classList.add('open');
     const pulse = triggerBtn.querySelector('.badge-pulse');
@@ -991,7 +1085,13 @@ function initLiveChatBot() {
   };
   const closeChat = () => chatDialog.classList.remove('open');
 
-  triggerBtn.addEventListener('click', () => chatDialog.classList.contains('open') ? closeChat() : openChat());
+  triggerBtn.addEventListener('click', (e) => {
+    if (justDragged) {
+      e.preventDefault();
+      return;
+    }
+    chatDialog.classList.contains('open') ? closeChat() : openChat();
+  });
   if (closeBtn) closeBtn.addEventListener('click', closeChat);
   if (heroChatBtn) heroChatBtn.addEventListener('click', openChat);
 
