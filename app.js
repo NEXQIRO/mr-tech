@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypingEffect();
   initContactForm();
   initLiveChatBot();
-  initBubbleTouchEffect();
+  // initBubbleTouchEffect(); // বাবল ইফেক্ট বন্ধ (আবার চালু করতে লাইনের শুরুর // মুছুন)
 
   // Render initial seed immediately
   renderPortfolio(currentPortfolioData);
@@ -1184,3 +1184,6 @@ function initBubbleTouchEffect() {
     }
   }, { passive: true });
 }
+
+
+
