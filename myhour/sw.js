@@ -1,29 +1,58 @@
-const CACHE = "myhour-v1";
-const SHELL = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./app_logo.png"];
+const CACHE_NAME = "myhour-pwa-v1";
+const STATIC_ASSETS = ["./", "./index.html", "./manifest.json", "./app_logo.svg"];
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(STATIC_ASSETS).catch(() => {}))
+      .then(() => self.skipWaiting())
+  );
 });
 
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
 
-// Same-origin files only (Firebase and Google requests are never touched). Network first, cache as fallback.
-self.addEventListener("fetch", (e) => {
-  const req = e.request;
-  if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
-  e.respondWith(
-    fetch(req)
-      .then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((c) => c.put(req, copy));
+self.addEventListener("fetch", (event) => {
+  const req = event.request;
+  if (req.method !== "GET") return;
+
+  const url = new URL(req.url);
+  // Only handle same-origin requests; never intercept Firebase/Google auth or API calls.
+  if (url.origin !== self.location.origin) return;
+  if (url.pathname.includes("/__/auth/")) return;
+
+  // Network-first for HTML navigation so GitHub Pages updates appear immediately.
+  if (req.mode === "navigate" || url.pathname.endsWith(".html") || url.pathname.endsWith("/")) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req).then((r) => r || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  // Cache-first with background refresh for static local assets.
+  event.respondWith(
+    caches.match(req).then((cached) => {
+      const net = fetch(req).then((res) => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((c) => c.put(req, copy));
+        }
         return res;
-      })
-      .catch(() => caches.match(req).then((r) => r || caches.match("./index.html")))
+      }).catch(() => cached);
+      return cached || net;
+    })
   );
 });

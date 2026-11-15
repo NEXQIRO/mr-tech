@@ -9,7 +9,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>MYHOUR - Work Hours & Salary Manager</title>
 <link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" type="image/svg+xml" href="./app_logo.svg">
+<link rel="apple-touch-icon" href="./app_logo.svg">
 <style>
 /* ==========================================================================
    MYHOUR - 3D LUXURY GLASSMORPHIC STYLING & FULL RESPONSIVE AUTO-ADJUST
@@ -1643,7 +1644,7 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 <div id="pwa-install-modal" class="pwa-modal-overlay" onclick="if(event.target===this)dismissPwaModal()">
   <div class="pwa-modal-card">
     <div class="pwa-modal-icon" style="width:72px; height:72px; border-radius:50%; overflow:hidden; margin-bottom:12px; box-shadow:0 0 20px var(--gold-glow); background:#F7F3E7; border:2px solid var(--gold); padding:0;">
-      <img src="./app_logo.png" alt="MYHOUR" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+      <img src="./app_logo.svg" alt="MYHOUR" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
     </div>
     <h3 class="gold-text" style="margin:10px 0 6px; font-size:20px; letter-spacing:1px;" id="pwa-modal-title">MYHOUR ইনস্টল করুন</h3>
     <p style="font-size:13.5px; color:var(--t2); line-height:1.45; margin:0 0 20px;" id="pwa-modal-desc">
@@ -4658,7 +4659,10 @@ function authErr(e) {
     "auth/account-exists-with-different-credential": ["এই ইমেইল অন্য পদ্ধতিতে খোলা আছে", "Email registered with another method"],
     "auth/operation-not-allowed": ["Firebase Console-এ Authentication -> Sign-in method থেকে Google এবং Email/Password চালু করুন।", "Enable Google & Email/Password in Firebase Console -> Authentication -> Sign-in method."],
     "auth/internal-error": ["Google সাইন-ইন সম্পন্ন করা যায়নি। Firebase Console-এ Google Sign-In ও Authorized Domains চেক করুন।", "Google Sign-In failed. Check Google Sign-In provider and Authorized Domains in Firebase Console."],
-    "auth/unauthorized-domain": ["এই ডোমেইনটি Firebase Authorized Domains-এ যুক্ত নেই। Firebase Console -> Authentication -> Settings -> Authorized Domains-এ এই ওয়েবসাইটের ডোমেইন যোগ করুন।", "Domain not authorized in Firebase. Add this domain to Firebase Console -> Authentication -> Settings -> Authorized Domains."]
+    "auth/unauthorized-domain": [
+      `এই ডোমেইনটি (${location.hostname || location.protocol}) Firebase Authorized Domains-এ যুক্ত নেই। Firebase Console -> Authentication -> Settings -> Authorized Domains-এ "${location.hostname || 'your-domain'}" যোগ করুন।`,
+      `Domain "${location.hostname || location.protocol}" is not authorized in Firebase. Add "${location.hostname || 'your-domain'}" to Firebase Console -> Authentication -> Settings -> Authorized Domains.`
+    ]
   }[c];
   return m ? T3(m[0], m[1]) : T3("সমস্যা হয়েছে: ", "Error: ") + (c || (e && e.message) || "");
 }

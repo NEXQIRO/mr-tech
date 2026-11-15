@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#172747"/>
+      <stop offset="70%" stop-color="#0A1220"/>
+      <stop offset="100%" stop-color="#050911"/>
+    </radialGradient>
+    <radialGradient id="goldDial" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FFF7DA"/>
+      <stop offset="38%" stop-color="#F6D472"/>
+      <stop offset="72%" stop-color="#D4A33B"/>
+      <stop offset="100%" stop-color="#8A5E14"/>
+    </radialGradient>
+    <linearGradient id="goldHand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF7DA"/>
+      <stop offset="50%" stop-color="#F6D472"/>
+      <stop offset="100%" stop-color="#B88222"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="196" fill="url(#goldDial)"/>
+  <circle cx="256" cy="256" r="168" fill="#0A1220" stroke="#FFF1C5" stroke-width="6"/>
+
+  <g stroke="#D4A33B" stroke-width="10" stroke-linecap="round">
+    <path d="M256 108v24M256 380v24M108 256h24M380 256h24" stroke="#FFF7DA" stroke-width="12"/>
+    <path d="M330 128l-12 20M194 364l-12 20M384 182l-20 12M148 318l-20 12M384 330l-20-12M148 194l-20-12M330 384l-12-20M194 148l-12-20" opacity="0.65"/>
+  </g>
+
+  <circle cx="256" cy="256" r="120" fill="none" stroke="rgba(214,170,84,0.28)" stroke-width="4" stroke-dasharray="10,10"/>
+
+  <g stroke-linecap="round">
+    <path d="M256 256V154" stroke="#FFF7DA" stroke-width="14"/>
+    <path d="M256 256l68 42" stroke="url(#goldHand)" stroke-width="16"/>
+  </g>
+
+  <path d="M168 332l44-42 36 28 74-76" fill="none" stroke="#38BDF8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M300 242h24v24" fill="none" stroke="#38BDF8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <circle cx="256" cy="256" r="22" fill="url(#goldDial)" stroke="#0A1220" stroke-width="6"/>
+  <circle cx="256" cy="256" r="8" fill="#0A1220"/>
+</svg>
