@@ -1098,9 +1098,12 @@ body.light #dr > div {
   font-size: 26px;
   letter-spacing: 3px;
 }
-#au .lgo span {
+#au .lgo .au-tag {
+  display: block;
+  margin-top: 6px;
   font-size: 12px;
   color: var(--t2);
+  text-align: center;
 }
 
 #au .tabs {
@@ -1239,7 +1242,7 @@ body.light #dr > div {
 @keyframes spSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes spSpinRev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
-#sp svg {
+#sp .lo > svg {
   width: 104px;
   height: 104px;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
@@ -1636,6 +1639,79 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
     display: inline-flex !important;
   }
 }
+
+/* ==========================================================================
+   MYHOUR MOSTWIN-STYLE BRAND WORDMARK (MY = White, H = Yellow, O = Spinning White Wheel, UR = Yellow)
+   ========================================================================== */
+.myh-logo {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  display: inline-block;
+  width: max-content;
+  white-space: nowrap;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  color: #ffd23f;
+  -webkit-text-fill-color: initial;
+}
+.myh-logo .myh-w {
+  font-size: 1em;
+  line-height: 1;
+  color: #ffffff;
+}
+.myh-logo .myh-o {
+  display: inline-block;
+  position: relative;
+  font-size: 1em;
+  width: 0.76em;
+  height: 0.76em;
+  margin: 0 0.04em;
+  vertical-align: baseline;
+  overflow: visible;
+  color: #ffffff;
+  filter: drop-shadow(0 0 0.04em rgba(255, 255, 255, 0.48));
+}
+.myh-logo .myh-o svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  transform: scale(1.12);
+  transform-origin: 50% 50%;
+}
+.myh-logo .myh-o-ring {
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  animation: myhSpin 6s cubic-bezier(.2, .7, .2, 1) infinite;
+}
+@keyframes myhSpin {
+  0%, 25% { transform: rotate(0deg); }
+  70%, 100% { transform: rotate(1440deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .myh-logo .myh-o-ring { animation: none; }
+}
+body.light .myh-logo { color: #d49600; }
+body.light .myh-logo .myh-w,
+body.light .myh-logo .myh-o { color: #0F172A; filter: none; }
+#sp .myh-logo,
+#au .myh-logo,
+#dr .dh .myh-logo { color: #ffd23f; }
+#sp .myh-logo .myh-w,
+#sp .myh-logo .myh-o,
+#au .myh-logo .myh-w,
+#au .myh-logo .myh-o,
+#dr .dh .myh-logo .myh-w,
+#dr .dh .myh-logo .myh-o { color: #ffffff; }
+.sp-myh-logo {
+  font-size: clamp(34px, 8vw, 48px);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: spFadeUp 0.6s ease 0.65s forwards;
+}
 </style>
 </head>
 <body>
@@ -1723,7 +1799,7 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 
   <div class="tt-wrap">
     <div class="sp-pill">✦ ENTERPRISE FINANCIAL SUITE ✦</div>
-    <div class="tt"><i>M</i><i>Y</i><i>H</i><i>O</i><i>U</i><i>R</i></div>
+    <div class="myh-logo sp-myh-logo"><span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR</div>
     <div class="tg" id="sptg">Work Hours · Overtime · Salary Manager</div>
     <div class="tg-bn">আপনার সময়ের সঠিক মূল্যায়ন ও প্রিমিয়াম স্যালারি ভল্ট</div>
   </div>
@@ -1747,8 +1823,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
   <aside id="sidebar">
     <div class="brand-box" onclick="go('dashboard')" style="cursor:pointer; padding:16px 14px;">
       <div>
-        <div class="brand-title myhour-wordmark-logo" style="font-size:24px; font-weight:900; letter-spacing:1px; line-height:1;">
-          <span class="gold-text">MYH</span><span class="myhour-o-clock" style="display:inline-flex; align-items:center; justify-content:center; margin:0 2px; position:relative; top:-2px;"><svg viewBox="0 0 24 24" style="width:22px; height:22px; display:block;" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" stroke="#FFFFFF" stroke-width="2.5"/><path d="M12 6.5v5.5l3.5 2" stroke="#FFFFFF" stroke-width="2.5"/></svg></span><span class="gold-text">UR</span>
+        <div class="brand-title myh-logo" style="font-size:25px;">
+          <span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR
         </div>
         <div class="brand-tag" style="margin-top:4px;">Work & Salary Manager</div>
       </div>
@@ -1789,8 +1865,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
         <span id="bkb" class="bkb" onclick="event.stopPropagation(); goBack(1)" aria-label="Back">
           <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
         </span>
-        <div class="myhour-wordmark-logo" style="display:inline-flex; align-items:center; font-weight:900; font-size:21px; letter-spacing:1px; line-height:1;">
-          <span class="gold-text">MYH</span><span class="myhour-o-clock" style="display:inline-flex; align-items:center; justify-content:center; margin:0 2px; position:relative; top:-1px;"><svg viewBox="0 0 24 24" style="width:19px; height:19px; display:block;" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" stroke="#FFFFFF" stroke-width="2.5"/><path d="M12 6.5v5.5l3.5 2" stroke="#FFFFFF" stroke-width="2.5"/></svg></span><span class="gold-text">UR</span>
+        <div class="myh-logo" style="font-size:22px;">
+          <span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR
         </div>
       </div>
 
@@ -1832,8 +1908,8 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
         <div style="display:flex; align-items:center;">
           <div>
-            <div class="myhour-wordmark-logo" style="font-size:22px; font-weight:900; letter-spacing:1px; line-height:1;">
-              <span class="gold-text">MYH</span><span class="myhour-o-clock" style="display:inline-flex; align-items:center; justify-content:center; margin:0 2px; position:relative; top:-1px;"><svg viewBox="0 0 24 24" style="width:20px; height:20px; display:block;" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" stroke="#FFFFFF" stroke-width="2.5"/><path d="M12 6.5v5.5l3.5 2" stroke="#FFFFFF" stroke-width="2.5"/></svg></span><span class="gold-text">UR</span>
+            <div class="myh-logo" style="font-size:23px;">
+              <span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR
             </div>
             <div style="font-size:11px; color:var(--t2); margin-top:3px;">Your Time. Your Earnings.</div>
           </div>
@@ -2222,7 +2298,7 @@ const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "
 const val = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
 
 const IC = {
-  info: "ℹ️", shield: "🛡️", home: "🏠", dashboard: "📊", date_range: "⏱️", payments: "💵",
+  info: "ℹ️", shield: "🛡️", home: "🏠", dashboard: "📊", date_range: "⏱️", add_duty: "➕", payments: "💵",
   send: "📤", menu_book: "📖", work: "💼", calendar_month: "📅",
   trending_up: "📈", cloud_done: "☁️", person: "👤", balance: "💰", menu: "☰"
 };
@@ -2237,6 +2313,7 @@ const BN = [
 
 const DR = [
   ["dashboard", "nav_dashboard", "dashboard"],
+  ["duty_entry", "btn_add_duty", "add_duty"],
   ["duty", "nav_duty", "date_range"],
   ["employment", "nav_employment", "work"],
   ["schedule", "nav_schedule", "calendar_month"],
@@ -2652,7 +2729,7 @@ const V = {
 
     const quickActions = `
       <div class="qa">
-        <button onclick="go('duty')">➕ ${t("btn_add_duty")}</button>
+        <button onclick="go('duty_entry')">➕ ${t("btn_add_duty")}</button>
         <button class="s" onclick="go('salary')">💵 ${t("btn_add_payment")}</button>
         <button class="s" onclick="go('finance')">📤 ${t("btn_add_remittance")}</button>
       </div>`;
@@ -2704,7 +2781,7 @@ const V = {
     return `
       ${heroBanner}
       ${emptyJobBanner}
-      ${newMonthBanner("go('duty')")}
+      ${newMonthBanner("go('duty_entry')")}
       ${statCards}
       ${quickActions}
 
@@ -2790,10 +2867,71 @@ const V = {
       </div>`;
   },
 
+  duty_entry() {
+    const recent = S.duty.slice(-5).reverse().map(d => `
+      <div class="r">
+        <div>
+          <b>${d.date} · ${d.tot}h ${d.ot > 0 ? `<span style="color:var(--wn)">(OT ${d.ot}h)</span>` : ""}</b>
+          <div class="k">${empName(d.emp)} ${d.notes ? "· " + esc(d.notes) : ""}</div>
+        </div>
+        <div style="text-align:right;">
+          <b style="font-size:15px; color:var(--gold);">${f(d.sal)} SAR</b>
+        </div>
+      </div>`).join("");
+
+    return `
+      <div style="max-width:620px; margin:0 auto;">
+        <div class="rh" style="margin-bottom:12px;">
+          <h3 class="gold-text" style="font-size:20px; margin:0;">➕ ${t("btn_add_duty")}</h3>
+          <button class="s" onclick="go('duty')" style="padding:7px 12px; font-size:12.5px; border-radius:10px;">⏱️ ${T3("ডিউটি তালিকা", "Duty List")}</button>
+        </div>
+
+        ${!S.emp.length ? `
+          <div class="empty">
+            <span class="em">💼</span>
+            <h3>${T3("আগে একটি কোম্পানি/কাজ যোগ করুন", "Add a job or company first")}</h3>
+            <p>${T3("ডিউটি এন্ট্রি দেওয়ার আগে আপনার কোম্পানি ও ঘণ্টা রেট যুক্ত করুন।", "Add your company and hourly rate before logging duty.")}</p>
+            <button onclick="go('employment')">➕ ${t("btn_add_employment")}</button>
+          </div>` : ""}
+
+        <div class="card" id="duty-entry-card">
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div>
+              <label class="k" style="display:block; margin-bottom:4px; font-size:12px;">💼 ${T3("কোম্পানি / কাজ নির্বাচন", "Select Job / Company")}</label>
+              ${empSel("a1", true)}
+            </div>
+            <div>
+              <label class="k" style="display:block; margin-bottom:4px; font-size:12px;">📅 ${t("field_date")}</label>
+              <input id="a2" type="date" value="${today()}">
+            </div>
+            <div>
+              <label class="k" style="display:block; margin-bottom:4px; font-size:12px;">⏱️ ${t("field_total_hours")}</label>
+              <input id="a3" type="number" step="0.5" min="0" placeholder="${t("field_total_hours")} (e.g. 10 or 12)" oninput="updateDutyPreview()">
+            </div>
+            <div id="duty-preview" style="display:none; padding:10px 12px; border-radius:12px; background:rgba(214,170,84,0.1); border:1px solid var(--gold-border); font-size:13px;"></div>
+            <div>
+              <label class="k" style="display:block; margin-bottom:4px; font-size:12px;">📝 ${t("field_notes")}</label>
+              <input id="a4" placeholder="${t("field_notes")}">
+            </div>
+            <button class="big" onclick="addDuty()">✅ ${t("btn_save")}</button>
+          </div>
+        </div>
+
+        ${recent ? `
+          <div class="card">
+            <div class="rh">
+              <h3>${T3("সর্বশেষ ডিউটি এন্ট্রি", "Recent Duty Entries")}</h3>
+              <a onclick="go('duty')">${T3("সব দেখুন >", "View All >")}</a>
+            </div>
+            ${recent}
+          </div>` : ""}
+      </div>`;
+  },
+
   duty() {
     const s = sum();
     return `
-      ${newMonthBanner("focusDutyForm()")}
+      ${newMonthBanner("go('duty_entry')")}
       
       <!-- Top 4 Single-Line Balanced Cards -->
       <div class="kpi-row-4">
@@ -2821,17 +2959,18 @@ const V = {
 
       <div class="pc-split">
         <div class="pc-col-main">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:8px; flex-wrap:wrap;">
             <h3 class="gold-text" style="font-size:18px; margin:0;">⏱️ ${T3("মাসভিত্তিক ডিউটি শিডিউল", "Monthly Duty Records")}</h3>
+            <button class="btn" onclick="go('duty_entry')" style="padding:8px 14px; font-size:13px;">➕ ${t("btn_add_duty")}</button>
           </div>
           ${dutyMonths()}
         </div>
 
         <div class="pc-col-side">
-          <div class="card">
+          <div class="card" id="duty-entry-card">
             <h3>➕ ${t("btn_add_duty")}</h3>
             <div style="display:flex; flex-direction:column; gap:8px;">
-              <div>${empSel("a1")}</div>
+              <div>${empSel("a1", true)}</div>
               <input id="a2" type="date" value="${today()}">
               <input id="a3" type="number" step="0.5" placeholder="${t("field_total_hours")} (e.g. 10 or 12)">
               <input id="a4" placeholder="${t("field_notes")}">
@@ -3255,7 +3394,7 @@ const V = {
     const monthCards = dutyMonths.length === 0 
       ? `<div class="sub" style="text-align:center; padding:18px; color:var(--t2);">
            ${T3("এখনও কোনো ডিউটি এন্ট্রি দেওয়া হয়নি।", "No duty entries recorded yet.")}
-           <div style="margin-top:10px;"><button class="btn" onclick="go('duty')">➕ ${T3("ডিউটি রেকর্ড শুরু করুন", "Log First Duty")}</button></div>
+           <div style="margin-top:10px;"><button class="btn" onclick="go('duty_entry')">➕ ${T3("ডিউটি রেকর্ড শুরু করুন", "Log First Duty")}</button></div>
          </div>`
       : dutyMonths.map(mk => {
           const list = S.duty.filter(d => String(d.date).slice(0, 7) === mk);
@@ -3404,8 +3543,9 @@ const V = {
   about() {
     return `
       <div class="card" style="text-align:center; max-width:540px; margin:auto; padding:32px 20px;">
-        <div style="font-size:56px; margin-bottom:12px;">⏱️</div>
-        <h3 class="gold-text" style="font-size:26px; letter-spacing:2px;">MYHOUR</h3>
+        <div style="display:flex; justify-content:center; margin-bottom:10px;">
+          <div class="myh-logo" style="font-size:32px;"><span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR</div>
+        </div>
         <div class="k" style="font-size:16px; margin:8px 0;">${T3("এই অ্যাপ তৈরি ও পরিচালনা করেছে " + COMPANY, "Created and owned by " + COMPANY, "تم إنشاؤه وإدارته بواسطة " + COMPANY)}</div>
         <div style="margin-top:14px; font-size:14px;">
           <a href="https://nexqiro.github.io/mr-tech/" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--gold-border); padding:10px 22px; border-radius:24px; background:rgba(214,170,84,0.14); box-shadow:0 4px 14px rgba(0,0,0,0.3);">
@@ -3474,6 +3614,23 @@ function addEmp() {
 function focusDutyForm() {
   const el = document.getElementById("a3");
   if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.focus(); }
+}
+
+function updateDutyPreview() {
+  const box = document.getElementById("duty-preview");
+  if (!box) return;
+  const e = S.emp.find(x => x.id == val("a1"));
+  const tot = N(val("a3"));
+  if (!e || !(tot > 0)) {
+    box.style.display = "none";
+    box.innerHTML = "";
+    return;
+  }
+  const nor = Math.min(tot, e.thr);
+  const ot = Math.max(0, tot - e.thr);
+  const sal = nor * e.rate + ot * e.otr;
+  box.style.display = "block";
+  box.innerHTML = `${T3("রেগুলার", "Regular")}: <b>${f(nor)}h</b> · ${T3("ওভারটাইম", "OT")}: <b style="color:var(--wn)">${f(ot)}h</b> · ${T3("মোট আয়", "Total Pay")}: <b style="color:var(--gold)">SAR ${f(sal)}</b>`;
 }
 
 function addDuty() {
@@ -3668,7 +3825,7 @@ function monthCards() {
         <span style="font-size:32px; display:block; margin-bottom:10px;">📅</span>
         <h4 style="color:var(--gold); margin:0 0 6px;">${T3("কোনো মাসের কাজের রেকর্ড নেই", "No monthly records yet", "لا توجد سجلات شهرية")}</h4>
         <p class="k" style="font-size:13px; margin:0 0 14px;">${T3("প্রথমে দৈনিক ডিউটি এন্ট্রি দিন, প্রতি মাসের বেতন ও টাইমশিট স্বয়ংক্রিয়ভাবে তৈরি হবে।", "Log your daily duty first to automatically generate monthly salary statements.")}</p>
-        <button class="btn" onclick="go('duty')">➕ ${t("btn_add_duty")}</button>
+        <button class="btn" onclick="go('duty_entry')">➕ ${t("btn_add_duty")}</button>
       </div>`;
   }
 
@@ -4658,6 +4815,14 @@ function authErr(e) {
     "auth/user-disabled": ["এই অ্যাকাউন্ট বন্ধ করা আছে", "This account is disabled"],
     "auth/account-exists-with-different-credential": ["এই ইমেইল অন্য পদ্ধতিতে খোলা আছে", "Email registered with another method"],
     "auth/operation-not-allowed": ["Firebase Console-এ Authentication -> Sign-in method থেকে Google এবং Email/Password চালু করুন।", "Enable Google & Email/Password in Firebase Console -> Authentication -> Sign-in method."],
+    "auth/operation-not-supported-in-this-environment": [
+      "এই ব্রাউজার বা পরিবেশে Google লগইন সমর্থিত নয়। ফাইলটি সরাসরি ফোন/পিসি স্টোরেজ (file://) বা ইন-অ্যাপ ব্রাউজার থেকে না খুলে Chrome/Safari-তে https://nexqiro.github.io/mr-tech/ লিংকটি খুলুন।",
+      "Google Sign-In is not supported in this environment. Open https://nexqiro.github.io/mr-tech/ directly in Chrome or Safari instead of a local file (file://) or in-app browser."
+    ],
+    "auth/web-storage-unsupported": [
+      "ব্রাউজারে Cookies/Storage বন্ধ আছে অথবা ইন-অ্যাপ ব্রাউজারে খোলা হয়েছে। Chrome/Safari-তে সাইটটি ওপেন করুন।",
+      "Web storage/cookies are disabled or blocked here. Please open this site in Chrome or Safari."
+    ],
     "auth/internal-error": ["Google সাইন-ইন সম্পন্ন করা যায়নি। Firebase Console-এ Google Sign-In ও Authorized Domains চেক করুন।", "Google Sign-In failed. Check Google Sign-In provider and Authorized Domains in Firebase Console."],
     "auth/unauthorized-domain": [
       `এই ডোমেইনটি (${location.hostname || location.protocol}) Firebase Authorized Domains-এ যুক্ত নেই। Firebase Console -> Authentication -> Settings -> Authorized Domains-এ "${location.hostname || 'your-domain'}" যোগ করুন।`,
@@ -4682,14 +4847,8 @@ function authBusy(b) {
 function authHeader() {
   return `
     <div class="lgo">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 7v5l3 2"/>
-        </svg>
-      </div>
-      <b class="gold-text">MYHOUR</b>
-      <span>${t("tagline")}</span>
+      <div class="myh-logo" style="font-size:36px; display:block; margin:0 auto;"><span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR</div>
+      <div class="au-tag">${t("tagline")}</div>
     </div>`;
 }
 
@@ -4881,6 +5040,10 @@ function login() {
 function googleSignIn() {
   if (AUTH_BUSY || !AUTH) return;
   authMsg("");
+  if (location.protocol !== "http:" && location.protocol !== "https:") {
+    authMsg(authErr({ code: "auth/operation-not-supported-in-this-environment" }));
+    return;
+  }
   authBusy(true);
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope("email");
@@ -5477,6 +5640,10 @@ function render() {
     root.innerHTML = V[cur]();
   }
   if (cur === "employment") attachSuggest("a2");
+  if (cur === "duty_entry") {
+    const sel = document.getElementById("a1");
+    if (sel) sel.addEventListener("change", updateDutyPreview);
+  }
   if (cur === "admin") loadAdminUsers();
 
   const main = document.getElementById("main-viewport");
@@ -5506,7 +5673,12 @@ window.addEventListener("resize", () => {
   } catch (e) {}
   applyTheme();
   if (initFirebase()) {
-    AUTH.getRedirectResult().catch((e) => { const m = authErr(e); if (m) setTimeout(() => authMsg(m), 300); });
+    AUTH.getRedirectResult().catch((e) => {
+      const c = (e && e.code) || "";
+      if (c === "auth/operation-not-supported-in-this-environment" || c === "auth/web-storage-unsupported") return;
+      const m = authErr(e);
+      if (m) setTimeout(() => authMsg(m), 300);
+    });
     AUTH.onAuthStateChanged(onAuthChanged);
   } else {
     AUTH_READY = true;
