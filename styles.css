@@ -623,36 +623,36 @@ section {
 }
 
 .pill-1 {
-  top: 4%;
-  left: -6%;
+  top: 5%;
+  left: -14%;
   animation: pill-orbit-1 8s ease-in-out infinite;
 }
 
 .pill-2 {
-  bottom: 14%;
-  right: -6%;
+  bottom: 20%;
+  right: -18%;
   animation: pill-orbit-2 8s ease-in-out infinite;
 }
 
 .pill-3 {
-  bottom: 9%;
-  left: -6%;
+  bottom: 12%;
+  left: -18%;
   animation: pill-orbit-3 8s ease-in-out infinite;
 }
 
 @keyframes pill-orbit-1 {
   0%, 100% { transform: translate(4px, 4px); }
-  50% { transform: translate(-6px, -6px); }
+  50% { transform: translate(-6px, -5px); }
 }
 
 @keyframes pill-orbit-2 {
-  0%, 100% { transform: translate(-5px, -4px); }
-  50% { transform: translate(5px, 6px); }
+  0%, 100% { transform: translate(-4px, -3px); }
+  50% { transform: translate(5px, 5px); }
 }
 
 @keyframes pill-orbit-3 {
-  0%, 100% { transform: translate(6px, -3px); }
-  50% { transform: translate(-6px, 5px); }
+  0%, 100% { transform: translate(4px, -3px); }
+  50% { transform: translate(-5px, 4px); }
 }
 
 /* ==========================================================================
@@ -1940,31 +1940,32 @@ textarea.form-control {
   .hero-visual {
     order: -1;
     margin-bottom: 0.75rem;
-    padding: 0.35rem 0;
+    padding: 0.45rem 0;
   }
   .avatar-stage {
-    width: 260px;
-    height: 260px;
+    width: clamp(192px, 55vw, 250px);
+    height: clamp(192px, 55vw, 250px);
   }
   .floating-pill {
-    font-size: 0.74rem;
-    padding: 0.38rem 0.75rem;
+    font-size: 0.7rem;
+    padding: 0.34rem 0.68rem;
+    gap: 0.4rem;
   }
   .pill-1 {
     top: 3%;
-    left: -8%;
+    left: -18%;
   }
-  /* Android Compose pill anchored directly on bottom-right border curve (below face) */
+  /* Android Compose: mostly outside bottom-right border curve, completely separated from Firebase pill */
   .pill-2 {
     top: auto;
-    bottom: 13%;
-    right: -8%;
+    bottom: 20%;
+    right: -23%;
   }
-  /* Firebase Cloud pill anchored directly on bottom-left border curve */
+  /* Firebase Cloud: mostly outside bottom-left border curve */
   .pill-3 {
     top: auto;
-    bottom: 8%;
-    left: -8%;
+    bottom: 12%;
+    left: -23%;
   }
 }
 
@@ -2164,24 +2165,25 @@ textarea.form-control {
     font-size: 1.75rem;
   }
   .avatar-stage {
-    width: 225px;
-    height: 225px;
+    width: 192px;
+    height: 192px;
   }
   .floating-pill {
-    font-size: 0.68rem;
-    padding: 0.3rem 0.62rem;
+    font-size: 0.66rem;
+    padding: 0.28rem 0.56rem;
+    gap: 0.34rem;
   }
   .pill-1 {
     top: 2%;
-    left: -6%;
+    left: -16%;
   }
   .pill-2 {
-    bottom: 12%;
-    right: -6%;
+    bottom: 20%;
+    right: -22%;
   }
   .pill-3 {
-    bottom: 7%;
-    left: -6%;
+    bottom: 11%;
+    left: -22%;
   }
   .hero-stats {
     grid-template-columns: 1fr;
@@ -2305,21 +2307,21 @@ body {
 
 /* Desktop / PC Wide Auto-Adjustment */
 @media (min-width: 993px) {
-  .hero-visual { max-width: 500px; }
+  .hero-visual { max-width: 520px; }
   .avatar-stage {
-    width: min(440px, 100%);
+    width: min(400px, 84%);
     height: auto;
     aspect-ratio: 1 / 1;
     max-width: 100%;
     max-height: none;
   }
   .floating-pill {
-    font-size: 0.92rem;
-    padding: 0.65rem 1.15rem;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.1rem;
   }
-  .pill-1 { top: 6%; left: -4%; }
-  .pill-2 { bottom: 15%; right: -5%; top: auto; }
-  .pill-3 { bottom: 9%; left: -4%; }
+  .pill-1 { top: 6%; left: -12%; }
+  .pill-2 { bottom: 20%; right: -16%; top: auto; }
+  .pill-3 { bottom: 12%; left: -16%; }
   .hero-role-wrapper {
     flex-wrap: nowrap;
     white-space: nowrap;
