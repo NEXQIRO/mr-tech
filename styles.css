@@ -134,7 +134,7 @@ img, svg, video, canvas {
 
 @media (max-width: 640px) {
   .container {
-    padding: 0 1.1rem;
+    padding: 0 1rem;
   }
 }
 
@@ -461,7 +461,6 @@ section {
   margin-bottom: 0.35rem;
 }
 
-/* Fluid responsive hero name - NEVER CLIPS ON ANY SCREEN */
 .hero-name {
   font-size: clamp(2rem, 7vw, 3.85rem);
   font-weight: 900;
@@ -591,7 +590,7 @@ section {
   display: block;
 }
 
-/* Floating Tech Badges (Contained, Zero Overflow) */
+/* Floating Tech Badges (Unobstructed Face & Zero Overflow) */
 .floating-pill {
   position: absolute;
   background: rgba(9, 14, 29, 0.92);
@@ -618,14 +617,14 @@ section {
 }
 
 .pill-2 {
-  top: 38%;
-  right: -20px;
+  bottom: 4%;
+  right: -12px;
   animation-delay: 1.5s;
 }
 
 .pill-3 {
   bottom: -15px;
-  left: 14%;
+  left: 8%;
   animation-delay: 2.5s;
 }
 
@@ -757,7 +756,7 @@ section {
 }
 
 /* ==========================================================================
-   Skills Section
+   Skills Section (Zero-Clipping Auto-Adjusting Cards)
    ========================================================================== */
 #skills {
   scroll-margin-top: 85px;
@@ -811,6 +810,8 @@ section {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .skill-card:hover {
@@ -823,15 +824,17 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.65rem;
+  min-width: 0;
+  width: 100%;
 }
 
 .skill-info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.7rem;
   min-width: 0;
-  flex: 1;
+  flex: 1 1 0;
 }
 
 .skill-icon-box {
@@ -856,15 +859,17 @@ section {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  flex: 1 1 0;
 }
 
 .skill-name {
   font-size: 0.92rem;
   font-weight: 700;
   color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.3;
 }
 
 .skill-cat-label {
@@ -886,18 +891,20 @@ section {
   font-weight: 700;
   color: var(--accent-cyan);
   font-family: monospace;
+  white-space: nowrap;
 }
 
 .skill-badge {
-  font-size: 0.65rem;
+  font-size: 0.64rem;
   font-weight: 700;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.48rem;
   border-radius: var(--radius-full);
   background: rgba(139, 92, 246, 0.18);
   color: #DDD6FE;
   border: 1px solid rgba(139, 92, 246, 0.35);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
 }
 
 .skill-bar-container {
@@ -918,7 +925,7 @@ section {
 }
 
 /* ==========================================================================
-   Projects Section (Adaptive Card Dimensions, No Overflow)
+   Projects Section
    ========================================================================== */
 .projects-filter {
   display: flex;
@@ -1339,7 +1346,7 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   PUBLIC REAL-TIME LIVE CHAT & CONVERSATIONAL LEAD BOT WIDGET
+   PUBLIC LIVE CHAT & 4-STEP SEQUENTIAL LEAD VERIFICATION GATE
    ========================================================================== */
 .livechat-trigger {
   position: fixed;
@@ -1383,9 +1390,9 @@ textarea.form-control {
   position: fixed;
   bottom: 95px;
   right: 24px;
-  width: 380px;
+  width: 390px;
   max-width: calc(100vw - 32px);
-  height: 530px;
+  height: 540px;
   max-height: calc(100vh - 120px);
   background: rgba(9, 14, 29, 0.98);
   backdrop-filter: blur(25px);
@@ -1410,18 +1417,20 @@ textarea.form-control {
 }
 
 .chat-header {
-  padding: 0.9rem 1.25rem;
+  padding: 0.9rem 1.15rem;
   background: linear-gradient(135deg, rgba(26, 24, 56, 0.95) 0%, rgba(9, 14, 29, 0.95) 100%);
   border-bottom: 1px solid rgba(0, 240, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .chat-agent-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .chat-agent-avatar {
@@ -1431,6 +1440,7 @@ textarea.form-control {
   object-fit: cover;
   border: 2px solid var(--accent-cyan);
   box-shadow: 0 0 10px var(--accent-cyan-glow);
+  flex-shrink: 0;
 }
 
 .chat-agent-title {
@@ -1452,20 +1462,186 @@ textarea.form-control {
   height: 7px;
   border-radius: 50%;
   background-color: var(--accent-green);
+  flex-shrink: 0;
 }
 
-.chat-close-btn {
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.chat-close-btn,
+.chat-reset-btn {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   cursor: pointer;
-  padding: 0.35rem;
-  transition: color 0.2s ease;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
-.chat-close-btn:hover {
+.chat-close-btn:hover,
+.chat-reset-btn:hover {
   color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Sequential 4-step Lead Gate inside Chat */
+.chat-lead-gate {
+  flex-grow: 1;
+  padding: 1.15rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.lead-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.lead-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.lead-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+  transition: width 0.3s ease;
+}
+
+.lead-completed-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.lead-done-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.22rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34D399;
+}
+
+.lead-step-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.lead-field-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #E2E8F0;
+}
+
+.lead-control {
+  width: 100%;
+  padding: 0.72rem 0.9rem;
+  border-radius: 12px;
+  background: #0E1626;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.lead-control:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.14);
+}
+
+.lead-control option {
+  background: #090E1D;
+  color: #FFFFFF;
+}
+
+.lead-extra-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.lead-error-box {
+  padding: 0.6rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #FCA5A5;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.lead-step-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.chat-locked-bar {
+  padding: 0.85rem 1.15rem;
+  background: rgba(14, 22, 38, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.chat-locked-bar i {
+  color: var(--accent-gold);
+}
+
+.chat-verified-banner {
+  padding: 0.55rem 1rem;
+  background: rgba(16, 185, 129, 0.12);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.verified-text {
+  font-size: 0.72rem;
+  color: #34D399;
+  line-height: 1.35;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.verified-edit-btn {
+  background: transparent;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  color: var(--accent-cyan);
+  border-radius: 8px;
+  padding: 0.22rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .chat-quick-chips {
@@ -1716,13 +1892,13 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   MOBILE & TABLET RESPONSIVE STYLING (Comprehensive Zero-Clipping Rules)
+   MOBILE & TABLET RESPONSIVE STYLING (Zero Face Overlap & Zero Clipping)
    ========================================================================== */
 @media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2.5rem;
+    gap: 2.25rem;
   }
   .hero-tagline {
     margin: 0 auto 2rem;
@@ -1741,29 +1917,32 @@ textarea.form-control {
   }
   .hero-visual {
     order: -1;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 2.6rem;
   }
   .avatar-frame {
-    width: 260px;
-    height: 260px;
+    width: 250px;
+    height: 250px;
   }
   .pill-1 {
     top: -6px;
-    left: -6px;
+    left: 0;
     font-size: 0.74rem;
     padding: 0.38rem 0.75rem;
   }
+  /* Android Compose pill moved down BELOW face to bottom-right */
   .pill-2 {
-    top: 38%;
-    right: -8px;
-    bottom: auto;
+    top: auto;
+    bottom: 0;
+    right: 0;
     font-size: 0.74rem;
     padding: 0.38rem 0.75rem;
   }
+  /* Firebase Cloud pill anchored at bottom-left */
   .pill-3 {
     top: auto;
-    bottom: -10px;
-    left: 10px;
+    bottom: 0;
+    left: 0;
     font-size: 0.74rem;
     padding: 0.38rem 0.75rem;
   }
@@ -1871,7 +2050,7 @@ textarea.form-control {
     flex-shrink: 0;
   }
   .skills-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
     width: 100%;
     max-width: 100%;
@@ -1879,29 +2058,38 @@ textarea.form-control {
     padding: 0;
   }
   .skill-card {
-    padding: 0.8rem 1rem;
+    padding: 0.85rem 0.95rem;
     gap: 0.55rem;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     margin: 0 auto;
     box-sizing: border-box;
+    overflow: hidden;
+  }
+  .skill-header {
+    gap: 0.55rem;
+    min-width: 0;
   }
   .skill-icon-box {
     width: 34px;
     height: 34px;
   }
   .skill-icon {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
   }
   .skill-name {
-    font-size: 0.88rem;
+    font-size: 0.86rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    line-height: 1.3;
   }
   .skill-percent {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
   .skill-badge {
-    font-size: 0.62rem;
-    padding: 0.12rem 0.45rem;
+    font-size: 0.6rem;
+    padding: 0.12rem 0.42rem;
   }
   .projects-filter {
     justify-content: center;
@@ -1932,21 +2120,20 @@ textarea.form-control {
     align-items: center;
     gap: 1.25rem;
   }
-  .livechat-trigger,
-  .quick-contact-trigger {
+  .livechat-trigger {
     bottom: 18px;
     right: 18px;
     width: 54px;
     height: 54px;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
   }
   .livechat-dialog {
     bottom: 82px;
-    right: 12px;
-    left: 12px;
+    right: 10px;
+    left: 10px;
     width: auto;
     max-width: none;
-    height: 490px;
+    height: 500px;
     max-height: calc(100vh - 100px);
     border-radius: 16px;
   }
@@ -1957,8 +2144,12 @@ textarea.form-control {
     font-size: 1.75rem;
   }
   .avatar-frame {
-    width: 220px;
-    height: 220px;
+    width: 215px;
+    height: 215px;
+  }
+  .floating-pill {
+    font-size: 0.7rem;
+    padding: 0.32rem 0.65rem;
   }
   .hero-stats {
     grid-template-columns: 1fr;
@@ -1967,72 +2158,8 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-/* ==========================================================================
-   Lightweight Bubble Touch Sway Effect ("Bubbler Moto Halka Dolbe")
-   Pure elastic bubble squish & rebound when user touches an element.
-   Zero continuous animation, 0% CPU idle, zero color change.
+   GLASS THEME (Glassmorphism)
    ========================================================================== */
-.bubble-swayed {
-  animation: bubble-jiggle 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
-  will-change: transform;
-}
-
-@keyframes bubble-jiggle {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1, 1);
-  }
-  28% {
-    transform: translate3d(0, 3px, 0) scale(1.028, 0.972);
-  }
-  58% {
-    transform: translate3d(0, -2.5px, 0) scale(0.982, 1.018);
-  }
-  82% {
-    transform: translate3d(0, 1px, 0) scale(1.008, 0.994);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1, 1);
-  }
-}
-
-/* Delicate, Transparent Bubble on Touch Point (NO color change) */
-.touch-bubble {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
-  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.22), inset -2px -2px 5px rgba(255, 255, 255, 0.05);
-  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 65%, transparent 100%);
-  transform: translate(-50%, -50%) scale(0.25);
-  opacity: 0.85;
-  animation: bubble-pop-expand 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes bubble-pop-expand {
-  0% {
-    transform: translate(-50%, -50%) scale(0.25);
-    opacity: 0.85;
-  }
-  70% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0.55;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.35);
-    opacity: 0;
-  }
-}
-
-
-
-/* ==========================================================================
-   GLASS THEME (কাঁচের মতো থিম / Glassmorphism)
-   আগের রঙ ও লেআউট একই আছে, শুধু কার্ড, হেডার, ফর্ম, চ্যাট ইত্যাদি
-   এখন ঝাপসা স্বচ্ছ কাঁচের মতো দেখাবে।
-   আগের চেহারায় ফিরতে চাইলে এই লাইনের নিচের সব কিছু মুছে দিন।
-   ========================================================================== */
-
 :root {
   --glass-fill: linear-gradient(135deg,
       rgba(255, 255, 255, 0.13) 0%,
@@ -2060,7 +2187,6 @@ textarea.form-control {
   --text-dim: #8493AB;
 }
 
-/* ---- ১. পেছনের রঙিন আলো: কাঁচের ভেতর দিয়ে এটাই দেখা যায় ---- */
 body {
   background:
     radial-gradient(1100px 700px at 10% -5%, rgba(99, 102, 241, 0.22), transparent 60%),
@@ -2070,59 +2196,12 @@ body {
   background-attachment: fixed;
 }
 
-.ambient-glow {
-  background-image: none;
-}
+.ambient-glow { background-image: none; }
 
-.glow-orb-1 {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, rgba(4, 7, 17, 0) 70%);
-}
-
-.glow-orb-2 {
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.42) 0%, rgba(4, 7, 17, 0) 70%);
-}
-
-.glow-orb-3 {
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.32) 0%, rgba(4, 7, 17, 0) 70%);
-}
-
-.ambient-glow::before,
-.ambient-glow::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-}
-
-.ambient-glow::before {
-  top: 55vh;
-  right: -10vw;
-  width: 34vw;
-  height: 34vw;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.42) 0%, rgba(4, 7, 17, 0) 70%);
-}
-
-.ambient-glow::after {
-  top: 8vh;
-  left: 30vw;
-  width: 26vw;
-  height: 26vw;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.22) 0%, rgba(4, 7, 17, 0) 70%);
-}
-
-/* ---- ২. বড় কাঁচের প্যানেল ---- */
 .about-card,
 .project-card,
 .service-card,
-.contact-form-card {
-  background: var(--glass-fill);
-  border: 1px solid var(--glass-edge);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-shadow);
-}
-
-/* ---- ৩. ছোট কাঁচের কার্ড ---- */
+.contact-form-card,
 .highlight-box,
 .value-item,
 .skill-card,
@@ -2135,7 +2214,6 @@ body {
   box-shadow: var(--glass-shadow);
 }
 
-/* ---- ৪. হোভার করলে কাঁচ আরও উজ্জ্বল ---- */
 .value-item:hover,
 .skill-card:hover,
 .project-card:hover,
@@ -2147,14 +2225,12 @@ body {
   box-shadow: var(--glass-shadow-hover);
 }
 
-/* ---- ৫. হেডার ও ফুটার ---- */
 .header,
 .header.scrolled {
   background: rgba(10, 14, 32, 0.42);
   -webkit-backdrop-filter: blur(26px) saturate(170%);
   backdrop-filter: blur(26px) saturate(170%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.13);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .footer {
@@ -2164,27 +2240,16 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* ---- ৬. বাটন, ট্যাব, ট্যাগ ---- */
 .btn-outline,
 .tab-btn,
 .project-filter-btn,
 .social-btn,
-.quick-chip {
+.quick-chip,
+.floating-pill {
   background: var(--glass-fill);
   border: 1px solid var(--glass-edge);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   backdrop-filter: blur(16px) saturate(160%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
-}
-
-.btn-outline:hover,
-.tab-btn:hover,
-.project-filter-btn:hover,
-.social-btn:hover,
-.quick-chip:hover {
-  background: var(--glass-fill-hover);
-  border-color: rgba(0, 240, 255, 0.6);
-  color: var(--accent-cyan);
 }
 
 .tab-btn.active,
@@ -2194,227 +2259,42 @@ body {
   color: #FFFFFF;
 }
 
-.btn-primary,
-.btn-gold {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.38);
-}
-
-.tech-tag {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-}
-
-.status-badge,
-.section-tag {
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.floating-pill {
-  background: var(--glass-fill);
-  border: 1px solid var(--glass-edge);
-  -webkit-backdrop-filter: blur(18px) saturate(170%);
-  backdrop-filter: blur(18px) saturate(170%);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-/* আইকন বক্সগুলোও কাঁচের মতো */
-.service-icon-box,
-.value-icon {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
-}
-
-/* ---- ৭. ফর্মের ঘর: ভেতরে বসানো কাঁচ ---- */
 .form-control {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.28);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
 }
 
-.form-control::placeholder {
-  color: rgba(180, 192, 212, 0.65);
-}
-
-.form-control:focus {
-  background: rgba(255, 255, 255, 0.10);
-  border-color: var(--accent-cyan);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.22), 0 0 0 3px rgba(0, 240, 255, 0.16);
-}
-
-/* ---- ৮. লাইভ চ্যাট ও টোস্ট ---- */
 .livechat-dialog {
-  background: rgba(12, 16, 36, 0.58);
+  background: rgba(12, 16, 36, 0.72);
   border: 1px solid var(--glass-edge);
   -webkit-backdrop-filter: blur(30px) saturate(175%);
   backdrop-filter: blur(30px) saturate(175%);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
-.chat-header {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-}
-
-.chat-input-bar {
-  background: rgba(255, 255, 255, 0.05);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.chat-input-bar input {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.chat-bubble.admin {
-  background: rgba(255, 255, 255, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
-
-.livechat-trigger {
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 10px 32px rgba(0, 240, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-}
-
-.toast {
-  background: rgba(12, 16, 36, 0.62);
-  border: 1px solid var(--glass-edge);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  backdrop-filter: blur(22px) saturate(170%);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-}
-
-/* ---- ৯. ফোন: মেনু কাঁচ + ব্লার একটু কম (ফোন যেন স্মুথ চলে) ---- */
-@media (max-width: 768px) {
-  .nav-menu {
-    background: rgba(8, 12, 28, 0.78);
-    -webkit-backdrop-filter: blur(26px) saturate(170%);
-    backdrop-filter: blur(26px) saturate(170%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-  }
-
-  .about-card,
-  .project-card,
-  .service-card,
-  .contact-form-card,
-  .highlight-box,
-  .value-item,
-  .skill-card,
-  .timeline-content,
-  .contact-card {
-    -webkit-backdrop-filter: blur(14px) saturate(150%);
-    backdrop-filter: blur(14px) saturate(150%);
-  }
-}
-
-/* ---- ১০. পুরনো ব্রাউজার যেখানে blur কাজ করে না ---- */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .about-card,
-  .project-card,
-  .service-card,
-  .contact-form-card,
-  .highlight-box,
-  .value-item,
-  .skill-card,
-  .timeline-content,
-  .contact-card,
-  .livechat-dialog,
-  .toast {
-    background: rgba(18, 24, 48, 0.92);
-  }
-}
-
-
-/* ==========================================================================
-   PC/ল্যাপটপে হিরো ছবির ঘর বড় করা (শুধু ৯৯৩px এর বেশি চওড়া স্ক্রিনে)
-   ছবি আগের সাইজেই থাকে, তাই ঝাপসা হয় না। ছবির চারপাশের ঘর বড় হয়ে
-   ফাঁকা জায়গা ভরাট করে, আর ট্যাগগুলো সেই ঘরের কিনারায় বসে।
-   ফোন ও ট্যাবলেটে (৯৯২px পর্যন্ত) আগের মতোই থাকবে।
-   আগের চেহারায় ফিরতে চাইলে এই লাইনের নিচের অংশ মুছে দিন।
-   ========================================================================== */
+/* Desktop / PC Wide Auto-Adjustment */
 @media (min-width: 993px) {
-
-  .hero-grid {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 2.5rem;
-  }
-
-  /* বড় ঘর: ছবির চারপাশে চৌকো জায়গা */
-  .hero-visual {
-    max-width: 540px;
-    aspect-ratio: 1 / 1;
-  }
-
-  /* বড় কাঁচের গোল ঘর (ছবির পেছনে) */
-  .hero-visual::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 94%;
-    aspect-ratio: 1 / 1;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 55%),
-      radial-gradient(circle at 75% 80%, rgba(139, 92, 246, 0.16), transparent 60%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow:
-      0 0 80px rgba(139, 92, 246, 0.22),
-      0 0 40px rgba(0, 240, 255, 0.10),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
-      inset 0 0 60px rgba(0, 240, 255, 0.06);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    backdrop-filter: blur(14px) saturate(160%);
-    z-index: 0;
-  }
-
-  /* ভেতরের পাতলা রিং */
-  .hero-visual::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 78%;
-    aspect-ratio: 1 / 1;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 1px dashed rgba(0, 240, 255, 0.28);
-    z-index: 0;
-  }
-
-  /* ছবি আগের সাইজেই (৩৩০px), ঘরের ঠিক মাঝখানে */
+  .hero-visual { max-width: 500px; }
   .avatar-frame {
-    position: relative;
-    z-index: 1;
+    width: min(460px, 100%);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    max-height: none;
   }
-
   .floating-pill {
     font-size: 0.92rem;
     padding: 0.65rem 1.15rem;
-    z-index: 2;
   }
-
-  .pill-1 {
-    top: 12%;
-    left: 0;
+  .pill-1 { top: 8%; left: -2%; }
+  .pill-2 { bottom: 12%; right: -4%; top: auto; }
+  .pill-3 { bottom: 4%; left: 6%; }
+  .hero-role-wrapper {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    font-size: clamp(1rem, 1.75vw, 1.45rem);
   }
-
-  .pill-2 {
-    top: 42%;
-    right: -2%;
-  }
-
-  .pill-3 {
-    bottom: 9%;
-    left: 8%;
+  .role-typing {
+    word-break: normal;
+    overflow-wrap: normal;
   }
 }

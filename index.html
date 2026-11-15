@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -79,10 +79,10 @@
               <span class="pulse-dot"></span>
               <span id="availabilityText">Available for Projects & Full-time Roles</span>
             </div>
-            
+
             <p class="hero-greeting" id="heroGreeting">Hello, world! I am</p>
             <h1 class="hero-name"><span class="highlight" id="heroName">Mijanur Rahman</span></h1>
-            
+
             <div class="hero-role-wrapper">
               <span>Passionate</span>
               <span class="role-typing" id="heroTitle">Web & Mobile App Developer</span>
@@ -128,7 +128,7 @@
               <img src="images/profile.jpg" alt="Mijanur Rahman portrait" class="avatar-img" id="heroAvatar">
             </div>
 
-            <!-- Floating Tech Badges -->
+            <!-- Floating Tech Badges (Unobstructed on Mobile & Desktop) -->
             <div class="floating-pill pill-1">
               <i class="fa-brands fa-react" style="color: #00F0FF;"></i>
               <span>React & Next.js</span>
@@ -349,7 +349,7 @@
           </div>
 
           <div class="contact-form-card">
-            <form id="contactForm">
+            <form id="contactForm" novalidate>
               <div class="form-group">
                 <label for="contactName" class="form-label">Your Name *</label>
                 <input type="text" id="contactName" class="form-control" placeholder="John Doe" required autocomplete="name">
@@ -361,8 +361,8 @@
               </div>
 
               <div class="form-group">
-                <label for="contactSubject" class="form-label">Subject</label>
-                <input type="text" id="contactSubject" class="form-control" placeholder="Project Inquiry / Job Opportunity">
+                <label for="contactSubject" class="form-label">Subject *</label>
+                <input type="text" id="contactSubject" class="form-control" placeholder="Project Inquiry / Job Opportunity" required>
               </div>
 
               <div class="form-group">
@@ -387,7 +387,7 @@
     <span class="badge-pulse"></span>
   </button>
 
-  <!-- Live Chat Dialog with Conversational Lead Bot -->
+  <!-- Live Chat Dialog with Sequential 4-Step Lead Verification Gate -->
   <div class="livechat-dialog" id="chatDialog" role="dialog" aria-labelledby="chatAgentName" aria-modal="true">
     <div class="chat-header">
       <div class="chat-agent-info">
@@ -396,28 +396,125 @@
           <div class="chat-agent-title" id="chatAgentName">Mijanur Rahman</div>
           <div class="chat-agent-subtitle">
             <span class="status-dot"></span>
-            <span id="chatAgentStatus">Online • Typically replies in minutes</span>
+            <span id="chatAgentStatus">Online • Verify details to unlock SMS</span>
           </div>
         </div>
       </div>
-      <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close Chat">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <div class="chat-header-actions">
+        <button type="button" class="chat-reset-btn" id="chatResetBtn" aria-label="Reset Chat Info" title="Reset Chat Info">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+        <button type="button" class="chat-close-btn" id="chatCloseBtn" aria-label="Close Chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- Quick suggestion / option chips -->
-    <div class="chat-quick-chips" id="chatQuickChips">
-      <!-- Populated dynamically by bot based on current step -->
+    <!-- Step-by-Step Sequential Verification Gate (Shown BEFORE SMS unlocks) -->
+    <div class="chat-lead-gate" id="chatLeadGate">
+      <div class="lead-progress-header">
+        <span id="leadStepLabel">Step 1 of 4: Country</span>
+        <span id="leadStepPercent">25%</span>
+      </div>
+      <div class="lead-progress-track">
+        <div class="lead-progress-fill" id="leadProgressFill" style="width: 25%;"></div>
+      </div>
+
+      <div class="lead-completed-pills" id="leadCompletedPills"></div>
+
+      <!-- Step 1: Country Dropdown -->
+      <div class="lead-step-panel" id="leadStep1">
+        <label for="leadCountry" class="lead-field-label">Select Your Country *</label>
+        <select id="leadCountry" class="lead-control" required>
+          <option value="">-- Choose Country --</option>
+          <option value="Bangladesh" data-code="+880">🇧🇩 Bangladesh (+880)</option>
+          <option value="United States" data-code="+1">🇺🇸 United States (+1)</option>
+          <option value="United Kingdom" data-code="+44">🇬🇧 United Kingdom (+44)</option>
+          <option value="United Arab Emirates" data-code="+971">🇦🇪 UAE (+971)</option>
+          <option value="Saudi Arabia" data-code="+966">🇸🇦 Saudi Arabia (+966)</option>
+          <option value="India" data-code="+91">🇮🇳 India (+91)</option>
+          <option value="Canada" data-code="+1">🇨🇦 Canada (+1)</option>
+          <option value="Malaysia" data-code="+60">🇲🇾 Malaysia (+60)</option>
+          <option value="Singapore" data-code="+65">🇸🇬 Singapore (+65)</option>
+          <option value="Qatar" data-code="+974">🇶🇦 Qatar (+974)</option>
+          <option value="Kuwait" data-code="+965">🇰🇼 Kuwait (+965)</option>
+          <option value="Oman" data-code="+968">🇴🇲 Oman (+968)</option>
+          <option value="Germany" data-code="+49">🇩🇪 Germany (+49)</option>
+          <option value="Australia" data-code="+61">🇦🇺 Australia (+61)</option>
+          <option value="Other" data-code="+">🌍 Other Country</option>
+        </select>
+        <div class="lead-extra-field" id="leadCustomCountryWrap" style="display: none;">
+          <label for="leadCustomCountry" class="lead-field-label">Enter Country Name *</label>
+          <input type="text" id="leadCustomCountry" class="lead-control" placeholder="Type your country name...">
+        </div>
+      </div>
+
+      <!-- Step 2: Phone Number -->
+      <div class="lead-step-panel" id="leadStep2" style="display: none;">
+        <label for="leadPhone" class="lead-field-label">Your Phone / WhatsApp Number *</label>
+        <input type="tel" id="leadPhone" class="lead-control" placeholder="e.g. +880 1700-000000" autocomplete="tel">
+      </div>
+
+      <!-- Step 3: Email Address -->
+      <div class="lead-step-panel" id="leadStep3" style="display: none;">
+        <label for="leadEmail" class="lead-field-label">Your Email Address *</label>
+        <input type="email" id="leadEmail" class="lead-control" placeholder="e.g. name@example.com" autocomplete="email">
+      </div>
+
+      <!-- Step 4: Topic / Subject (with Other) -->
+      <div class="lead-step-panel" id="leadStep4" style="display: none;">
+        <label for="leadTopic" class="lead-field-label">What topic do you want to discuss? *</label>
+        <select id="leadTopic" class="lead-control" required>
+          <option value="">-- Choose Topic --</option>
+          <option value="Web Application / SaaS">Web Application / SaaS</option>
+          <option value="Native Android App">Native Android App (Kotlin / Compose)</option>
+          <option value="Custom Admin Dashboard & CMS">Custom Admin Dashboard & CMS</option>
+          <option value="Firebase Cloud & Backend">Firebase Cloud & Backend</option>
+          <option value="UI/UX & Mobile Responsive Fix">UI/UX & Mobile Responsive Fix</option>
+          <option value="Freelance / Full-Time Hiring">Freelance / Full-Time Hiring</option>
+          <option value="Other">Other (Write Custom Topic)</option>
+        </select>
+        <div class="lead-extra-field" id="leadOtherTopicWrap" style="display: none;">
+          <label for="leadOtherTopic" class="lead-field-label">Specify Your Topic *</label>
+          <input type="text" id="leadOtherTopic" class="lead-control" placeholder="Write what you want to talk about...">
+        </div>
+      </div>
+
+      <div class="lead-error-box" id="leadValidationError" style="display: none;"></div>
+
+      <div class="lead-step-actions">
+        <button type="button" class="btn btn-outline btn-sm" id="leadBackBtn" style="display: none;">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Back</span>
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" id="leadNextBtn" style="flex: 1;">
+          <span>Next: Phone Number</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- Chat Messages Stream -->
-    <div class="chat-messages-container" id="chatMessages">
-      <!-- Welcome message and interactive conversation bubbles will appear here -->
+    <!-- Locked SMS Notice (Shown while gate is incomplete) -->
+    <div class="chat-locked-bar" id="chatLockedBar">
+      <i class="fa-solid fa-lock"></i>
+      <span>SMS input is locked. Fill Country, Phone, Email &amp; Topic first.</span>
     </div>
 
-    <!-- Chat Input Bar -->
-    <div class="chat-input-bar">
-      <input type="text" id="chatInput" placeholder="Type your response..." autocomplete="off">
+    <!-- Verified Lead Summary Banner (Shown AFTER unlock) -->
+    <div class="chat-verified-banner" id="chatVerifiedBanner" style="display: none;">
+      <div class="verified-text" id="chatVerifiedText"></div>
+      <button type="button" class="verified-edit-btn" id="chatEditLeadBtn">Edit</button>
+    </div>
+
+    <!-- Quick suggestion / option chips (Shown AFTER unlock) -->
+    <div class="chat-quick-chips" id="chatQuickChips" style="display: none;"></div>
+
+    <!-- Chat Messages Stream (Shown AFTER unlock) -->
+    <div class="chat-messages-container" id="chatMessages" style="display: none;"></div>
+
+    <!-- Chat Input Bar (Unlocked ONLY AFTER all 4 fields are validated) -->
+    <div class="chat-input-bar" id="chatInputBar" style="display: none;">
+      <input type="text" id="chatInput" placeholder="Write your SMS / message..." autocomplete="off">
       <button class="chat-send-btn" id="chatSendBtn" aria-label="Send message">
         <i class="fa-solid fa-paper-plane"></i>
       </button>
@@ -467,6 +564,6 @@
 
   <!-- Application Configuration & Logic -->
   <script src="firebase-config.js"></script>
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

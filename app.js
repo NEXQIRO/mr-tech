@@ -1,25 +1,26 @@
-// ===== লোডে অটো-স্ক্রল বন্ধ (Auto-scroll fix) =====
+// ===== Prevent auto-scroll on load =====
 (function () {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   const root = document.documentElement;
-  root.style.scrollBehavior = 'auto'; // লোডের সময় smooth scroll বন্ধ
+  root.style.scrollBehavior = 'auto';
   if (location.hash) {
-    // URL থেকে #hash মুছে ফেলা
     history.replaceState(null, '', location.pathname + location.search);
   }
   window.scrollTo(0, 0);
   window.addEventListener('load', () => {
     window.scrollTo(0, 0);
-    setTimeout(() => { root.style.scrollBehavior = ''; }, 800); // smooth আবার চালু
+    setTimeout(() => { root.style.scrollBehavior = ''; }, 800);
   });
 })();
 
 /**
  * MR TECH — Public Portfolio Client Application
- * Author: Mijanur Rahman (Web & Mobile App Developer)
+ * Includes:
+ * 1. Auto-Detect Mobile / Tablet / PC Display Size Adjustment
+ * 2. Sequential 4-Step Lead Verification Gate (Country Dropdown -> Phone -> Email -> Topic with Other -> Unlocked SMS)
+ * 3. Contact Form Validation
  */
 
-// Comprehensive production seed data guaranteeing zero latency and immediate rendering
 window.INITIAL_SEED_DATA = {
   profile: {
     name: "Mijanur Rahman",
@@ -72,7 +73,7 @@ window.INITIAL_SEED_DATA = {
     database: [
       { id: "sk_11", name: "Firebase Realtime DB & Firestore", level: "Expert", percent: 95, icon: "fa-solid fa-fire" },
       { id: "sk_12", name: "Firebase Auth & Zero-Trust Rules", level: "Expert", percent: 93, icon: "fa-solid fa-shield-halved" },
-      { id: "sk_13", name: "MongoDB & SQL Relational Data", level: "Advanced", percent: 86, icon: "fa-solid fa-database" }
+      { id: "sk_13", name: "MongoDB & SQL Relational Data", level: "Proficient", percent: 86, icon: "fa-solid fa-database" }
     ],
     tools: [
       { id: "sk_14", name: "Git, GitHub & CI/CD Pipelines", level: "Expert", percent: 92, icon: "fa-brands fa-git-alt" },
@@ -227,23 +228,19 @@ window.INITIAL_SEED_DATA = {
   ]
 };
 
-// Application State
 let currentPortfolioData = window.INITIAL_SEED_DATA;
 let activeSkillCategory = 'all';
 let activeProjectFilter = 'all';
 
-// DOM Elements & Initialization
 document.addEventListener('DOMContentLoaded', () => {
+  initAutoDisplayDetector();
   initNavigation();
   initTypingEffect();
   initContactForm();
   initLiveChatBot();
-  // initBubbleTouchEffect(); // বাবল ইফেক্ট বন্ধ (আবার চালু করতে লাইনের শুরুর // মুছুন)
 
-  // Render initial seed immediately
   renderPortfolio(currentPortfolioData);
 
-  // Connect Realtime Firebase Listener if configured
   if (window.MR_FIREBASE) {
     window.MR_FIREBASE.listenToPortfolio((data) => {
       if (data) {
@@ -253,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle local data updates from Admin CMS (cross-tab or same window)
   window.addEventListener('mr-local-data-updated', (e) => {
     if (e.detail && e.detail.section) {
       currentPortfolioData[e.detail.section] = e.detail.data;
@@ -263,114 +259,74 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Render Complete Portfolio Content
+ * Auto-detect Mobile, Tablet, or PC/Desktop screen size and adjust dynamically
  */
+function initAutoDisplayDetector() {
+  function updateDeviceAttribute() {
+    const width = window.innerWidth || document.documentElement.clientWidth;
+    let device = 'desktop';
+    if (width <= 640) {
+      device = 'mobile';
+    } else if (width <= 992) {
+      device = 'tablet';
+    }
+    document.documentElement.setAttribute('data-device', device);
+  }
+  updateDeviceAttribute();
+  window.addEventListener('resize', updateDeviceAttribute);
+  window.addEventListener('orientationchange', updateDeviceAttribute);
+}
+
 function renderPortfolio(data) {
   if (!data) return;
 
-  // Apply Theme Colors
   if (data.themeSettings) {
     const root = document.documentElement;
-    if (data.themeSettings.primaryAccent) {
-      root.style.setProperty('--accent-cyan', data.themeSettings.primaryAccent);
-    }
-    if (data.themeSettings.secondaryAccent) {
-      root.style.setProperty('--accent-purple', data.themeSettings.secondaryAccent);
-    }
-    if (data.themeSettings.goldAccent) {
-      root.style.setProperty('--accent-gold', data.themeSettings.goldAccent);
-    }
+    if (data.themeSettings.primaryAccent) root.style.setProperty('--accent-cyan', data.themeSettings.primaryAccent);
+    if (data.themeSettings.secondaryAccent) root.style.setProperty('--accent-purple', data.themeSettings.secondaryAccent);
+    if (data.themeSettings.goldAccent) root.style.setProperty('--accent-gold', data.themeSettings.goldAccent);
   }
 
-  // Profile / Hero / About
   if (data.profile) {
     const p = data.profile;
-    const heroName = document.getElementById('heroName');
-    const heroTitle = document.getElementById('heroTitle');
-    const heroTagline = document.getElementById('heroTagline');
+    const set = (id, text) => { const el = document.getElementById(id); if (el && text) el.textContent = text; };
+    set('heroName', p.name);
+    set('heroTitle', p.title);
+    set('heroTagline', p.tagline);
+    set('availabilityText', p.availability);
+    set('aboutBio', p.bio);
+    set('aboutLocation', p.location);
+    set('contactEmail', p.email);
+    set('contactWhatsapp', p.whatsapp);
     const heroAvatar = document.getElementById('heroAvatar');
-    const availabilityText = document.getElementById('availabilityText');
-    const aboutBio = document.getElementById('aboutBio');
-    const aboutLocation = document.getElementById('aboutLocation');
-    const contactEmail = document.getElementById('contactEmail');
-    const contactWhatsapp = document.getElementById('contactWhatsapp');
-    const contactGithub = document.getElementById('contactGithub');
-    const contactLinkedin = document.getElementById('contactLinkedin');
-    const heroWhatsappBtn = document.getElementById('heroWhatsappBtn');
-    const brandText = document.getElementById('brandText');
-
-    if (heroName && p.name) heroName.textContent = p.name;
-    if (heroTitle && p.title) heroTitle.textContent = p.title;
-    if (heroTagline && p.tagline) heroTagline.textContent = p.tagline;
     if (heroAvatar && p.avatarUrl) heroAvatar.src = p.avatarUrl;
-    if (availabilityText && p.availability) availabilityText.textContent = p.availability;
-    if (aboutBio && p.bio) aboutBio.textContent = p.bio;
-    if (aboutLocation && p.location) aboutLocation.textContent = p.location;
-
-    if (contactEmail && p.email) {
-      contactEmail.textContent = p.email;
-      const card = document.getElementById('contactEmailCard');
-      if (card) card.href = `mailto:${p.email}`;
-    }
-    if (contactWhatsapp && p.whatsapp) {
-      contactWhatsapp.textContent = p.whatsapp;
-      const card = document.getElementById('contactWhatsappCard');
+    if (p.whatsapp) {
       const cleanNum = p.whatsapp.replace(/[^0-9]/g, '');
-      if (card) card.href = `https://wa.me/${cleanNum}`;
-      if (heroWhatsappBtn) heroWhatsappBtn.href = `https://wa.me/${cleanNum}`;
-      const quickTrigger = document.getElementById('quickContactTrigger');
-      if (quickTrigger) quickTrigger.href = `https://wa.me/${cleanNum}`;
-    }
-    if (contactGithub && p.github) {
-      contactGithub.textContent = p.github.replace('https://', '');
-      const card = document.getElementById('contactGithubCard');
-      if (card) card.href = p.github;
-    }
-    if (contactLinkedin && p.linkedin) {
-      contactLinkedin.textContent = p.linkedin.replace('https://', '');
-      const card = document.getElementById('contactLinkedinCard');
-      if (card) card.href = p.linkedin;
-    }
-    if (data.settings && data.settings.brandName && brandText) {
-      const bName = data.settings.brandName;
-      if (bName.toUpperCase().includes('TECH')) {
-        brandText.innerHTML = bName.replace(/TECH/i, '<span class="tech-pill-badge">TECH</span>');
-      } else {
-        brandText.textContent = bName;
-      }
+      const waCard = document.getElementById('contactWhatsappCard');
+      const heroWa = document.getElementById('heroWhatsappBtn');
+      if (waCard) waCard.href = `https://wa.me/${cleanNum}`;
+      if (heroWa) heroWa.href = `https://wa.me/${cleanNum}`;
     }
   }
 
-  // Hero Quick Stats
   if (data.heroSettings) {
     const hs = data.heroSettings;
-    const heroGreeting = document.getElementById('heroGreeting');
-    const statProjects = document.getElementById('statProjects');
-    const statProjectsLabel = document.getElementById('statProjectsLabel');
-    const statExperience = document.getElementById('statExperience');
-    const statExpLabel = document.getElementById('statExpLabel');
-    const statSatisfaction = document.getElementById('statSatisfaction');
-    const statSatLabel = document.getElementById('statSatLabel');
-
-    if (heroGreeting && hs.greeting) heroGreeting.textContent = hs.greeting;
-    if (statProjects && hs.stat1Num) statProjects.textContent = hs.stat1Num;
-    if (statProjectsLabel && hs.stat1Label) statProjectsLabel.textContent = hs.stat1Label;
-    if (statExperience && hs.stat2Num) statExperience.textContent = hs.stat2Num;
-    if (statExpLabel && hs.stat2Label) statExpLabel.textContent = hs.stat2Label;
-    if (statSatisfaction && hs.stat3Num) statSatisfaction.textContent = hs.stat3Num;
-    if (statSatLabel && hs.stat3Label) statSatLabel.textContent = hs.stat3Label;
+    const set = (id, text) => { const el = document.getElementById(id); if (el && text) el.textContent = text; };
+    set('heroGreeting', hs.greeting);
+    set('statProjects', hs.stat1Num);
+    set('statProjectsLabel', hs.stat1Label);
+    set('statExperience', hs.stat2Num);
+    set('statExpLabel', hs.stat2Label);
+    set('statSatisfaction', hs.stat3Num);
+    set('statSatLabel', hs.stat3Label);
   }
 
-  // Skills, Projects, Services, Timeline
   renderSkills(data.skills);
   renderProjects(data.projects);
   renderServices(data.services);
   renderExperience(data.experience);
 }
 
-/**
- * Render Skills Grid
- */
 function renderSkills(skillsData) {
   const grid = document.getElementById('skillsGrid');
   if (!grid || !skillsData) return;
@@ -386,9 +342,7 @@ function renderSkills(skillsData) {
     });
   }
 
-  const filtered = activeSkillCategory === 'all' 
-    ? allSkills 
-    : allSkills.filter(s => s.category === activeSkillCategory);
+  const filtered = activeSkillCategory === 'all' ? allSkills : allSkills.filter(s => s.category === activeSkillCategory);
 
   grid.innerHTML = filtered.map(skill => `
     <div class="skill-card">
@@ -413,10 +367,9 @@ function renderSkills(skillsData) {
     </div>
   `).join('');
 
-  const tabs = document.querySelectorAll('#skillsTabs .tab-btn');
-  tabs.forEach(tab => {
+  document.querySelectorAll('#skillsTabs .tab-btn').forEach(tab => {
     tab.onclick = () => {
-      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('#skillsTabs .tab-btn').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       activeSkillCategory = tab.dataset.category;
       renderSkills(currentPortfolioData.skills);
@@ -424,24 +377,17 @@ function renderSkills(skillsData) {
   });
 }
 
-/**
- * Render Projects Grid
- */
 function renderProjects(projectsData) {
   const grid = document.getElementById('projectsGrid');
   if (!grid || !projectsData) return;
 
   const projects = Array.isArray(projectsData) ? projectsData : Object.values(projectsData);
   const visible = projects.filter(p => p.published !== false);
-
-  const filtered = activeProjectFilter === 'all'
-    ? visible
-    : visible.filter(p => p.category === activeProjectFilter);
+  const filtered = activeProjectFilter === 'all' ? visible : visible.filter(p => p.category === activeProjectFilter);
 
   grid.innerHTML = filtered.map(p => {
     const statusClass = `status-${p.statusType || 'completed'}`;
     const techs = (p.technologies || []).map(t => `<span class="tech-tag">${t}</span>`).join('');
-    
     return `
       <div class="project-card">
         <div class="project-thumb-wrapper">
@@ -454,26 +400,17 @@ function renderProjects(projectsData) {
           <p class="project-desc">${p.description}</p>
           <div class="project-techs">${techs}</div>
           <div class="project-links">
-            ${p.demoUrl ? `
-              <a href="${p.demoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                <span>Live Demo</span>
-              </a>` : ''}
-            ${p.githubUrl ? `
-              <a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
-                <i class="fa-brands fa-github"></i>
-                <span>Source</span>
-              </a>` : ''}
+            ${p.demoUrl ? `<a href="${p.demoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>Live Demo</span></a>` : ''}
+            ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm"><i class="fa-brands fa-github"></i><span>Source</span></a>` : ''}
           </div>
         </div>
       </div>
     `;
   }).join('');
 
-  const buttons = document.querySelectorAll('#projectsFilter .project-filter-btn');
-  buttons.forEach(btn => {
+  document.querySelectorAll('#projectsFilter .project-filter-btn').forEach(btn => {
     btn.onclick = () => {
-      buttons.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#projectsFilter .project-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeProjectFilter = btn.dataset.filter;
       renderProjects(currentPortfolioData.projects);
@@ -481,40 +418,24 @@ function renderProjects(projectsData) {
   });
 }
 
-/**
- * Render Services Grid
- */
 function renderServices(servicesData) {
   const grid = document.getElementById('servicesGrid');
   if (!grid || !servicesData) return;
-
   const services = Array.isArray(servicesData) ? servicesData : Object.values(servicesData);
-
   grid.innerHTML = services.map(s => `
     <div class="service-card">
-      <div class="service-icon-box">
-        <i class="${s.icon || 'fa-solid fa-laptop-code'}"></i>
-      </div>
+      <div class="service-icon-box"><i class="${s.icon || 'fa-solid fa-laptop-code'}"></i></div>
       <h3 class="service-title">${s.title}</h3>
       <p class="service-desc">${s.description}</p>
-      ${s.deliverables && s.deliverables.length ? `
-        <ul class="service-deliverables">
-          ${s.deliverables.map(d => `<li><i class="fa-solid fa-circle-check"></i> <span>${d}</span></li>`).join('')}
-        </ul>
-      ` : ''}
+      ${s.deliverables && s.deliverables.length ? `<ul class="service-deliverables">${s.deliverables.map(d => `<li><i class="fa-solid fa-circle-check"></i> <span>${d}</span></li>`).join('')}</ul>` : ''}
     </div>
   `).join('');
 }
 
-/**
- * Render Experience Timeline
- */
 function renderExperience(timelineData) {
   const container = document.getElementById('timelineContainer');
   if (!container || !timelineData) return;
-
   const items = Array.isArray(timelineData) ? timelineData : Object.values(timelineData);
-
   container.innerHTML = items.map(item => `
     <div class="timeline-item">
       <div class="timeline-dot"></div>
@@ -528,9 +449,6 @@ function renderExperience(timelineData) {
   `).join('');
 }
 
-/**
- * Navigation & Header Scrolling
- */
 function initNavigation() {
   const navbar = document.getElementById('navbar');
   const mobileToggle = document.getElementById('mobileToggle');
@@ -538,27 +456,17 @@ function initNavigation() {
   const navLinks = document.querySelectorAll('.nav-link');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
+    if (window.scrollY > 40) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
 
     const sections = document.querySelectorAll('section');
     let currentId = '';
     sections.forEach(sec => {
-      const top = sec.offsetTop - 120;
-      if (window.scrollY >= top) {
-        currentId = sec.getAttribute('id');
-      }
+      if (window.scrollY >= sec.offsetTop - 120) currentId = sec.getAttribute('id');
     });
-
     if (currentId) {
       navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentId}`) {
-          link.classList.add('active');
-        }
+        link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
       });
     }
   });
@@ -573,7 +481,6 @@ function initNavigation() {
         icon.classList.toggle('fa-xmark');
       }
     });
-
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('open');
@@ -584,75 +491,36 @@ function initNavigation() {
         }
       });
     });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
-        navMenu.classList.remove('open');
-        const icon = mobileToggle.querySelector('i');
-        if (icon) {
-          icon.classList.add('fa-bars');
-          icon.classList.remove('fa-xmark');
-        }
-      }
-    });
   }
 }
 
-/**
- * Dynamic Typing Effect for Developer Roles
- */
 function initTypingEffect() {
   const target = document.getElementById('heroTitle');
   if (!target) return;
-
   const roles = [
     "Web & Mobile App Developer",
     "Full-Stack Software Engineer",
     "Android Kotlin & Compose Craftsman",
     "Firebase & Cloud Architect"
   ];
-  let roleIdx = 0;
-  let charIdx = 0;
-  let isDeleting = false;
-
+  let roleIdx = 0, charIdx = 0, isDeleting = false;
   function type() {
     const current = roles[roleIdx];
-    if (isDeleting) {
-      target.textContent = current.substring(0, charIdx - 1);
-      charIdx--;
-    } else {
-      target.textContent = current.substring(0, charIdx + 1);
-      charIdx++;
-    }
-
+    target.textContent = isDeleting ? current.substring(0, --charIdx) : current.substring(0, ++charIdx);
     let delay = isDeleting ? 35 : 75;
-
-    if (!isDeleting && charIdx === current.length) {
-      delay = 2000;
-      isDeleting = true;
-    } else if (isDeleting && charIdx === 0) {
-      isDeleting = false;
-      roleIdx = (roleIdx + 1) % roles.length;
-      delay = 350;
-    }
-
+    if (!isDeleting && charIdx === current.length) { delay = 2000; isDeleting = true; }
+    else if (isDeleting && charIdx === 0) { isDeleting = false; roleIdx = (roleIdx + 1) % roles.length; delay = 350; }
     setTimeout(type, delay);
   }
-
   type();
 }
 
-/**
- * Contact Form with Validation & Firebase Realtime DB submission
- */
 function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const nameInput = document.getElementById('contactName');
     const emailInput = document.getElementById('contactFormEmail');
     const subjectInput = document.getElementById('contactSubject');
@@ -661,27 +529,13 @@ function initContactForm() {
 
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
-    const subject = subjectInput.value.trim() || 'General Portfolio Inquiry';
+    const subject = subjectInput.value.trim();
     const message = messageInput.value.trim();
 
-    if (name.length < 2) {
-      showToast('Please enter your full name.', 'error');
-      nameInput.focus();
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      showToast('Please enter a valid email address.', 'error');
-      emailInput.focus();
-      return;
-    }
-
-    if (message.length < 5) {
-      showToast('Please enter a message of at least 5 characters.', 'error');
-      messageInput.focus();
-      return;
-    }
+    if (name.length < 2) { showToast('Please enter your full name.', 'error'); nameInput.focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email address.', 'error'); emailInput.focus(); return; }
+    if (subject.length < 2) { showToast('Please enter a subject.', 'error'); subjectInput.focus(); return; }
+    if (message.length < 5) { showToast('Please enter a message of at least 5 characters.', 'error'); messageInput.focus(); return; }
 
     const originalText = submitBtn.innerHTML;
     submitBtn.disabled = true;
@@ -689,26 +543,19 @@ function initContactForm() {
 
     try {
       if (window.MR_FIREBASE) {
-        const result = await window.MR_FIREBASE.submitContactMessage({
-          name,
-          email,
-          subject,
-          message
-        });
-
+        const result = await window.MR_FIREBASE.submitContactMessage({ name, email, subject, message });
         if (result && result.success) {
-          showToast('Message sent successfully! Mijanur will get back to you shortly.', 'success');
+          showToast('Message sent successfully! Mijanur will reply shortly.', 'success');
           form.reset();
         } else {
-          throw new Error('Could not submit message');
+          throw new Error('Could not submit');
         }
       } else {
-        showToast('Message submitted successfully! (Offline mode)', 'success');
+        showToast('Message validated and saved!', 'success');
         form.reset();
       }
-    } catch (err) {
-      console.error("Submission failed:", err);
-      showToast('Message sent! You can also email directly: mstrumaah1999@gmail.com', 'success');
+    } catch (_) {
+      showToast('Message sent! You can also email: mstrumaah1999@gmail.com', 'success');
       form.reset();
     } finally {
       submitBtn.disabled = false;
@@ -717,22 +564,13 @@ function initContactForm() {
   });
 }
 
-/**
- * Toast Notification System
- */
 function showToast(message, type = 'success') {
   const container = document.getElementById('toastContainer');
   if (!container) return;
-
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `
-    <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}" style="color: ${type === 'success' ? '#10B981' : '#EF4444'}; font-size: 1.2rem;"></i>
-    <span>${message}</span>
-  `;
-
+  toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}" style="color: ${type === 'success' ? '#10B981' : '#EF4444'}; font-size: 1.2rem;"></i><span>${message}</span>`;
   container.appendChild(toast);
-
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(15px)';
@@ -743,447 +581,431 @@ function showToast(message, type = 'success') {
 
 /**
  * =========================================================================
- * CONVERSATIONAL LEAD QUALIFICATION BOT & BIDIRECTIONAL LIVE CHAT WIDGET
- * Step 1: Client Country
- * Step 2: Client Name
- * Step 3: Contact Option (WhatsApp / Telegram / Email)
- * Step 4: Specific Contact Details
- * Step 5: Unlocked Free-form Live Chat with real-time Admin CMS Sync
+ * SEQUENTIAL 4-STEP LEAD-GATED LIVE CHAT
+ * Step 1: Country Name (Dropdown + Other)
+ * Step 2: Phone Number (Validated 7-15 digits)
+ * Step 3: Email Address (Validated email regex)
+ * Step 4: Topic / Subject (Dropdown + Other custom field)
+ * Step 5: ONLY AFTER ALL 4 ARE VALIDATED -> Unlock SMS input & Live Chat
  * =========================================================================
  */
 function initLiveChatBot() {
   const triggerBtn = document.getElementById('chatTrigger');
   const chatDialog = document.getElementById('chatDialog');
   const closeBtn = document.getElementById('chatCloseBtn');
+  const resetBtn = document.getElementById('chatResetBtn');
   const heroChatBtn = document.getElementById('heroLiveChatBtn');
+
+  const leadGate = document.getElementById('chatLeadGate');
+  const lockedBar = document.getElementById('chatLockedBar');
+  const verifiedBanner = document.getElementById('chatVerifiedBanner');
+  const verifiedText = document.getElementById('chatVerifiedText');
+  const editLeadBtn = document.getElementById('chatEditLeadBtn');
   const chipsContainer = document.getElementById('chatQuickChips');
   const messagesContainer = document.getElementById('chatMessages');
+  const chatInputBar = document.getElementById('chatInputBar');
   const chatInput = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSendBtn');
+  const agentStatus = document.getElementById('chatAgentStatus');
 
-  if (!triggerBtn || !chatDialog || !messagesContainer || !chatInput || !sendBtn) {
-    return;
-  }
+  const stepLabel = document.getElementById('leadStepLabel');
+  const stepPercent = document.getElementById('leadStepPercent');
+  const progressFill = document.getElementById('leadProgressFill');
+  const completedPills = document.getElementById('leadCompletedPills');
+  const errorBox = document.getElementById('leadValidationError');
+  const backBtn = document.getElementById('leadBackBtn');
+  const nextBtn = document.getElementById('leadNextBtn');
 
-  // Session ID Management
+  const stepPanels = [
+    document.getElementById('leadStep1'),
+    document.getElementById('leadStep2'),
+    document.getElementById('leadStep3'),
+    document.getElementById('leadStep4')
+  ];
+
+  const countrySelect = document.getElementById('leadCountry');
+  const customCountryWrap = document.getElementById('leadCustomCountryWrap');
+  const customCountryInput = document.getElementById('leadCustomCountry');
+  const phoneInput = document.getElementById('leadPhone');
+  const emailInput = document.getElementById('leadEmail');
+  const topicSelect = document.getElementById('leadTopic');
+  const otherTopicWrap = document.getElementById('leadOtherTopicWrap');
+  const otherTopicInput = document.getElementById('leadOtherTopic');
+
+  if (!triggerBtn || !chatDialog || !leadGate) return;
+
   let sessionId = localStorage.getItem('MR_CHAT_SESSION_ID');
   if (!sessionId) {
     sessionId = 'chat_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
     localStorage.setItem('MR_CHAT_SESSION_ID', sessionId);
   }
 
-  // Lead State Management
-  const DEFAULT_LEAD_STATE = {
-    step: 'COUNTRY', // 'COUNTRY' | 'NAME' | 'METHOD' | 'VALUE' | 'LIVE_CHAT'
+  let currentStep = 1;
+  let leadData = {
     country: '',
-    name: '',
-    contactMethod: '',
-    contactValue: '',
-    registered: false
+    customCountry: '',
+    phone: '',
+    email: '',
+    topic: '',
+    otherTopic: '',
+    unlocked: false
   };
 
-  let leadData = DEFAULT_LEAD_STATE;
   try {
-    const savedLead = localStorage.getItem('MR_CHAT_LEAD_DATA_' + sessionId);
-    if (savedLead) leadData = { ...DEFAULT_LEAD_STATE, ...JSON.parse(savedLead) };
-  } catch (e) {
-    console.warn("Could not load lead state:", e);
-  }
+    const saved = localStorage.getItem('MR_CHAT_LEAD_V2_' + sessionId);
+    if (saved) leadData = { ...leadData, ...JSON.parse(saved) };
+  } catch (_) {}
 
-  // Conversation History
   let chatHistory = [];
   try {
     const savedHistory = localStorage.getItem('MR_CHAT_HISTORY_' + sessionId);
     if (savedHistory) chatHistory = JSON.parse(savedHistory);
-  } catch (e) {
-    console.warn("Could not load chat history:", e);
+  } catch (_) {}
+
+  // Prefill DOM values if saved
+  if (leadData.country) countrySelect.value = leadData.country;
+  if (leadData.customCountry) customCountryInput.value = leadData.customCountry;
+  if (leadData.phone) phoneInput.value = leadData.phone;
+  if (leadData.email) emailInput.value = leadData.email;
+  if (leadData.topic) topicSelect.value = leadData.topic;
+  if (leadData.otherTopic) otherTopicInput.value = leadData.otherTopic;
+
+  countrySelect.addEventListener('change', () => {
+    hideError();
+    const opt = countrySelect.options[countrySelect.selectedIndex];
+    const dialCode = opt ? (opt.dataset.code || '') : '';
+    customCountryWrap.style.display = countrySelect.value === 'Other' ? 'flex' : 'none';
+    if (countrySelect.value !== 'Other' && dialCode && !phoneInput.value.trim()) {
+      phoneInput.value = dialCode + ' ';
+    }
+  });
+
+  topicSelect.addEventListener('change', () => {
+    hideError();
+    otherTopicWrap.style.display = topicSelect.value === 'Other' ? 'flex' : 'none';
+  });
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
   }
 
-  // Render existing history or trigger first prompt
-  if (chatHistory.length > 0) {
-    chatHistory.forEach(item => renderBubble(item.sender, item.text, item.time, false));
-    updateChipsForCurrentStep();
-  } else {
-    // Initial Bot Greeting
-    addBotMessage(
-      "Hello! Welcome to MR TECH 👋 I am Mijanur's interactive assistant.\nWhich country are you contacting us from? 🌍",
-      true
-    );
-    updateChipsForCurrentStep();
+  function hideError() {
+    errorBox.style.display = 'none';
+    errorBox.textContent = '';
   }
 
-  // Toggle Chat Dialog
-  const openChat = () => {
-    chatDialog.classList.add('open');
-    chatInput.focus();
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    const pulse = triggerBtn.querySelector('.badge-pulse');
-    if (pulse) pulse.style.display = 'none';
-  };
+  function resolvedCountry() {
+    return countrySelect.value === 'Other' ? customCountryInput.value.trim() : countrySelect.value;
+  }
 
-  const closeChat = () => {
-    chatDialog.classList.remove('open');
-  };
+  function resolvedTopic() {
+    return topicSelect.value === 'Other' ? otherTopicInput.value.trim() : topicSelect.value;
+  }
 
-  triggerBtn.addEventListener('click', () => {
-    if (chatDialog.classList.contains('open')) {
-      closeChat();
+  function validateStep(step) {
+    if (step === 1) {
+      if (!countrySelect.value) {
+        showError('Please select your country from the dropdown.');
+        countrySelect.focus();
+        return false;
+      }
+      if (countrySelect.value === 'Other' && customCountryInput.value.trim().length < 2) {
+        showError('Please enter your country name.');
+        customCountryInput.focus();
+        return false;
+      }
+      return true;
+    }
+    if (step === 2) {
+      const val = phoneInput.value.trim();
+      const digits = val.replace(/\D/g, '');
+      if (!val || digits.length < 7 || digits.length > 15 || !/^[0-9+\-\s()]+$/.test(val)) {
+        showError('Please enter a valid phone number (7 to 15 digits).');
+        phoneInput.focus();
+        return false;
+      }
+      return true;
+    }
+    if (step === 3) {
+      const val = emailInput.value.trim();
+      if (!val || !/^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(val)) {
+        showError('Please enter a valid email address (e.g. name@example.com).');
+        emailInput.focus();
+        return false;
+      }
+      return true;
+    }
+    if (step === 4) {
+      if (!topicSelect.value) {
+        showError('Please choose what topic you want to discuss.');
+        topicSelect.focus();
+        return false;
+      }
+      if (topicSelect.value === 'Other' && otherTopicInput.value.trim().length < 3) {
+        showError('Please specify your topic (at least 3 characters).');
+        otherTopicInput.focus();
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  function renderLeadStep() {
+    hideError();
+    const titles = ['Country', 'Phone Number', 'Email Address', 'Topic'];
+    stepLabel.textContent = `Step ${currentStep} of 4: ${titles[currentStep - 1]}`;
+    const pct = currentStep * 25;
+    stepPercent.textContent = `${pct}%`;
+    progressFill.style.width = `${pct}%`;
+
+    stepPanels.forEach((panel, idx) => {
+      if (panel) panel.style.display = (idx + 1 === currentStep) ? 'flex' : 'none';
+    });
+
+    customCountryWrap.style.display = (currentStep === 1 && countrySelect.value === 'Other') ? 'flex' : 'none';
+    otherTopicWrap.style.display = (currentStep === 4 && topicSelect.value === 'Other') ? 'flex' : 'none';
+
+    backBtn.style.display = currentStep > 1 ? 'inline-flex' : 'none';
+    const nextLabels = [
+      'Next: Phone Number',
+      'Next: Email Address',
+      'Next: Select Topic',
+      'Unlock SMS & Live Chat'
+    ];
+    nextBtn.innerHTML = `<span>${nextLabels[currentStep - 1]}</span> <i class="fa-solid ${currentStep === 4 ? 'fa-check' : 'fa-arrow-right'}"></i>`;
+
+    // Completed summary pills
+    const pills = [];
+    if (currentStep > 1 && resolvedCountry()) pills.push(`✓ ${resolvedCountry()}`);
+    if (currentStep > 2 && phoneInput.value.trim()) pills.push(`✓ ${phoneInput.value.trim()}`);
+    if (currentStep > 3 && emailInput.value.trim()) pills.push(`✓ ${emailInput.value.trim()}`);
+    completedPills.innerHTML = pills.map(p => `<span class="lead-done-pill">${p}</span>`).join('');
+  }
+
+  function unlockSmsChat(saveState = true) {
+    leadData = {
+      country: countrySelect.value,
+      customCountry: customCountryInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      email: emailInput.value.trim(),
+      topic: topicSelect.value,
+      otherTopic: otherTopicInput.value.trim(),
+      unlocked: true
+    };
+    if (saveState) {
+      localStorage.setItem('MR_CHAT_LEAD_V2_' + sessionId, JSON.stringify(leadData));
+    }
+
+    leadGate.style.display = 'none';
+    lockedBar.style.display = 'none';
+    verifiedBanner.style.display = 'flex';
+    chipsContainer.style.display = 'flex';
+    messagesContainer.style.display = 'flex';
+    chatInputBar.style.display = 'flex';
+    if (agentStatus) agentStatus.textContent = 'Online • SMS Unlocked';
+
+    verifiedText.textContent = `${resolvedCountry()} • ${leadData.phone} • ${leadData.email} • ${resolvedTopic()}`;
+
+    if (chatHistory.length === 0) {
+      renderBubble('customer', `Verified Details:\nCountry: ${resolvedCountry()}\nPhone: ${leadData.phone}\nEmail: ${leadData.email}\nTopic: ${resolvedTopic()}`, new Date().toISOString(), true);
+      renderBubble('admin', `Thank you! Your details are verified. You can now write your SMS / message about "${resolvedTopic()}" below.`, new Date().toISOString(), true);
     } else {
-      openChat();
+      messagesContainer.innerHTML = '';
+      chatHistory.forEach(item => renderBubble(item.sender, item.text, item.time, false));
     }
-  });
 
-  if (closeBtn) closeBtn.addEventListener('click', closeChat);
-  if (heroChatBtn) heroChatBtn.addEventListener('click', openChat);
-
-  // Send message on Enter or Click
-  const submitMessage = () => {
-    const text = chatInput.value.trim();
-    if (!text) return;
-    chatInput.value = '';
-    handleUserInput(text);
-  };
-
-  sendBtn.addEventListener('click', submitMessage);
-  chatInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      submitMessage();
-    }
-  });
-
-  /**
-   * Main Conversational State Machine
-   */
-  function handleUserInput(input) {
-    // 1. Append user's message
-    addUserMessage(input);
-
-    // 2. Process based on current step
-    switch (leadData.step) {
-      case 'COUNTRY':
-        leadData.country = input;
-        leadData.step = 'NAME';
-        saveLeadState();
-
-        setTimeout(() => {
-          addBotMessage(`Great to meet you from ${leadData.country}! 🌟\nMay I please have your full name? 👤`);
-          updateChipsForCurrentStep();
-        }, 400);
-        break;
-
-      case 'NAME':
-        leadData.name = input;
-        leadData.step = 'METHOD';
-        saveLeadState();
-
-        setTimeout(() => {
-          addBotMessage(`Nice to connect with you, ${leadData.name}! 🤝\nWhich contact option do you prefer for direct communication? 📱`);
-          updateChipsForCurrentStep();
-        }, 400);
-        break;
-
-      case 'METHOD':
-        // Recognize choice
-        let normalizedMethod = 'WhatsApp';
-        const lower = input.toLowerCase();
-        if (lower.includes('telegram')) normalizedMethod = 'Telegram';
-        else if (lower.includes('email') || lower.includes('mail')) normalizedMethod = 'Email';
-        else normalizedMethod = 'WhatsApp';
-
-        leadData.contactMethod = normalizedMethod;
-        leadData.step = 'VALUE';
-        saveLeadState();
-
-        setTimeout(() => {
-          let prompt = '';
-          if (normalizedMethod === 'WhatsApp') {
-            prompt = `Awesome! Please enter your WhatsApp number (with country code, e.g. +8801... or +1...): 💬`;
-          } else if (normalizedMethod === 'Telegram') {
-            prompt = `Great! Please share your Telegram username or mobile handle (e.g. @username): ✈️`;
-          } else {
-            prompt = `Perfect! Please enter your Email address (e.g. name@domain.com): ✉️`;
-          }
-          addBotMessage(prompt);
-          updateChipsForCurrentStep();
-        }, 400);
-        break;
-
-      case 'VALUE':
-        leadData.contactValue = input;
-        leadData.step = 'LIVE_CHAT';
-        leadData.registered = true;
-        saveLeadState();
-
-        // Sync lead registration to Firebase Realtime Database
-        syncLeadMetadata();
-
-        setTimeout(() => {
-          addBotMessage(
-            `Thank you, ${leadData.name}! 🎉 Your details are securely saved, and Mijanur has been notified in real time.\n\nYou are now in Live Chat mode with Mijanur. Tell us about your project, website, or app idea:`
-          );
-          updateChipsForCurrentStep();
-        }, 400);
-        break;
-
-      case 'LIVE_CHAT':
-      default:
-        // Direct live message to Firebase Realtime Database
-        if (window.MR_FIREBASE) {
-          window.MR_FIREBASE.sendChatMessage(sessionId, {
-            sender: 'customer',
-            senderName: leadData.name || 'Visitor',
-            text: input
-          }, {
-            customerName: leadData.name || 'Visitor',
-            customerCountry: leadData.country || 'Global',
-            customerContactMethod: leadData.contactMethod || 'Direct',
-            customerContactValue: leadData.contactValue || '',
-            customerEmail: leadData.contactMethod === 'Email' ? leadData.contactValue : ''
-          });
-        }
-        break;
-    }
-  }
-
-  /**
-   * Save Lead State to LocalStorage
-   */
-  function saveLeadState() {
-    localStorage.setItem('MR_CHAT_LEAD_DATA_' + sessionId, JSON.stringify(leadData));
-  }
-
-  /**
-   * Sync complete lead registration to Firebase Realtime Database
-   */
-  function syncLeadMetadata() {
     if (window.MR_FIREBASE) {
       window.MR_FIREBASE.sendChatMessage(sessionId, {
         sender: 'customer',
-        senderName: leadData.name || 'Visitor',
-        text: `[New Lead Details] Country: ${leadData.country} | Preferred Contact: ${leadData.contactMethod} (${leadData.contactValue})`
+        senderName: leadData.email,
+        text: `[Verified Lead] Country: ${resolvedCountry()} | Phone: ${leadData.phone} | Email: ${leadData.email} | Topic: ${resolvedTopic()}`
       }, {
-        customerName: leadData.name,
-        customerCountry: leadData.country,
-        customerContactMethod: leadData.contactMethod,
-        customerContactValue: leadData.contactValue,
-        customerEmail: leadData.contactMethod === 'Email' ? leadData.contactValue : '',
+        customerCountry: resolvedCountry(),
+        customerPhone: leadData.phone,
+        customerEmail: leadData.email,
+        customerTopic: resolvedTopic(),
         status: 'active'
       });
     }
+
+    renderUnlockedChips();
+    chatInput.focus();
   }
 
-  /**
-   * Quick Chips Generator
-   */
-  function updateChipsForCurrentStep() {
-    if (!chipsContainer) return;
-    chipsContainer.innerHTML = '';
+  function lockSmsChat() {
+    leadGate.style.display = 'flex';
+    lockedBar.style.display = 'flex';
+    verifiedBanner.style.display = 'none';
+    chipsContainer.style.display = 'none';
+    messagesContainer.style.display = 'none';
+    chatInputBar.style.display = 'none';
+    if (agentStatus) agentStatus.textContent = 'Online • Verify details to unlock SMS';
+    renderLeadStep();
+  }
 
-    if (leadData.step === 'COUNTRY') {
-      const countries = [
-        { label: '🇧🇩 Bangladesh', val: 'Bangladesh' },
-        { label: '🇺🇸 United States', val: 'United States' },
-        { label: '🇦🇪 UAE', val: 'UAE' },
-        { label: '🇸🇦 Saudi Arabia', val: 'Saudi Arabia' },
-        { label: '🇬🇧 United Kingdom', val: 'United Kingdom' },
-        { label: '🇨🇦 Canada', val: 'Canada' },
-        { label: '🇮🇳 India', val: 'India' },
-        { label: '🌍 Other Country', val: 'International' }
-      ];
-      renderChips(countries);
-      chatInput.placeholder = 'Type your country or tap an option...';
-    } else if (leadData.step === 'NAME') {
-      chipsContainer.style.display = 'none';
-      chatInput.placeholder = 'Enter your full name...';
-    } else if (leadData.step === 'METHOD') {
-      const methods = [
-        { label: 'WhatsApp', val: 'WhatsApp', icon: 'fa-brands fa-whatsapp' },
-        { label: 'Telegram', val: 'Telegram', icon: 'fa-brands fa-telegram' },
-        { label: 'Email', val: 'Email', icon: 'fa-solid fa-envelope' }
-      ];
-      renderChips(methods);
-      chatInput.placeholder = 'Select WhatsApp, Telegram, or Email...';
-    } else if (leadData.step === 'VALUE') {
-      chipsContainer.style.display = 'none';
-      if (leadData.contactMethod === 'WhatsApp') {
-        chatInput.placeholder = 'Enter WhatsApp number (e.g. +880...)';
-      } else if (leadData.contactMethod === 'Telegram') {
-        chatInput.placeholder = 'Enter Telegram @username or number';
-      } else {
-        chatInput.placeholder = 'Enter your email address';
-      }
-    } else if (leadData.step === 'LIVE_CHAT') {
-      const liveOptions = [
-        { label: '💻 Web Application', val: 'I would like to discuss building a custom Web Application.' },
-        { label: '📱 Android App', val: 'I need a native Android Mobile App with Kotlin & Compose.' },
-        { label: '⚡ Custom Dashboard', val: 'I need a Realtime Admin Dashboard with Firebase.' },
-        {
-          label: '💬 Direct WhatsApp',
-          action: () => {
-            const cleanNum = (currentPortfolioData.profile?.whatsapp || '+8801700000000').replace(/[^0-9]/g, '');
-            window.open(`https://wa.me/${cleanNum}?text=${encodeURIComponent(`Hello Mijanur, I am ${leadData.name} from ${leadData.country}. I would like to discuss a project.`)}`, '_blank');
-          }
-        }
-      ];
-      renderChips(liveOptions);
-      chatInput.placeholder = 'Type your project details or message...';
+  backBtn.addEventListener('click', () => {
+    if (currentStep > 1) {
+      currentStep--;
+      renderLeadStep();
     }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (!validateStep(currentStep)) return;
+    if (currentStep < 4) {
+      currentStep++;
+      renderLeadStep();
+    } else {
+      // Final validation check across ALL 4 fields before unlocking SMS
+      if (!validateStep(1)) { currentStep = 1; renderLeadStep(); return; }
+      if (!validateStep(2)) { currentStep = 2; renderLeadStep(); return; }
+      if (!validateStep(3)) { currentStep = 3; renderLeadStep(); return; }
+      if (!validateStep(4)) { currentStep = 4; renderLeadStep(); return; }
+      unlockSmsChat(true);
+    }
+  });
+
+  if (editLeadBtn) {
+    editLeadBtn.addEventListener('click', () => {
+      leadData.unlocked = false;
+      currentStep = 1;
+      lockSmsChat();
+    });
   }
 
-  function renderChips(chips) {
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      localStorage.removeItem('MR_CHAT_LEAD_V2_' + sessionId);
+      localStorage.removeItem('MR_CHAT_HISTORY_' + sessionId);
+      chatHistory = [];
+      messagesContainer.innerHTML = '';
+      countrySelect.value = '';
+      customCountryInput.value = '';
+      phoneInput.value = '';
+      emailInput.value = '';
+      topicSelect.value = '';
+      otherTopicInput.value = '';
+      leadData = { country: '', customCountry: '', phone: '', email: '', topic: '', otherTopic: '', unlocked: false };
+      currentStep = 1;
+      lockSmsChat();
+    });
+  }
+
+  function renderUnlockedChips() {
     chipsContainer.innerHTML = '';
-    chipsContainer.style.display = 'flex';
-    chips.forEach(item => {
+    const options = [
+      { label: 'Request Quote', val: `Please share an estimated timeline and quote for ${resolvedTopic()}.` },
+      {
+        label: 'Send via WhatsApp',
+        action: () => {
+          const cleanNum = (currentPortfolioData.profile?.whatsapp || '+8801700000000').replace(/[^0-9]/g, '');
+          const msg = `Hello Mijanur,\nCountry: ${resolvedCountry()}\nPhone: ${leadData.phone}\nEmail: ${leadData.email}\nTopic: ${resolvedTopic()}`;
+          window.open(`https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+      }
+    ];
+    options.forEach(item => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'quick-chip';
-      btn.innerHTML = `${item.icon ? `<i class="${item.icon}"></i> ` : ''}${item.label}`;
+      btn.textContent = item.label;
       btn.onclick = () => {
-        if (item.action) {
-          item.action();
-        } else {
-          handleUserInput(item.val || item.label);
-        }
+        if (item.action) item.action();
+        else sendSmsMessage(item.val);
       };
       chipsContainer.appendChild(btn);
     });
   }
 
-  /**
-   * DOM Rendering for bubbles
-   */
-  function addBotMessage(text, shouldSave = true) {
-    renderBubble('admin', text, new Date().toISOString(), shouldSave);
+  function sendSmsMessage(overrideText) {
+    // Hard guard: prevent sending SMS unless all 4 lead fields are verified
+    if (!leadData.unlocked) {
+      showToast('Please complete Country, Phone, Email, and Topic first.', 'error');
+      return;
+    }
+    const text = (overrideText || chatInput.value).trim();
+    if (!text) {
+      showToast('Please write your SMS message before sending.', 'error');
+      chatInput.focus();
+      return;
+    }
+    if (!overrideText) chatInput.value = '';
+
+    renderBubble('customer', text, new Date().toISOString(), true);
+
+    if (window.MR_FIREBASE) {
+      window.MR_FIREBASE.sendChatMessage(sessionId, {
+        sender: 'customer',
+        senderName: leadData.email,
+        text
+      }, {
+        customerCountry: resolvedCountry(),
+        customerPhone: leadData.phone,
+        customerEmail: leadData.email,
+        customerTopic: resolvedTopic()
+      });
+    }
   }
 
-  function addUserMessage(text, shouldSave = true) {
-    renderBubble('customer', text, new Date().toISOString(), shouldSave);
-  }
+  sendBtn.addEventListener('click', () => sendSmsMessage());
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendSmsMessage();
+    }
+  });
 
   function renderBubble(sender, text, isoTime, shouldSave = true) {
     const wrapper = document.createElement('div');
     wrapper.className = `chat-bubble-wrapper ${sender}`;
-
     const bubble = document.createElement('div');
     bubble.className = `chat-bubble ${sender}`;
     bubble.innerHTML = text.replace(/\n/g, '<br>');
-
     const timeEl = document.createElement('div');
     timeEl.className = 'chat-timestamp';
     const timeFormatted = new Date(isoTime || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    timeEl.textContent = (sender === 'customer' ? (leadData.name || 'You') : 'Mijanur Rahman') + ' • ' + timeFormatted;
-
+    timeEl.textContent = (sender === 'customer' ? 'You' : 'Mijanur Rahman') + ' • ' + timeFormatted;
     wrapper.appendChild(bubble);
     wrapper.appendChild(timeEl);
     messagesContainer.appendChild(wrapper);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
     if (shouldSave) {
       chatHistory.push({ sender, text, time: isoTime });
       localStorage.setItem('MR_CHAT_HISTORY_' + sessionId, JSON.stringify(chatHistory));
     }
   }
 
-  // Real-time listener for incoming messages from Admin (Mijanur)
+  // Initialize state on load
+  if (leadData.unlocked && leadData.country && leadData.phone && leadData.email && leadData.topic) {
+    unlockSmsChat(false);
+  } else {
+    lockSmsChat();
+  }
+
+  const openChat = () => {
+    chatDialog.classList.add('open');
+    const pulse = triggerBtn.querySelector('.badge-pulse');
+    if (pulse) pulse.style.display = 'none';
+  };
+  const closeChat = () => chatDialog.classList.remove('open');
+
+  triggerBtn.addEventListener('click', () => chatDialog.classList.contains('open') ? closeChat() : openChat());
+  if (closeBtn) closeBtn.addEventListener('click', closeChat);
+  if (heroChatBtn) heroChatBtn.addEventListener('click', openChat);
+
   if (window.MR_FIREBASE) {
     window.MR_FIREBASE.listenToChatSession(sessionId, (remoteMessages) => {
       if (!remoteMessages || !remoteMessages.length) return;
-
       remoteMessages.forEach(msg => {
         if (msg.sender === 'admin') {
-          // Check if already rendered
           const exists = chatHistory.some(h => h.sender === 'admin' && h.text === msg.text);
           if (!exists) {
             renderBubble('admin', msg.text, msg.timestamp || new Date().toISOString(), true);
-
-            // If dialog is closed, trigger pulse
-            if (!chatDialog.classList.contains('open')) {
-              const pulse = triggerBtn.querySelector('.badge-pulse');
-              if (pulse) pulse.style.display = 'block';
-            }
           }
         }
       });
     });
   }
 }
-
-/**
- * =========================================================================
- * ULTRA-LIGHTWEIGHT BUBBLE TOUCH SWAY EFFECT ("Bubbler Moto Halka Dolbe")
- * When the user touches anywhere, the touched element softly sways and bobs
- * like an elastic bubble, with a delicate transparent bubble pop.
- * Zero CPU overhead, zero color change, 100% lightweight & smooth.
- * =========================================================================
- */
-function initBubbleTouchEffect() {
-  let lastTouchTime = 0;
-
-  function triggerBubbleAt(clientX, clientY, targetEl) {
-    // 1. Soft bubble jiggle/sway on touched element
-    const interactiveEl = targetEl ? targetEl.closest(
-      '.skill-card, .project-card, .service-card, .about-card, .timeline-item, .contact-card, .stat-item, .tab-btn, .btn, .hero-visual, .nav-link, .quick-chip'
-    ) : null;
-
-    if (interactiveEl) {
-      interactiveEl.classList.remove('bubble-swayed');
-      void interactiveEl.offsetWidth; // Force reflow
-      interactiveEl.classList.add('bubble-swayed');
-      setTimeout(() => {
-        interactiveEl.classList.remove('bubble-swayed');
-      }, 430);
-    }
-
-    // 2. Delicate, transparent bubble pop on the touch point (NO color change)
-    if (clientX && clientY) {
-      const bubble = document.createElement('div');
-      bubble.className = 'touch-bubble';
-      bubble.style.left = `${clientX}px`;
-      bubble.style.top = `${clientY}px`;
-      const size = Math.floor(45 + Math.random() * 25);
-      bubble.style.width = `${size}px`;
-      bubble.style.height = `${size}px`;
-      document.body.appendChild(bubble);
-
-      setTimeout(() => {
-        bubble.remove();
-      }, 370);
-    }
-  }
-
-  // Touch listener (Mobile)
-  window.addEventListener('touchstart', (e) => {
-    if (e.touches && e.touches.length > 0) {
-      const t = e.touches[0];
-      triggerBubbleAt(t.clientX, t.clientY, e.target);
-    }
-  }, { passive: true });
-
-  // Mouse / Pointer listener (Desktop)
-  window.addEventListener('pointerdown', (e) => {
-    if (e.pointerType === 'mouse') {
-      triggerBubbleAt(e.clientX, e.clientY, e.target);
-    }
-  }, { passive: true });
-
-  // Gentle scroll touch sway (debounced, 100% smooth)
-  window.addEventListener('touchmove', (e) => {
-    const now = Date.now();
-    if (now - lastTouchTime > 120 && e.touches.length > 0) {
-      lastTouchTime = now;
-      const t = e.touches[0];
-      const el = document.elementFromPoint(t.clientX, t.clientY);
-      if (el) {
-        const card = el.closest('.skill-card, .project-card, .service-card');
-        if (card && !card.classList.contains('bubble-swayed')) {
-          card.classList.add('bubble-swayed');
-          setTimeout(() => card.classList.remove('bubble-swayed'), 430);
-        }
-      }
-    }
-  }, { passive: true });
-}
-
-
-
