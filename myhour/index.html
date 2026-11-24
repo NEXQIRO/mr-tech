@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#080D1A">
+<meta name="theme-color" content="#16181d">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="./app_logo.svg">
 <style>
 /* ==========================================================================
-   MYHOUR - 3D LUXURY GLASSMORPHIC STYLING & FULL RESPONSIVE AUTO-ADJUST
+   MYHOUR STYLING & FULL RESPONSIVE AUTO-ADJUST
    ========================================================================== */
 :root {
   --gold-1: #FFF7DA;
@@ -1712,6 +1712,145 @@ body.light .myh-logo .myh-o { color: #0F172A; filter: none; }
   transform: translateY(14px);
   animation: spFadeUp 0.6s ease 0.65s forwards;
 }
+
+/* ==========================================================================
+   সাধারণ, হাতে-বানানো লুক: ফ্ল্যাট রং, পাতলা বর্ডার, একটাই অ্যাকসেন্ট রং
+   (আগের সব গ্রেডিয়েন্ট, গ্লো, 3D ইফেক্ট এখানে বন্ধ করা হয়েছে)
+   ========================================================================== */
+:root {
+  --gold-1: #3dbb92; --gold-2: #34ad86; --gold-3: #2a9a76; --gold-4: #228060;
+  --gold: #34ad86; --gold-glow: transparent; --gold-border: #2f343c;
+  --bg: #16181d; --bg-gradient: #16181d;
+  --sf: #1b1e24; --cd: #1e2127; --el: #262a31; --bd: #2f343c;
+  --t1: #e8eaed; --t2: #a3a9b3; --t3: #747b86;
+  --ok: #3dbb7f; --wn: #e0a030; --dg: #e5584f; --cy: #4aa3d8; --pr: #8b7fe0;
+  --ok-glow: transparent; --wn-glow: transparent; --dg-glow: transparent; --cy-glow: transparent;
+  --font: -apple-system, "Segoe UI", Roboto, "Noto Sans Bengali", "Hind Siliguri", system-ui, sans-serif;
+}
+body.light {
+  --bg: #f5f4f0; --bg-gradient: #f5f4f0;
+  --sf: #ffffff; --cd: #ffffff; --el: #efede8; --bd: #e2dfd8;
+  --gold: #1d7f5f; --gold-2: #1d7f5f; --gold-glow: transparent; --gold-border: #e2dfd8;
+  --t1: #22252a; --t2: #5a606a; --t3: #868c96;
+  --ok: #1d7f5f; --wn: #b9770e; --dg: #c53b33; --cy: #1f7aa8;
+}
+body { background: var(--bg) !important; }
+::-webkit-scrollbar-thumb { background: var(--bd); }
+
+.gold-text, body.light .gold-text {
+  background: none !important; -webkit-text-fill-color: currentColor !important;
+  color: var(--t1) !important; filter: none !important;
+}
+
+/* বাটন: সাধারণ ফ্ল্যাট */
+button, .btn {
+  background: var(--gold); color: #fff; border: 1px solid transparent;
+  border-radius: 8px; font-weight: 600; font-size: 14px; padding: 10px 16px;
+  box-shadow: none; text-shadow: none; transition: opacity .15s, background .15s;
+}
+button:hover, .btn:hover { opacity: .9; }
+button:active, .btn:active { transform: none; opacity: .8; box-shadow: none; }
+button.s, body.light button.s {
+  background: transparent; color: var(--t1); border: 1px solid var(--bd);
+  box-shadow: none; text-shadow: none;
+}
+button.s:hover { background: var(--el); opacity: 1; }
+button.x, button.x.ed { background: none !important; border: 0 !important; }
+
+/* ইনপুট */
+input, select, textarea, body.light input, body.light select, body.light textarea {
+  background: var(--sf); border: 1px solid var(--bd); border-radius: 8px;
+  box-shadow: none; color: var(--t1); padding: 10px 12px;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: none; }
+
+/* কার্ড */
+.card, body.light .card {
+  background: var(--cd); border: 1px solid var(--bd); border-radius: 12px;
+  box-shadow: none; padding: 16px;
+}
+.card:hover { transform: none; box-shadow: none; border-color: var(--bd); }
+.card h3 { font-weight: 600; letter-spacing: 0; text-transform: none; }
+
+/* সামারি বক্স (আয়, বেতন, বাকি ইত্যাদি) */
+.sc, .sc-earn, .sc-rec, .sc-due, .sc-rem, .sc-exp, .sc-net, .sc-bal {
+  background: var(--cd) !important; border: 1px solid var(--bd) !important; box-shadow: none !important;
+}
+.sc .k, .sc-rec .k, .sc-due .k, .sc-rem .k, .sc-exp .k, .sc-net .k, .sc-bal .k {
+  color: var(--t2) !important; font-weight: 500; letter-spacing: 0; text-transform: none;
+}
+.sc .v, .sc-earn .v, .sc-rec .v, .sc-due .v, .sc-rem .v, .sc-exp .v, .sc-net .v, .sc-bal .v {
+  background: none !important; filter: none !important; text-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important; font-weight: 700;
+}
+.sc-earn .v, .sc-net .v { color: var(--t1) !important; }
+.sc-rec .v, .sc-bal .v { color: var(--ok) !important; }
+.sc-due .v, .sc-exp .v { color: var(--dg) !important; }
+.sc-rem .v { color: var(--wn) !important; }
+
+/* ড্যাশবোর্ড হিরো */
+.dash-hero {
+  background: var(--cd); border: 1px solid var(--bd); border-radius: 12px;
+  box-shadow: none; padding: 18px 20px;
+}
+.dash-hero::before { display: none !important; }
+.dash-hero-pill { background: var(--el); border: 0; color: var(--t2); box-shadow: none; }
+.dash-hero-stat-box { background: var(--el); border: 1px solid var(--bd); box-shadow: none; border-radius: 8px; }
+.dash-hero-tour-btn { box-shadow: none; }
+
+.pill, .tx, body.light .tx { box-shadow: none; background: var(--el); border-radius: 8px; }
+.tx:hover { background: var(--el); transform: none; }
+
+/* সাইডবার, হেডার, নিচের নেভিগেশন */
+#sidebar, body.light #sidebar { background: var(--sf); border-right: 1px solid var(--bd); box-shadow: none; }
+header, body.light header {
+  background: var(--sf); border-bottom: 1px solid var(--bd);
+  backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none;
+}
+.brand-box { background: none; border-bottom: 1px solid var(--bd); box-shadow: none; }
+.user-brief, body.light .user-brief { background: var(--el); border: 1px solid var(--bd); box-shadow: none; border-radius: 10px; }
+.user-avatar { background: var(--gold); color: #fff; box-shadow: none; }
+.s-nav-title { letter-spacing: 0; text-transform: none; font-size: 12px; font-weight: 600; }
+.s-item { border: 1px solid transparent; border-radius: 8px; }
+.s-item:hover, body.light .s-item:hover { background: var(--el); }
+.s-item.on, body.light .s-item.on {
+  background: var(--el); color: var(--t1); border: 1px solid transparent;
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+nav#nv { background: var(--sf); border-top: 1px solid var(--bd); box-shadow: none; }
+nav#nv div.on { color: var(--gold); font-weight: 700; }
+.di.on { background: var(--el); box-shadow: inset 3px 0 0 var(--gold); }
+
+/* মডাল, ড্রয়ার, টোস্ট */
+#md, #dr { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(0,0,0,.5); }
+.mb, body.light .mb, #dr > div, body.light #dr > div, .pwa-modal-card, body.light .pwa-modal-card {
+  background: var(--sf); border: 1px solid var(--bd); box-shadow: 0 8px 28px rgba(0,0,0,.25);
+}
+#tst { background: var(--t1); color: var(--bg); border: 0; box-shadow: 0 4px 14px rgba(0,0,0,.25); border-radius: 8px; }
+.pwa-modal-icon { box-shadow: none !important; border-width: 1px !important; }
+
+/* লগইন স্ক্রিন */
+#au { background: var(--bg); }
+#au .tabs button { box-shadow: none; }
+#au .tabs button.on { background: var(--gold); color: #fff; }
+#au button.big { box-shadow: none; }
+#au .gbtn { box-shadow: none; }
+
+/* স্প্ল্যাশ: ঘূর্ণি, গ্লো আর অতিরিক্ত সাজ বাদ */
+#sp { background: var(--bg); }
+#sp .sp-orbit-1, #sp .sp-orbit-2 { display: none; }
+#sp .sp-pill { background: none; border: 0; color: var(--t3); letter-spacing: 0; font-size: 13px; font-weight: 500; }
+#sp .lo > svg { filter: none !important; }
+#sp .sp-bar { box-shadow: none; }
+#sp .sp-bar-fill { background: var(--gold) !important; box-shadow: none !important; }
+#sp .sp-skip { box-shadow: none; }
+
+/* লোগো: ধাতব ঝলক বাদ, সাদামাটা লেখা */
+.myh-logo, body.light .myh-logo { color: var(--t1); text-shadow: none !important; filter: none !important; font-weight: 800; letter-spacing: 0; }
+.myh-logo .myh-w { color: var(--gold); }
+.myh-logo .myh-o { color: var(--gold); filter: none !important; }
+.myh-logo .myh-o-ring { animation: none !important; }
+.gd-sec, .sg-box { box-shadow: none; }
 </style>
 </head>
 <body>
@@ -1798,17 +1937,17 @@ body.light .myh-logo .myh-o { color: #0F172A; filter: none; }
   </div>
 
   <div class="tt-wrap">
-    <div class="sp-pill">✦ ENTERPRISE FINANCIAL SUITE ✦</div>
+    <div class="sp-pill">কাজের ঘণ্টা ও বেতনের হিসাব</div>
     <div class="myh-logo sp-myh-logo"><span class="myh-w">MY</span>H<span class="myh-o"><svg viewBox="0 0 100 100" aria-hidden="true"><g class="myh-o-ring"><circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="14"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="7.4 3.86"/></g><circle cx="50" cy="50" r="21" fill="#ffd23f" stroke="#fff2b3" stroke-width="3"/><path d="M50 35v15l11 6" fill="none" stroke="#050B1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3.5" fill="#050B1A"/></svg></span>UR</div>
     <div class="tg" id="sptg">Work Hours · Overtime · Salary Manager</div>
-    <div class="tg-bn">আপনার সময়ের সঠিক মূল্যায়ন ও প্রিমিয়াম স্যালারি ভল্ট</div>
+    <div class="tg-bn">আপনার কাজের হিসাব, এক জায়গায়</div>
   </div>
 
   <div class="sp-bar-container">
     <div class="sp-bar">
       <div class="sp-bar-fill"></div>
     </div>
-    <div class="sp-status" id="sp-status-text">🔒 Secure Sign-in Initializing...</div>
+    <div class="sp-status" id="sp-status-text">লোড হচ্ছে...</div>
   </div>
 
   <div class="sp-skip" onclick="dismissSplash()">
