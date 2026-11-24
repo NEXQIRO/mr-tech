@@ -11,10 +11,12 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/svg+xml" href="./app_logo.svg">
 <link rel="apple-touch-icon" href="./app_logo.svg">
+<!-- নিচের সব <style> অংশ হলো ডিজাইন (রং, সাইজ, বর্ডার)। এখানে কোড বদলালে শুধু চেহারা বদলায় -->
 <style>
 /* ==========================================================================
    MYHOUR STYLING & FULL RESPONSIVE AUTO-ADJUST
    ========================================================================== */
+/* এখানে অ্যাপের মূল রংগুলো আছে (পরের :root আর body.light ব্লকে নতুন রং দেওয়া আছে, সেটাই কাজ করে) */
 :root {
   --gold-1: #FFF7DA;
   --gold-2: #F6D472;
@@ -113,6 +115,7 @@ body.light .gold-text {
 }
 
 /* Buttons: 3D Glossy Luxury */
+/* সব বাটনের ডিজাইন */
 button, .btn {
   font-family: var(--font);
   cursor: pointer;
@@ -161,6 +164,7 @@ button.x {
 button.x.ed { color: var(--gold); }
 
 /* Inputs */
+/* ইনপুট বক্স, ড্রপডাউন আর লেখার ঘরের ডিজাইন */
 input, select, textarea {
   width: 100%;
   padding: 11px 14px;
@@ -187,6 +191,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* 3D Glass Cards */
+/* কার্ড বক্সের ডিজাইন (সব পেজে এই বক্স ব্যবহার হয়) */
 .card {
   position: relative;
   background: linear-gradient(150deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 40%, rgba(4,8,18,0.6) 100%), var(--cd);
@@ -217,6 +222,7 @@ body.light .card {
 }
 
 /* Stats Cards (Balanced Single-Line Safe) */
+/* ছোট সামারি বক্স (আয়, বেতন, বাকি ইত্যাদি) */
 .sc {
   padding: 13px 12px;
   position: relative;
@@ -587,6 +593,7 @@ body.light .pwa-modal-card {
 }
 
 /* 1. DESKTOP SIDEBAR */
+/* বাঁ পাশের মেনু (শুধু কম্পিউটার ভিউতে দেখা যায়) */
 #sidebar {
   width: var(--sidebar-w);
   height: 100%;
@@ -739,6 +746,7 @@ body.light .vault-status { color: #047857; background: #ECFDF5; border-color: #A
   width: 100%;
 }
 
+/* উপরের হেডার বার (লোগো আর ব্যালেন্স যেখানে থাকে) */
 header {
   height: 64px;
   background: rgba(14, 22, 38, 0.92);
@@ -842,6 +850,7 @@ main {
 }
 
 /* 3. MOBILE BOTTOM NAVIGATION (5 items, perfectly proportioned, never cut off) */
+/* মোবাইলের নিচের নেভিগেশন বার */
 nav#nv {
   display: none;
   background: var(--sf);
@@ -1032,6 +1041,7 @@ body.light #dr > div {
 /* ==========================================================================
    7. AUTH OVERLAY (NORMAL COMPACT SIZE + LANGUAGE SELECTOR)
    ========================================================================== */
+/* লগইন / সাইনআপ স্ক্রিনের ডিজাইন */
 #au {
   position: fixed;
   inset: 0;
@@ -1176,6 +1186,7 @@ body.light #dr > div {
 /* ==========================================================================
    8. ULTRA-PREMIUM 3D EXECUTIVE SPLASH INTRO
    ========================================================================== */
+/* শুরুর স্প্ল্যাশ স্ক্রিন (অ্যাপ খুললে প্রথমে যেটা আসে) */
 #sp {
   position: fixed;
   inset: 0;
@@ -1385,6 +1396,7 @@ body.light #dr > div {
 /* ==========================================================================
    DASHBOARD EXECUTIVE WELCOME HERO CARD
    ========================================================================== */
+/* ড্যাশবোর্ডের উপরের বড় বক্স */
 .dash-hero {
   background: linear-gradient(135deg, rgba(22, 36, 62, 0.85) 0%, rgba(10, 18, 32, 0.92) 100%);
   border: 1.5px solid rgba(214, 170, 84, 0.35);
@@ -1643,6 +1655,7 @@ body.mode-mobile .mb { border-radius: 24px 24px 0 0 !important; max-width: none 
 /* ==========================================================================
    MYHOUR MOSTWIN-STYLE BRAND WORDMARK (MY = White, H = Yellow, O = Spinning White Wheel, UR = Yellow)
    ========================================================================== */
+/* MYHOUR লোগোর লেখার ডিজাইন */
 .myh-logo {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   display: inline-block;
@@ -1717,6 +1730,7 @@ body.light .myh-logo .myh-o { color: #0F172A; filter: none; }
    সাধারণ, হাতে-বানানো লুক: ফ্ল্যাট রং, পাতলা বর্ডার, একটাই অ্যাকসেন্ট রং
    (আগের সব গ্রেডিয়েন্ট, গ্লো, 3D ইফেক্ট এখানে বন্ধ করা হয়েছে)
    ========================================================================== */
+/* ডার্ক থিমের রং: --bg ব্যাকগ্রাউন্ড, --cd কার্ড, --t1 মূল লেখা, --gold মূল অ্যাকসেন্ট রং (সবুজ), --ok সবুজ, --dg লাল, --wn কমলা */
 :root {
   --gold-1: #3dbb92; --gold-2: #34ad86; --gold-3: #2a9a76; --gold-4: #228060;
   --gold: #34ad86; --gold-glow: transparent; --gold-border: #2f343c;
@@ -1727,6 +1741,7 @@ body.light .myh-logo .myh-o { color: #0F172A; filter: none; }
   --ok-glow: transparent; --wn-glow: transparent; --dg-glow: transparent; --cy-glow: transparent;
   --font: -apple-system, "Segoe UI", Roboto, "Noto Sans Bengali", "Hind Siliguri", system-ui, sans-serif;
 }
+/* লাইট থিমের রং (ওপরের নামগুলোই, শুধু মান আলাদা) */
 body.light {
   --bg: #f5f4f0; --bg-gradient: #f5f4f0;
   --sf: #ffffff; --cd: #ffffff; --el: #efede8; --bd: #e2dfd8;
@@ -1743,6 +1758,7 @@ body { background: var(--bg) !important; }
 }
 
 /* বাটন: সাধারণ ফ্ল্যাট */
+/* নতুন সাদামাটা বাটন: রং বদলাতে ওপরের --gold বদলান */
 button, .btn {
   background: var(--gold); color: #fff; border: 1px solid transparent;
   border-radius: 8px; font-weight: 600; font-size: 14px; padding: 10px 16px;
@@ -1773,6 +1789,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .card h3 { font-weight: 600; letter-spacing: 0; text-transform: none; }
 
 /* সামারি বক্স (আয়, বেতন, বাকি ইত্যাদি) */
+/* সামারি বক্সের নতুন ফ্ল্যাট ডিজাইন */
 .sc, .sc-earn, .sc-rec, .sc-due, .sc-rem, .sc-exp, .sc-net, .sc-bal {
   background: var(--cd) !important; border: 1px solid var(--bd) !important; box-shadow: none !important;
 }
@@ -1837,6 +1854,7 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
 #au .gbtn { box-shadow: none; }
 
 /* স্প্ল্যাশ: ঘূর্ণি, গ্লো আর অতিরিক্ত সাজ বাদ */
+/* স্প্ল্যাশে ঘূর্ণি আর অতিরিক্ত সাজ বন্ধ করা আছে */
 #sp { background: var(--bg); }
 #sp .sp-orbit-1, #sp .sp-orbit-2 { display: none; }
 #sp .sp-pill { background: none; border: 0; color: var(--t3); letter-spacing: 0; font-size: 13px; font-weight: 500; }
@@ -1853,9 +1871,11 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
 .gd-sec, .sg-box { box-shadow: none; }
 </style>
 </head>
+<!-- এখান থেকে পেজের যা দেখা যায় তার কাঠামো (HTML) শুরু -->
 <body>
 
 <!-- Centered PWA Install Popup Dialog (Middle of Mobile Screen) -->
+<!-- অ্যাপ ইনস্টল করার পপআপ -->
 <div id="pwa-install-modal" class="pwa-modal-overlay" onclick="if(event.target===this)dismissPwaModal()">
   <div class="pwa-modal-card">
     <div class="pwa-modal-icon" style="width:72px; height:72px; border-radius:50%; overflow:hidden; margin-bottom:12px; box-shadow:0 0 20px var(--gold-glow); background:#F7F3E7; border:2px solid var(--gold); padding:0;">
@@ -1877,6 +1897,7 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
 </div>
 
 <!-- Ultra-Premium 3D Executive Splash Screen -->
+<!-- স্প্ল্যাশ স্ক্রিনের HTML (লোগো, লেখা, লোডিং বার) -->
 <div id="sp">
   <div class="lo-wrapper">
     <div class="sp-orbit-1"></div>
@@ -1956,9 +1977,11 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
 </div>
 
 <!-- Main App Layout Container -->
+<!-- মূল অ্যাপের ভেতরের পুরো অংশ এই বক্সে -->
 <div id="app-container">
 
   <!-- Desktop Sidebar -->
+<!-- কম্পিউটারের বাঁ পাশের সাইডবার (ব্র্যান্ড, ইউজারের নাম, মেনু, ভাষা/থিম বাটন) -->
   <aside id="sidebar">
     <div class="brand-box" onclick="go('dashboard')" style="cursor:pointer; padding:16px 14px;">
       <div>
@@ -1997,8 +2020,10 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
   </aside>
 
   <!-- Content Stage -->
+<!-- ডান পাশের মূল জায়গা: হেডার + পেজের কনটেন্ট + নিচের নেভ -->
   <div id="stage">
     <!-- Top Header (MYHOUR Logo & Name on the LEFT, Controls on the Right) -->
+<!-- উপরের হেডার: বাঁয়ে লোগো আর ব্যাক বাটন, ডানে ভাষা/থিম বাটন ও ব্যালেন্স -->
     <header>
             <div class="header-brand-left" onclick="go('dashboard')" title="MYHOUR Home" style="display:flex; align-items:center; gap:6px; cursor:pointer;">
         <span id="bkb" class="bkb" onclick="event.stopPropagation(); goBack(1)" aria-label="Back">
@@ -2028,19 +2053,23 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
     </header>
 
     <!-- Scrollable Main Viewport -->
+<!-- এখানে প্রতিটা পেজের কনটেন্ট JavaScript দিয়ে বসে -->
     <main id="main-viewport">
       <div id="content-root"></div>
     </main>
 
     <!-- Floating Mobile Bottom Nav -->
+<!-- মোবাইলের নিচের নেভিগেশন (JavaScript দিয়ে ভরে) -->
     <nav id="nv"></nav>
   </div>
 </div>
 
 <!-- Modal Dialog / Bottom Sheet Container -->
+<!-- পপআপ ফর্ম বা বটম শিট (এন্ট্রি যোগ/এডিট করার বক্স) -->
 <div id="md" onclick="if(event.target===this)closeModal()"></div>
 
 <!-- Slide-in Mobile Drawer -->
+<!-- মোবাইলে স্লাইড করে আসা সাইড মেনু -->
 <div id="dr" onclick="if(event.target===this)closeDrawer()">
   <div id="drawer-inner">
     <div class="dh">
@@ -2087,12 +2116,15 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
 </div>
 
 <!-- Toast Popup -->
+<!-- ছোট মেসেজ (যেমন "সেভ হয়েছে") যেখানে দেখায় -->
 <div id="tst"></div>
 
 <!-- Authentication Overlay (PIN / Password Screen) -->
+<!-- লগইন / সাইনআপ স্ক্রিন (JavaScript দিয়ে ভরে) -->
 <div id="au"></div>
 
 <!-- Scripts -->
+<!-- Firebase লাইব্রেরি (লগইন আর অনলাইন ডেটা সেভের জন্য) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -2100,6 +2132,7 @@ nav#nv div.on { color: var(--gold); font-weight: 700; }
 /* ==========================================================================
    FIREBASE CONFIG (project: myhour-d59d2)
    ========================================================================== */
+// Firebase প্রজেক্টের কানেকশন তথ্য
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyA0sVcgOOFzdPtvVN_Mc2vOBu4tIFAggCo",
   authDomain: "myhour-d59d2.firebaseapp.com",
@@ -2111,6 +2144,7 @@ const FIREBASE_CONFIG = {
   measurementId: "G-LXHR28PDD8"
 };
 // Admin = UID listed below, or any uid listed under "admin" / "admins" in the database.
+// অ্যাডমিন কারা, তাদের ID/ইমেইল এখানে
 const ADMIN_UIDS = ["MOu75wQie4cUii2fEXstTY64hy22"];
 const ADMIN_EMAILS = [];
 const COMPANY = "MrTech";
@@ -2118,6 +2152,7 @@ const COMPANY = "MrTech";
 /* ==========================================================================
    TRANSLATION DICTIONARY (Bengali, English, Arabic)
    ========================================================================== */
+// সব লেখার অনুবাদ (বাংলা, English, আরবি) এখানে। লেখা বদলাতে এখানে খুঁজুন
 const TR = {
   nav_menu: { en: "Menu", bn: "মেনু", ar: "القائمة" },
   nav_guide: { en: "How to Use", bn: "ব্যবহার নির্দেশিকা", ar: "طريقة الاستخدام" },
@@ -2174,6 +2209,7 @@ const TR = {
 /* ==========================================================================
    DEFAULT STATE & MULTI-TIER DATA PERSISTENCE ENGINE (ZERO DATA LOSS)
    ========================================================================== */
+// নতুন ইউজারের শুরুর ফাঁকা ডেটা
 const D0 = {
   profile: {
     name: "",
@@ -2199,6 +2235,7 @@ const D0 = {
   updatedAt: 0
 };
 
+// S হলো অ্যাপের মূল ডেটা (কর্মী, ডিউটি, বেতন, খরচ সব)
 let S = JSON.parse(JSON.stringify(D0));
 let U = null;            // signed-in Firebase user { uid, email }
 let REC = null;          // this user's online record { name, phone, email }
@@ -2218,6 +2255,7 @@ const CLIENT_ID = (function() {
   return id;
 })();
 
+// ফোনের ভেতরে ডেটা রাখার ব্যবস্থা (IndexedDB)
 const openIDB = () => new Promise((resolve) => {
   try {
     const req = indexedDB.open("myhour_vault_v2", 1);
@@ -2250,6 +2288,7 @@ const idbPut = async (k, v) => {
   } catch (e) {}
 };
 
+// ডেটা সেভ করে (ফোনে + অনলাইনে)
 function save(skipCloudSync) {
   if (!S || !KEY) return;
   if (skipCloudSync !== true) {
@@ -2281,6 +2320,7 @@ function countStateItems(st) {
   );
 }
 
+// অনলাইন (Firebase) ব্যাকআপে ডেটা পাঠায়
 function syncToCloud() {
   if (!DB || !U || !U.uid || !S || CLOUD_SYNCING) return Promise.resolve();
 
@@ -2330,6 +2370,7 @@ function doCloudUpload() {
   });
 }
 
+// অনলাইন ডেটা সিঙ্ক শুরু করে
 function startCloudSync(uid) {
   if (!DB || !uid) return;
   const userRef = DB.ref("userData/" + uid);
@@ -2385,6 +2426,7 @@ function normalizeState(st) {
 }
 
 // Each account has its own private data on this device.
+// ফোনে রাখা ডেটা লোড করে
 function loadLocalState(uid) {
   KEY = "myhour_u_" + uid;
   const pre = { lang: S.profile.lang, dark: S.profile.dark };
@@ -2433,6 +2475,7 @@ const T3 = (bn, en, ar) => L() === "bn" ? bn : (L() === "ar" ? (ar || en) : en);
 const N = (x) => (+x || 0);
 const f = (x) => N(x).toLocaleString(undefined, { maximumFractionDigits: 2 });
 const today = () => new Date().toISOString().slice(0, 10);
+// লেখা নিরাপদ করে (HTML ভাঙা ঠেকায়)
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const val = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
 
@@ -2504,6 +2547,7 @@ function sum() {
   return { e, p, o, h, ot, rs, rb, ex, advLoanTaken, loanGiven, net };
 }
 
+// ছোট মেসেজ দেখায়
 function toast(m, type) {
   try {
     if (window.AndroidBridge && typeof window.AndroidBridge.vibrate === "function") {
@@ -2521,6 +2565,7 @@ function toast(m, type) {
   toast.timer = setTimeout(() => { el.className = ""; }, 2400);
 }
 
+// নতুন এন্ট্রি যোগ করে
 function add(key, obj) {
   obj.id = S.seq++;
   S[key].push(obj);
@@ -2529,6 +2574,7 @@ function add(key, obj) {
   toast(T3("✅ সফলভাবে সংরক্ষিত হয়েছে", "✅ Successfully Saved", "✅ تم الحفظ بنجاح"));
 }
 
+// এন্ট্রি মুছে ফেলে
 function del(k, i) {
   const msg = L() === "bn" ? "এটি স্থায়ীভাবে মুছে ফেলতে চান?" : (L() === "ar" ? "هل تريد حذف هذا السجل نهائياً؟" : "Permanently remove this record?");
   if (!confirm(msg)) return;
@@ -2559,6 +2605,7 @@ function splashVisible() {
   return cs.display !== "none" && cs.visibility !== "hidden" && parseFloat(cs.opacity) > 0.02;
 }
 
+// ইনস্টল পপআপ দেখায়
 function showPwaModal() {
   if (window.AndroidBridge) return;
   if (splashVisible()) { setTimeout(showPwaModal, 800); return; }
@@ -2613,6 +2660,7 @@ function initSplashStatus() {
   setTimeout(() => { if (el) el.innerText = "✨ Welcome to MYHOUR"; }, 1900);
 }
 
+// স্প্ল্যাশ স্ক্রিন বন্ধ করে
 function dismissSplash() {
   const sp = document.getElementById("sp");
   if (!sp) return;
@@ -2673,6 +2721,7 @@ window.addEventListener('load', () => {
 /* ==========================================================================
    VIEW MODE TOGGLE: AUTO / PC WEB / MOBILE APP
    ========================================================================== */
+// মোবাইল / কম্পিউটার ভিউ ঠিক করে
 function applyViewMode() {
   const mode = S.profile.viewMode || "auto";
   document.body.classList.remove("mode-pc", "mode-mobile");
@@ -2709,6 +2758,7 @@ function cycleViewMode() {
            "الوضع: " + nextMode));
 }
 
+// ভাষা বদলায় (বাংলা, English, আরবি)
 function cycleLang() {
   if (!S) S = JSON.parse(JSON.stringify(D0));
   if (!S.profile) S.profile = {};
@@ -2719,6 +2769,7 @@ function cycleLang() {
   else gate();
 }
 
+// ডার্ক / লাইট থিম বদলায়
 function toggleTheme() {
   S.profile.dark = !S.profile.dark;
   save();
@@ -2756,6 +2807,7 @@ function form(title, fields, onsave) {
   return `<button class="btn" style="width:100%; margin-bottom:12px; padding:13px;" onclick="openModal(${FM.length - 1})">➕ ${title}</button>`;
 }
 
+// পপআপ ফর্ম খোলে
 function openModal(index) {
   const [title, fields, onsave] = FM[index];
   const md = document.getElementById("md");
@@ -2774,15 +2826,18 @@ function openModal(index) {
   md.className = "show";
 }
 
+// পপআপ ফর্ম বন্ধ করে
 function closeModal() {
   const md = document.getElementById("md");
   md.className = "";
   md.innerHTML = "";
 }
 
+// মোবাইলের সাইড মেনু খোলে
 function openDrawer() { document.getElementById("dr").classList.add("show"); }
 function closeDrawer() { document.getElementById("dr").classList.remove("show"); }
 
+// এক পেজ থেকে অন্য পেজে যায়
 function go(route, isBack) {
   if (!isBack && route !== cur) {
     ST.push(cur);
@@ -2799,6 +2854,7 @@ function go(route, isBack) {
   render();
 }
 
+// আগের পেজে ফিরে যায়
 function goBack(ui) {
   const md = document.getElementById("md");
   if (md && md.classList.contains("show")) {
@@ -2817,7 +2873,9 @@ function goBack(ui) {
 /* ==========================================================================
    VIEWS IMPLEMENTATION (STRICT SINGLE-LINE 6 CARDS + FULL AUTO-ADJUST)
    ========================================================================== */
+// V এর ভেতরে প্রতিটা পেজের কোড। নিচে পেজ ধরে ধরে লেখা আছে
 const V = {
+// ড্যাশবোর্ড পেজ (হোম)
   dashboard() {
     const s = sum();
     const hasActive = S.emp.some(e => e.status === "Active");
@@ -2944,6 +3002,7 @@ const V = {
       </div>`;
   },
 
+// চাকরি / কর্মস্থলের পেজ
   employment() {
     const list = S.emp.map((e, i) => {
       const isSupply = isSupplyEmployment(e);
@@ -3067,6 +3126,7 @@ const V = {
       </div>`;
   },
 
+// ডিউটি (কাজের ঘণ্টা) এন্ট্রির পেজ
   duty() {
     const s = sum();
     return `
@@ -3128,6 +3188,7 @@ const V = {
       </div>`;
   },
 
+// ডিউটির সময়সূচির পেজ
   schedule() {
     const list = S.sched.map((x, i) => row(`${x.month} · ${x.title}`, `${empName(x.emp)} · ${x.hrs}h`, "sched", i)).join("");
     return `
@@ -3156,6 +3217,7 @@ const V = {
       </div>`;
   },
 
+// বেতনের পেজ
   salary() {
     const s = sum();
     const paymentsList = S.pay.map((p, i) =>
@@ -3247,6 +3309,7 @@ const V = {
       </div>`;
   },
 
+// খরচ ও ঋণের পেজ
   finance() {
     const remList = S.rem.map((x, i) =>
       row(`${x.to} (${x.rel}) · ${f(x.sar)} SAR → ${f(x.bdt)} BDT`, `${x.date} · ${x.method}`, "rem", i)).join("");
@@ -3307,6 +3370,7 @@ const V = {
       </div>`;
   },
 
+// হাতে থাকা নিট ব্যালেন্সের পেজ
   balance() {
     const s = sum();
     const isDeficit = s.net < 0;
@@ -3445,6 +3509,7 @@ const V = {
       </div>`;
   },
 
+// রিপোর্ট ও PDF
   reports() {
     const s = sum();
     const months = {};
@@ -3478,6 +3543,7 @@ const V = {
       </div>`;
   },
 
+// ব্যাকআপ নেওয়া ও ফেরত আনার পেজ
   backup() {
     const fn = getBackupFilename();
     return `
@@ -3523,6 +3589,7 @@ const V = {
       </div>`;
   },
 
+// প্রোফাইল ও সেটিংসের পেজ
   profile() {
     const p = S.profile;
     const s = sum();
@@ -3669,6 +3736,7 @@ const V = {
       </div>`;
   },
 
+// ব্যবহারের নির্দেশিকা পেজ
   guide() {
     return `
       <div class="card" style="max-width:760px; margin:auto;">
@@ -3679,6 +3747,7 @@ const V = {
       </div>`;
   },
 
+// অ্যাপ সম্পর্কে পেজ
   about() {
     return `
       <div class="card" style="text-align:center; max-width:540px; margin:auto; padding:32px 20px;">
@@ -3695,6 +3764,7 @@ const V = {
       </div>`;
   },
 
+// অ্যাডমিন পেজ (শুধু অ্যাডমিন দেখে)
   admin() {
     if (!IS_ADMIN) return "";
     return `
@@ -3732,6 +3802,7 @@ function setSupplyRating(index, value) {
 /* ==========================================================================
    FORM ACTION HANDLERS
    ========================================================================== */
+// নতুন চাকরি / কর্মস্থল যোগ করে
 function addEmp() {
   const company = val("a2").trim().replace(/\s+/g, " ");
   if (!company) return alert(T3("কোম্পানির নাম লিখুন", "Enter company name", "أدخل اسم الشركة"));
@@ -3772,6 +3843,7 @@ function updateDutyPreview() {
   box.innerHTML = `${T3("রেগুলার", "Regular")}: <b>${f(nor)}h</b> · ${T3("ওভারটাইম", "OT")}: <b style="color:var(--wn)">${f(ot)}h</b> · ${T3("মোট আয়", "Total Pay")}: <b style="color:var(--gold)">SAR ${f(sal)}</b>`;
 }
 
+// ডিউটি যোগ করে
 function addDuty() {
   const empId = val("a1");
   const e = S.emp.find(e => e.id == empId);
@@ -3793,6 +3865,7 @@ function addDuty() {
   closeModal();
 }
 
+// সময়সূচি যোগ করে
 function addSched() {
   add("sched", {
     emp: val("a1"),
@@ -3803,6 +3876,7 @@ function addSched() {
   closeModal();
 }
 
+// রিমাইন্ডার যোগ করে
 function addRem() {
   const to = val("a1").trim();
   const sar = N(val("a3"));
@@ -3820,6 +3894,7 @@ function addRem() {
   closeModal();
 }
 
+// খরচ যোগ করে
 function addExp() {
   const catSel = val("b1");
   const otherVal = val("b4").trim();
@@ -3830,6 +3905,7 @@ function addExp() {
   closeModal();
 }
 
+// ঋণ যোগ করে
 function addLoan() {
   add("loan", {
     type: val("c1"),
@@ -3871,6 +3947,7 @@ function sp() {
    ========================================================================== */
 const rd = v => Math.round(v * 100) / 100;
 
+// মাসের হিসাব বের করে (ঘণ্টা, ওভারটাইম, মোট আয়)
 function monthStats() {
   const M = {};
   const g = k => M[k] = M[k] || { h: 0, e: 0, p: 0, ot: 0 };
@@ -3887,6 +3964,7 @@ function monthStats() {
   return M;
 }
 
+// বাকি বেতন পরিশোধ করে
 function payDue(empId, month) {
   if (!empId || !month) return 0;
   const earned = S.duty
@@ -3913,6 +3991,7 @@ function payFill() {
   if (amtEl) amtEl.value = v || "";
 }
 
+// বেতন পাওয়ার তথ্য সেভ করে
 function savePay() {
   const amt = N(val("a3"));
   const m = val("a2");
@@ -4322,6 +4401,7 @@ function ed(k, i) {
   if (k === "emp") attachSuggest("e2");
 }
 
+// এডিট করা তথ্য সেভ করে
 function saveEdit(k, i) {
   const target = S[k][i];
   const fields = ES[k]();
@@ -4358,6 +4438,7 @@ function saveEdit(k, i) {
 /* ==========================================================================
    A4 TIMESHEET PDF ENGINE & INSTANT SHARING
    ========================================================================== */
+// PDF রিপোর্ট বানানোর কাজ
 function pdfFrom(jpg, w, h) {
   const enc = new TextEncoder(), parts = [], offs = [];
   let len = 0;
@@ -4734,6 +4815,7 @@ function pm(month, selectedEmpId) {
   pd(month);
 }
 
+// PDF তৈরি ও ডাউনলোড
 async function execPdf(isShare) {
   const mk = val("q1");
   const empId = +val("q2");
@@ -4842,6 +4924,7 @@ function getBackupFilename() {
   return `BACKUP_${d}.json`;
 }
 
+// ব্যাকআপ ফাইল ডাউনলোড
 function downloadBackup() {
   const fn = getBackupFilename();
   const data = JSON.stringify(S, null, 2);
@@ -4849,6 +4932,7 @@ function downloadBackup() {
   toast(T3(`✅ ব্যাকআপ ডাউনলোড সম্পন্ন: ${fn}`, `✅ Backup Downloaded: ${fn}`, `✅ تم التنزيل: ${fn}`));
 }
 
+// ব্যাকআপ ফাইল থেকে ডেটা ফেরত আনে
 function uploadBackup(input) {
   if (!input.files || !input.files[0]) return;
   const file = input.files[0];
@@ -4878,6 +4962,7 @@ function uploadBackup(input) {
   reader.readAsText(file);
 }
 
+// CSV (এক্সেল ফাইল) ডাউনলোড
 function csv() {
   const header = "Date,Company,Project,TotalHours,NormalHours,OTHours,SalarySAR,Notes\n";
   const rows = S.duty.map(d => {
@@ -4927,6 +5012,7 @@ let CP_ERR = "";
 const PHONE_RE = /^\+?\d{7,15}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+// Firebase চালু করে
 function initFirebase() {
   if (!window.firebase) { SETUP_ERR = "sdk"; return false; }
   if (!FIREBASE_CONFIG.apiKey || /PASTE/.test(FIREBASE_CONFIG.apiKey)) { SETUP_ERR = "config"; return false; }
@@ -4939,6 +5025,7 @@ function initFirebase() {
   } catch (e) { SETUP_ERR = "config"; return false; }
 }
 
+// লগইনের ভুলের মেসেজ বাংলায় করে
 function authErr(e) {
   const c = (e && e.code) || "";
   if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "";
@@ -5041,6 +5128,7 @@ function countrySelectHTML(id, sel) {
   </select>`;
 }
 
+// লগইন / সাইনআপ স্ক্রিন আঁকে
 function gate() {
   const el = document.getElementById("au");
   if (!el) return;
@@ -5141,6 +5229,7 @@ function gate() {
 
 function setAuthMode(m) { AM = m; gate(); }
 
+// নতুন অ্যাকাউন্ট খোলে
 function signup() {
   if (AUTH_BUSY) return;
   const n = val("au1").trim().replace(/\s+/g, " ");
@@ -5163,6 +5252,7 @@ function signup() {
   });
 }
 
+// ইমেইল দিয়ে লগইন
 function login() {
   if (AUTH_BUSY) return;
   const em = val("au2").trim().toLowerCase();
@@ -5176,6 +5266,7 @@ function login() {
   });
 }
 
+// Google দিয়ে লগইন
 function googleSignIn() {
   if (AUTH_BUSY || !AUTH) return;
   authMsg("");
@@ -5207,6 +5298,7 @@ function googleSignIn() {
   });
 }
 
+// পাসওয়ার্ড ভুলে গেলে রিসেট
 function forgotPassword() {
   const currentEmail = (val("au2") || "").trim().toLowerCase();
   const md = document.getElementById("md");
@@ -5310,6 +5402,7 @@ async function completeProfile() {
   }
 }
 
+// লগইন বা লগআউট হলে কী হবে
 async function onAuthChanged(user) {
   AUTH_READY = true;
   if (!user) {
@@ -5352,6 +5445,7 @@ async function onAuthChanged(user) {
   finishLogin();
 }
 
+// লগইন শেষে অ্যাপ চালু করে
 async function finishLogin() {
   READY_APP = true;
   authBusy(false);
@@ -5413,6 +5507,7 @@ async function finishLogin() {
   go("dashboard", true);
 }
 
+// লগআউট
 async function logout(skipConfirm) {
   if (skipConfirm !== true && !confirm(T3("লগআউট করতে চান?", "Log out?", "تسجيل الخروج؟"))) return;
   if (CLOUD_SAVE_TIMER) {
@@ -5427,6 +5522,7 @@ async function logout(skipConfirm) {
 }
 
 // Clears this account's records on this device only.
+// অ্যাকাউন্টের ডেটা মুছে নতুন করে শুরু
 function resetAccount() {
   if (!confirm(T3("রিসেট করলে এই অ্যাকাউন্টের সব ডিউটি, বেতন ও খরচের হিসাব এই ডিভাইস থেকে মুছে যাবে। নিশ্চিত?", "Reset will erase all your records on this device. Continue?"))) return;
   if (!confirm(T3("আবার নিশ্চিত করুন: সব ডেটা মুছে যাবে!", "Confirm again: all data will be deleted!"))) return;
@@ -5445,6 +5541,7 @@ const SUPK = {};
 const supNorm = (n) => String(n).trim().replace(/\s+/g, " ").toLowerCase();
 const supKey = (n) => encodeURIComponent(supNorm(n)).replace(/\./g, "%2E");
 
+// কোম্পানির নামের সাজেশন লিস্ট চালু করে
 function startSuppliers() {
   if (!DB) return;
   const ref = DB.ref("suppliers");
@@ -5512,6 +5609,7 @@ function attachSuggest(id) {
 /* ==========================================================================
    USER GUIDE (one content, opened from the menu page and from the sign-in screen)
    ========================================================================== */
+// নির্দেশিকার লেখা
 function guideHTML() {
   const S_ = [
     ["🚀", T3("শুরু: সাইন আপ ও লগইন", "Getting started: sign up and log in"),
@@ -5643,6 +5741,7 @@ function closeAuthGuide() {
 
 /* ---- Admin: list of users (name, mobile, email only) ---- */
 let ADM = [];
+// অ্যাডমিনের জন্য ইউজার লিস্ট আনে
 function loadAdminUsers() {
   if (!IS_ADMIN || !DB) return;
   DB.ref("users").once("value").then((s) => {
@@ -5665,6 +5764,7 @@ function loadAdminUsers() {
   });
 }
 
+// সঠিক পেজ আঁকে (পুরো অ্যাপের মূল আঁকার ফাংশন)
 function renderAdminList() {
   const el = document.getElementById("adm-list");
   if (!el) return;
